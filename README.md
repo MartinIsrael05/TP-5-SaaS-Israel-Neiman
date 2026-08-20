@@ -2,11 +2,11 @@
 
 ## Presentacion
 
-Este repositorio proporciona un boilerplate para el desarrollo de una aplicacion web de tipo SaaS utilizando Next.js, Firebase Authentication, Firebase Admin SDK, Firestore y Tailwind CSS.
+Este repositorio proporciona una base tecnica para el desarrollo de una aplicacion web de tipo SaaS utilizando Next.js, Firebase Authentication, Firebase Admin SDK, Firestore y Tailwind CSS.
 
 El trabajo practico debera realizarse en grupos de 2 integrantes. Cada grupo debera definir una propuesta propia de aplicacion, disenar su modelo de datos, implementar las rutas y componentes necesarios, y desarrollar una funcionalidad principal que permita a los usuarios autenticados gestionar informacion persistente.
 
-La finalidad del trabajo es integrar conceptos de desarrollo web moderno, autenticacion, autorizacion, persistencia de datos, arquitectura basada en componentes y diseno de interfaces orientadas a productos digitales.
+La finalidad del trabajo es integrar conceptos de desarrollo web moderno, autenticacion, autorizacion, persistencia de datos, arquitectura basada en componentes y diseno de interfaces.
 
 ## Que Es Una SaaS
 
@@ -52,26 +52,24 @@ El proyecto base incluye:
 
 La tematica de la SaaS es libre, pero debe responder a una necesidad clara y permitir la gestion de informacion por parte de usuarios autenticados.
 
-Se recomienda elegir problemas cercanos a estudiantes universitarios, jovenes profesionales, emprendimientos iniciales o actividades cotidianas de personas entre 19 y 25 anos.
+Ejemplos de tematicas:
 
-Ejemplos sugeridos:
+- Gestion academica personal.
+- Administracion de gastos.
+- Seguimiento de habitos.
+- Planificacion de actividades.
+- Gestion de proyectos.
+- Administracion de pedidos.
+- Catalogo de productos.
+- Registro de suscripciones.
+- Organizacion de viajes.
+- Gestion de eventos.
+- Administracion de recursos educativos.
+- Seguimiento de postulaciones.
+- Gestion de clientes.
+- Planificacion de contenido.
 
-- Organizador de materias, parciales y entregas.
-- Gestor de gastos personales o compartidos.
-- Seguimiento de habitos de estudio, sueno o entrenamiento.
-- Planificador de rutinas de gimnasio.
-- Gestor de proyectos freelance.
-- Administrador de pedidos para un emprendimiento pequeno.
-- Catalogo de productos para venta por redes sociales.
-- Registro de suscripciones y pagos mensuales.
-- Organizador de viajes grupales.
-- Gestor de eventos universitarios.
-- Plataforma para administrar apuntes o recursos de cursada.
-- Seguimiento de postulaciones laborales.
-- Registro de clientes para servicios independientes, como diseno, fotografia, clases particulares o community management.
-- Planificador de contenido para redes sociales.
-
-No se evaluara la originalidad del tema por si sola, sino la coherencia entre el problema elegido, el modelo de datos, las funcionalidades implementadas y la experiencia de uso.
+La evaluacion considerara la coherencia entre el problema elegido, el modelo de datos, las funcionalidades implementadas y la experiencia de uso.
 
 ## Alcance Obligatorio
 
@@ -235,7 +233,7 @@ Requisitos minimos de interfaz:
 
 ## Alcance Ampliado
 
-Los siguientes puntos no son obligatorios, pero pueden mejorar la calidad del proyecto:
+Los siguientes puntos constituyen funcionalidades complementarias:
 
 - Filtros o busqueda.
 - Estados para los registros, por ejemplo pendiente, activo, completado o cancelado.
@@ -260,91 +258,7 @@ No se requiere:
 - Publicar obligatoriamente en produccion.
 - Utilizar TypeScript.
 
-Estos elementos pueden incorporarse de manera opcional si el grupo lo considera pertinente y si no comprometen los requisitos minimos.
-
-## Etapas De Desarrollo
-
-### Etapa 1: Definicion Del Producto
-
-Cada grupo debera definir:
-
-- Nombre de la SaaS.
-- Problema que busca resolver.
-- Usuario objetivo.
-- Entidad principal.
-- Campos principales de la entidad.
-- Flujo de uso esperado.
-
-Ejemplo:
-
-```txt
-Nombre: StudyTrack
-Problema: estudiantes universitarios necesitan organizar entregas, parciales y tareas.
-Usuario objetivo: estudiantes de carreras universitarias.
-Entidad principal: tareas academicas.
-Campos: titulo, materia, fecha de entrega, prioridad, estado, notas.
-```
-
-### Etapa 2: Configuracion De Firebase
-
-Cada grupo debera:
-
-- Crear su propio proyecto en Firebase.
-- Habilitar Firebase Authentication.
-- Habilitar proveedores de email/password y Google.
-- Habilitar Cloud Firestore.
-- Configurar las variables de entorno.
-- Verificar el inicio y cierre de sesion.
-
-### Etapa 3: Modelo De Datos Y Firestore
-
-Cada grupo debera:
-
-- Definir la coleccion principal.
-- Definir los campos de cada documento.
-- Guardar el `uid` del usuario autenticado.
-- Implementar consultas filtradas por usuario.
-- Validar que los datos de un usuario no sean accesibles por otro.
-
-Ejemplos de colecciones:
-
-```txt
-tasks
-expenses
-habits
-projects
-products
-orders
-applications
-events
-```
-
-### Etapa 4: ABM Principal
-
-Implementar las pantallas y acciones necesarias para:
-
-- Crear registros.
-- Listar registros.
-- Editar registros.
-- Eliminar registros.
-
-La funcionalidad debe ser verificable desde la interfaz.
-
-### Etapa 5: Dashboard Y Experiencia De Uso
-
-Adaptar `/dashboard` para mostrar informacion real del proyecto.
-
-Ejemplos:
-
-- Total de registros.
-- Ultimos elementos cargados.
-- Cantidad de elementos por estado.
-- Acciones frecuentes.
-- Informacion resumida para la toma de decisiones.
-
-### Etapa 6: Documentacion Y Revision Final
-
-Completar el README del proyecto final, revisar el flujo completo y verificar que la aplicacion pueda ejecutarse correctamente desde cero.
+Estos elementos no forman parte de los requisitos minimos de aprobacion.
 
 ## Entregables
 
@@ -445,21 +359,17 @@ npm run start
 npm run lint
 ```
 
-## Orientacion Para La Implementacion Con Firestore
+## Implementacion Con Firestore
 
-Se recomienda incorporar un ABM base utilizando Firestore como referencia tecnica.
+El proyecto debe incorporar un ABM utilizando Firestore como mecanismo de persistencia.
 
-Una estrategia posible es implementar inicialmente una entidad generica denominada `items` y luego adaptarla al dominio elegido por cada grupo.
-
-La implementacion base puede incluir:
+La implementacion debe incluir:
 
 - Helper server-side para Firestore Admin.
-- Coleccion `items`.
-- Ruta `/dashboard/items`.
+- Coleccion correspondiente a la entidad principal.
+- Ruta dentro de `/dashboard`.
 - Formulario de creacion.
 - Listado filtrado por usuario autenticado.
 - Edicion de registros.
 - Eliminacion de registros.
 - Validacion de propiedad mediante `userId`.
-
-Luego, cada grupo debera reemplazar la entidad generica por una entidad especifica de su SaaS, por ejemplo `expenses`, `habits`, `products`, `projects` o `applications`.
