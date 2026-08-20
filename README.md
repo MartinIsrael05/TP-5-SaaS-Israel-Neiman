@@ -46,6 +46,7 @@ El proyecto base incluye:
 - Sesion server-side mediante cookie HTTP-only.
 - Rutas protegidas.
 - Dashboard privado en `/dashboard`.
+- ABM base en `/dashboard/items` con documentos de Firestore asociados al usuario autenticado.
 - Firebase Admin SDK para validacion de sesion desde el servidor.
 
 ## Tematicas Posibles
@@ -373,3 +374,5 @@ La implementacion debe incluir:
 - Edicion de registros.
 - Eliminacion de registros.
 - Validacion de propiedad mediante `userId`.
+
+Este boilerplate incluye una implementacion inicial con la coleccion `items`, disponible en `/dashboard/items`.

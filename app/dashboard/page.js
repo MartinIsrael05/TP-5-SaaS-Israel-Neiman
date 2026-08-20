@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { logout } from "./actions";
 import { getCurrentUser } from "@/lib/firebase/session";
+import { listUserItems } from "@/lib/items/items";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +12,8 @@ export default async function DashboardPage() {
   if (!user) {
     redirect("/login");
   }
+
+  const items = await listUserItems(user.uid);
 
   return (
     <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
@@ -46,11 +50,31 @@ export default async function DashboardPage() {
           </strong>
         </article>
         <article className="min-w-0 bg-zinc-950 p-5">
-          <span className="block text-sm text-zinc-500">Proveedor</span>
+          <span className="block text-sm text-zinc-500">Items</span>
           <strong className="mt-3 block overflow-wrap-anywhere text-base font-semibold text-zinc-100">
-            {user.firebase?.sign_in_provider || "Firebase Auth"}
+            {items.length}
           </strong>
         </article>
+      </section>
+
+      <section className="mx-auto mt-7 w-full max-w-6xl border border-zinc-800 p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-zinc-100">
+              ABM base con Firestore
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-zinc-400">
+              La coleccion `items` muestra documentos filtrados por el usuario
+              autenticado.
+            </p>
+          </div>
+          <Link
+            className="inline-flex h-10 items-center justify-center border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
+            href="/dashboard/items"
+          >
+            Ver items
+          </Link>
+        </div>
       </section>
     </main>
   );
