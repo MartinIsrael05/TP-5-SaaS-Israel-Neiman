@@ -1,112 +1,173 @@
-# TP5 - Boilerplate SaaS con Next.js y Firebase
+# Trabajo Practico: Desarrollo de una Aplicacion SaaS con Next.js y Firebase
 
-Este proyecto es una base para desarrollar una aplicacion SaaS en grupos de 2 personas. Cada grupo debe elegir el tema de su SaaS y construir sobre este boilerplate las rutas, componentes, modelos de datos y funcionalidades necesarias.
+## Presentacion
 
-La idea no es modificar solamente textos o colores: deben transformar esta base en un producto funcional con usuarios autenticados, datos propios por usuario y un flujo principal de uso.
+Este repositorio proporciona un boilerplate para el desarrollo de una aplicacion web de tipo SaaS utilizando Next.js, Firebase Authentication, Firebase Admin SDK, Firestore y Tailwind CSS.
 
-## Que trae el boilerplate
+El trabajo practico debera realizarse en grupos de 2 integrantes. Cada grupo debera definir una propuesta propia de aplicacion, disenar su modelo de datos, implementar las rutas y componentes necesarios, y desarrollar una funcionalidad principal que permita a los usuarios autenticados gestionar informacion persistente.
 
-- Next.js latest con App Router.
-- JavaScript, sin TypeScript.
-- Tailwind CSS con dark mode.
-- Tipografia Geist usando `next/font`.
+La finalidad del trabajo es integrar conceptos de desarrollo web moderno, autenticacion, autorizacion, persistencia de datos, arquitectura basada en componentes y diseno de interfaces orientadas a productos digitales.
+
+## Que Es Una SaaS
+
+Una SaaS, o Software as a Service, es una aplicacion de software disponible a traves de internet que permite a los usuarios acceder a funcionalidades sin instalar programas localmente. En este modelo, la aplicacion se ejecuta en servidores remotos y los usuarios interactuan con ella mediante un navegador.
+
+En terminos practicos, una SaaS suele incluir:
+
+- Registro e inicio de sesion de usuarios.
+- Gestion de datos propios de cada usuario.
+- Panel privado o dashboard.
+- Funcionalidades especificas asociadas a un problema o necesidad.
+- Persistencia de informacion en una base de datos.
+- Separacion entre vistas publicas y vistas protegidas.
+
+Ejemplos conocidos de productos SaaS son gestores de tareas, plataformas de estudio, herramientas de finanzas personales, sistemas de organizacion de proyectos, aplicaciones de planificacion, CRMs, sistemas de reservas, plataformas de contenido y herramientas colaborativas.
+
+## Objetivo General
+
+Desarrollar una aplicacion SaaS funcional a partir del boilerplate provisto.
+
+Cada grupo debera definir un problema concreto, proponer una solucion digital y construir una aplicacion que permita a un usuario autenticado crear, consultar, modificar y eliminar informacion propia.
+
+El resultado esperado no es una maqueta visual ni una landing page estatica, sino una aplicacion web con autenticacion, rutas protegidas, persistencia de datos y una funcionalidad principal completa.
+
+## Tecnologias Incluidas En El Boilerplate
+
+El proyecto base incluye:
+
+- Next.js con App Router.
+- JavaScript.
+- Tailwind CSS.
+- Dark mode.
+- Tipografia Geist mediante `next/font`.
 - Firebase Authentication.
-- Login con email/password.
-- Login con Google.
+- Inicio de sesion con email y contrasena.
+- Inicio de sesion con Google.
 - Sesion server-side mediante cookie HTTP-only.
 - Rutas protegidas.
 - Dashboard privado en `/dashboard`.
-- Firebase Admin SDK configurado para validar sesiones en el servidor.
+- Firebase Admin SDK para validacion de sesion desde el servidor.
 
-## Objetivo del trabajo
+## Tematicas Posibles
 
-Desarrollar una SaaS simple pero completa, partiendo de este boilerplate.
+La tematica de la SaaS es libre, pero debe responder a una necesidad clara y permitir la gestion de informacion por parte de usuarios autenticados.
 
-Cada grupo debe definir un problema concreto y crear una aplicacion que permita a un usuario autenticado gestionar informacion propia.
+Se recomienda elegir problemas cercanos a estudiantes universitarios, jovenes profesionales, emprendimientos iniciales o actividades cotidianas de personas entre 19 y 25 anos.
 
-Ejemplos posibles:
+Ejemplos sugeridos:
 
-- Gestor de turnos para profesionales.
-- CRM simple para clientes.
-- Sistema de inventario.
-- Control de gastos.
-- Gestor de tareas o proyectos.
-- Seguimiento de habitos.
-- Plataforma simple de cursos.
-- Sistema de reservas.
-- Gestor de pedidos.
-- Panel para emprendimientos.
+- Organizador de materias, parciales y entregas.
+- Gestor de gastos personales o compartidos.
+- Seguimiento de habitos de estudio, sueno o entrenamiento.
+- Planificador de rutinas de gimnasio.
+- Gestor de proyectos freelance.
+- Administrador de pedidos para un emprendimiento pequeno.
+- Catalogo de productos para venta por redes sociales.
+- Registro de suscripciones y pagos mensuales.
+- Organizador de viajes grupales.
+- Gestor de eventos universitarios.
+- Plataforma para administrar apuntes o recursos de cursada.
+- Seguimiento de postulaciones laborales.
+- Registro de clientes para servicios independientes, como diseno, fotografia, clases particulares o community management.
+- Planificador de contenido para redes sociales.
 
-El tema es libre, pero debe estar claramente explicado en el README final del grupo.
+No se evaluara la originalidad del tema por si sola, sino la coherencia entre el problema elegido, el modelo de datos, las funcionalidades implementadas y la experiencia de uso.
 
-## Requerimientos minimos
+## Alcance Obligatorio
+
+La aplicacion debe cumplir con los siguientes requisitos minimos.
 
 ### 1. Autenticacion
 
 La aplicacion debe permitir:
 
-- Registrarse con email/password.
-- Iniciar sesion con email/password.
-- Iniciar sesion con Google.
-- Cerrar sesion.
-- Evitar el acceso a rutas privadas si el usuario no esta autenticado.
+- Registro con email y contrasena.
+- Inicio de sesion con email y contrasena.
+- Inicio de sesion con Google.
+- Cierre de sesion.
+- Proteccion de rutas privadas.
 
-El boilerplate ya trae esta base funcionando. Cada grupo puede mejorar la experiencia visual, pero no debe eliminar la proteccion server-side.
+Las rutas internas de la aplicacion no deben ser accesibles por usuarios no autenticados.
 
-### 2. Dashboard protegido
+### 2. Dashboard Privado
 
-La ruta `/dashboard` debe convertirse en el panel principal de la SaaS.
+La ruta `/dashboard` debe funcionar como panel principal de la SaaS.
 
 Debe mostrar informacion relevante para el usuario autenticado, por ejemplo:
 
-- Resumen de datos.
+- Resumen general de la actividad.
+- Cantidad total de registros.
 - Ultimos registros creados.
-- Accesos rapidos.
-- Estado general de la cuenta o actividad.
+- Accesos directos a las acciones principales.
+- Estado general de la informacion gestionada.
 
-### 3. Entidad principal de la SaaS
+El dashboard debe ser especifico para la tematica elegida por el grupo.
 
-Cada SaaS debe tener al menos una entidad principal.
+### 3. Entidad Principal
+
+Cada aplicacion debe definir al menos una entidad principal.
 
 Ejemplos:
 
-- Clientes.
-- Turnos.
-- Productos.
-- Tareas.
+- Materias.
+- Entregas.
 - Gastos.
-- Cursos.
-- Reservas.
-- Pedidos.
 - Habitos.
+- Rutinas.
+- Productos.
+- Pedidos.
+- Proyectos.
+- Clientes.
+- Publicaciones.
+- Viajes.
+- Eventos.
+- Postulaciones.
 
-Esa entidad debe tener un ABM completo:
+La entidad debe tener campos adecuados al problema elegido. No alcanza con una entidad generica sin relacion con la propuesta.
 
-- Alta: crear registros.
-- Baja: eliminar registros.
+Ejemplo:
+
+```txt
+Aplicacion: Gestor de gastos compartidos
+Entidad principal: gastos
+Campos posibles: titulo, monto, categoria, fecha, pagadoPor, estado
+```
+
+### 4. ABM Completo
+
+La entidad principal debe permitir:
+
+- Alta: crear nuevos registros.
+- Baja: eliminar registros existentes.
 - Modificacion: editar registros.
-- Listado: ver registros existentes.
+- Listado: visualizar los registros guardados.
 
-### 4. Datos por usuario
+Las operaciones deben estar integradas en la interfaz de la aplicacion y deben persistir los datos en Firestore.
 
-Los datos deben pertenecer al usuario autenticado.
+### 5. Persistencia En Firestore
 
-Cada documento guardado en la base debe incluir una referencia al usuario, por ejemplo:
+Cada grupo debera utilizar Cloud Firestore como base de datos.
+
+Cada documento debe guardar la relacion con el usuario autenticado mediante su `uid`.
+
+Ejemplo de documento:
 
 ```js
 {
   userId: "uid-del-usuario",
-  title: "Registro de ejemplo",
-  createdAt: "...",
-  updatedAt: "..."
+  title: "Entrega de Programacion",
+  description: "Resolver ejercicio integrador",
+  status: "pending",
+  createdAt: serverTimestamp(),
+  updatedAt: serverTimestamp()
 }
 ```
 
-Un usuario no debe poder ver, editar ni borrar datos de otro usuario.
+Un usuario no debe poder ver, editar ni eliminar datos pertenecientes a otro usuario.
 
-### 5. Rutas y componentes propios
+### 6. Rutas Y Componentes Propios
 
-Cada grupo debe agregar las rutas y componentes necesarios para su SaaS.
+Cada grupo debera agregar las rutas, componentes y acciones necesarias para su aplicacion.
 
 Ejemplo de estructura posible:
 
@@ -114,7 +175,7 @@ Ejemplo de estructura posible:
 app/
   dashboard/
     page.js
-    clientes/
+    gastos/
       page.js
       new/
         page.js
@@ -123,185 +184,199 @@ app/
           page.js
 
 components/
-  ClienteForm.js
-  ClienteList.js
+  ExpenseForm.js
+  ExpenseList.js
   EmptyState.js
 ```
 
-Tambien pueden usar una estructura mas simple:
+Tambien puede utilizarse una estructura mas compacta:
 
 ```txt
 app/
   dashboard/
-    items/
+    habits/
       page.js
       actions.js
 
 components/
-  ItemForm.js
-  ItemList.js
+  HabitForm.js
+  HabitList.js
 ```
 
-La estructura exacta depende del tema elegido, pero debe estar ordenada y ser entendible.
+La estructura debe ser consistente, legible y adecuada al tamano del proyecto.
 
-### 6. Uso de Firestore
+### 7. Uso De Funcionalidades Server-Side
 
-Como el proyecto ya usa Firebase Auth, la base de datos recomendada para este TP es Cloud Firestore.
+El proyecto debera priorizar las capacidades server-side de Next.js.
 
-Cada grupo debe:
-
-- Crear su propio proyecto en Firebase.
-- Habilitar Authentication.
-- Habilitar Cloud Firestore.
-- Configurar las variables de entorno.
-- Crear una coleccion para su entidad principal.
-- Guardar los documentos asociados al `uid` del usuario autenticado.
-
-Ejemplo de colecciones:
-
-```txt
-clientes
-turnos
-productos
-tareas
-gastos
-reservas
-```
-
-Ejemplo de documento:
-
-```js
-{
-  userId: "abc123",
-  name: "Cliente ejemplo",
-  description: "Informacion relevante",
-  status: "active",
-  createdAt: serverTimestamp(),
-  updatedAt: serverTimestamp()
-}
-```
-
-### 7. Server-side primero
-
-El proyecto debe priorizar el uso de funcionalidades server-side de Next.js.
-
-Se espera que usen:
+Se espera el uso de:
 
 - Server Components para paginas protegidas y listados.
-- Server Actions o Route Handlers para crear, editar y eliminar datos.
-- Client Components cuando necesiten interactividad, formularios controlados o estado en pantalla.
+- Server Actions o Route Handlers para operaciones de escritura.
+- Firebase Admin SDK para operaciones seguras desde el servidor.
+- Client Components unicamente cuando sean necesarios para interactividad, formularios controlados o estados locales de interfaz.
 
-No conviertan toda la aplicacion en client-side sin necesidad.
+No se aceptara una implementacion completamente client-side si las operaciones pueden resolverse desde el servidor.
 
-### 8. Interfaz
+### 8. Interfaz De Usuario
 
-La aplicacion debe tener una interfaz clara y usable.
+La aplicacion debe presentar una interfaz clara, consistente y usable.
 
-Requisitos minimos:
+Requisitos minimos de interfaz:
 
-- Dark mode consistente.
-- Navegacion clara dentro del dashboard.
-- Formularios entendibles.
+- Dark mode coherente.
+- Navegacion interna clara.
+- Formularios comprensibles.
 - Estados vacios.
 - Mensajes de error o validacion.
 - Diseno responsive.
-- Botones y acciones visualmente consistentes.
+- Jerarquia visual adecuada.
+- Botones y acciones consistentes.
 
-## Etapas sugeridas
+## Alcance Ampliado
 
-### Etapa 1 - Tema y modelo
+Los siguientes puntos no son obligatorios, pero pueden mejorar la calidad del proyecto:
 
-Definir:
+- Filtros o busqueda.
+- Estados para los registros, por ejemplo pendiente, activo, completado o cancelado.
+- Ordenamiento por fecha, categoria o prioridad.
+- Metricas adicionales en el dashboard.
+- Subida de archivos o imagenes.
+- Integracion con una API externa.
+- Exportacion de datos en CSV.
+- Roles simples, por ejemplo usuario y administrador.
+- Limite de uso simulado por usuario.
+- Pagina publica de presentacion del producto.
+
+## Fuera De Alcance
+
+No se requiere:
+
+- Implementar pagos reales.
+- Implementar multi-tenancy avanzado.
+- Desarrollar una aplicacion movil nativa.
+- Crear un sistema de roles complejo.
+- Implementar notificaciones push.
+- Publicar obligatoriamente en produccion.
+- Utilizar TypeScript.
+
+Estos elementos pueden incorporarse de manera opcional si el grupo lo considera pertinente y si no comprometen los requisitos minimos.
+
+## Etapas De Desarrollo
+
+### Etapa 1: Definicion Del Producto
+
+Cada grupo debera definir:
 
 - Nombre de la SaaS.
-- Problema que resuelve.
+- Problema que busca resolver.
 - Usuario objetivo.
 - Entidad principal.
-- Campos de esa entidad.
+- Campos principales de la entidad.
+- Flujo de uso esperado.
 
 Ejemplo:
 
 ```txt
-SaaS: Turnito
-Problema: profesionales independientes necesitan organizar sus turnos.
-Entidad principal: turnos
-Campos: cliente, fecha, hora, estado, notas
+Nombre: StudyTrack
+Problema: estudiantes universitarios necesitan organizar entregas, parciales y tareas.
+Usuario objetivo: estudiantes de carreras universitarias.
+Entidad principal: tareas academicas.
+Campos: titulo, materia, fecha de entrega, prioridad, estado, notas.
 ```
 
-### Etapa 2 - Firestore
+### Etapa 2: Configuracion De Firebase
 
-Configurar Firebase:
+Cada grupo debera:
 
-- Crear proyecto propio.
-- Habilitar Auth.
-- Habilitar Firestore.
-- Completar `.env`.
-- Probar login.
-- Probar lectura/escritura de datos.
+- Crear su propio proyecto en Firebase.
+- Habilitar Firebase Authentication.
+- Habilitar proveedores de email/password y Google.
+- Habilitar Cloud Firestore.
+- Configurar las variables de entorno.
+- Verificar el inicio y cierre de sesion.
 
-### Etapa 3 - ABM principal
+### Etapa 3: Modelo De Datos Y Firestore
 
-Crear las pantallas necesarias para:
+Cada grupo debera:
 
+- Definir la coleccion principal.
+- Definir los campos de cada documento.
+- Guardar el `uid` del usuario autenticado.
+- Implementar consultas filtradas por usuario.
+- Validar que los datos de un usuario no sean accesibles por otro.
+
+Ejemplos de colecciones:
+
+```txt
+tasks
+expenses
+habits
+projects
+products
+orders
+applications
+events
+```
+
+### Etapa 4: ABM Principal
+
+Implementar las pantallas y acciones necesarias para:
+
+- Crear registros.
 - Listar registros.
-- Crear un registro.
-- Editar un registro.
-- Eliminar un registro.
+- Editar registros.
+- Eliminar registros.
 
-Todas las operaciones deben respetar el usuario autenticado.
+La funcionalidad debe ser verificable desde la interfaz.
 
-### Etapa 4 - Dashboard
+### Etapa 5: Dashboard Y Experiencia De Uso
 
-Mejorar `/dashboard` para que muestre informacion real de la SaaS.
+Adaptar `/dashboard` para mostrar informacion real del proyecto.
 
 Ejemplos:
 
-- Cantidad total de registros.
-- Ultimos registros.
-- Registros por estado.
-- Acciones rapidas.
+- Total de registros.
+- Ultimos elementos cargados.
+- Cantidad de elementos por estado.
+- Acciones frecuentes.
+- Informacion resumida para la toma de decisiones.
 
-### Etapa 5 - Pulido final
+### Etapa 6: Documentacion Y Revision Final
 
-Completar:
-
-- Validaciones.
-- Estados vacios.
-- Manejo de errores.
-- README final.
-- Limpieza visual.
-- Prueba general del flujo.
+Completar el README del proyecto final, revisar el flujo completo y verificar que la aplicacion pueda ejecutarse correctamente desde cero.
 
 ## Entregables
 
-Cada grupo debe entregar:
+Cada grupo debera entregar:
 
-- Codigo fuente completo.
+- Repositorio completo del proyecto.
 - README actualizado.
-- Variables de entorno de ejemplo en `.env.example`.
-- Link al repositorio.
-- Capturas o breve demo del funcionamiento.
+- Archivo `.env.example` con las variables necesarias sin valores secretos.
+- Capturas de pantalla o breve demostracion funcional.
+- Descripcion de la entidad principal y su modelo de datos.
 
-El README final debe incluir:
+El README final del grupo debe incluir:
 
 - Nombre de la SaaS.
 - Integrantes.
 - Descripcion del problema.
+- Usuario objetivo.
 - Funcionalidades implementadas.
 - Entidad principal y campos.
 - Rutas principales.
-- Instrucciones para correr el proyecto.
+- Instrucciones para ejecutar el proyecto.
 
-## Criterios de evaluacion
+## Criterios De Evaluacion
 
-- Autenticacion y rutas protegidas: 20%.
+- Autenticacion y proteccion de rutas: 20%.
 - Modelo de datos y aislamiento por usuario: 20%.
-- ABM funcional: 25%.
-- Uso correcto de Next.js server-side: 15%.
+- ABM funcional sobre Firestore: 25%.
+- Uso adecuado de Next.js server-side: 15%.
 - Interfaz, responsive y experiencia de uso: 10%.
 - Documentacion y presentacion: 10%.
 
-## Setup del proyecto
+## Configuracion Inicial Del Proyecto
 
 1. Instalar dependencias:
 
@@ -309,7 +384,7 @@ El README final debe incluir:
 npm install
 ```
 
-2. Copiar variables de entorno:
+2. Copiar las variables de entorno:
 
 ```bash
 cp .env.example .env
@@ -324,21 +399,21 @@ cp .env.example .env
 
 5. Habilitar Cloud Firestore.
 
-6. Ejecutar el servidor:
+6. Ejecutar el servidor de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-7. Abrir:
+7. Abrir la aplicacion:
 
 ```txt
 http://localhost:3000
 ```
 
-## Variables de entorno
+## Variables De Entorno
 
-El cliente usa variables publicas:
+Variables publicas utilizadas por el cliente:
 
 ```bash
 NEXT_PUBLIC_FIREBASE_API_KEY=
@@ -349,7 +424,7 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 ```
 
-El servidor usa Firebase Admin SDK:
+Variables privadas utilizadas por Firebase Admin SDK:
 
 ```bash
 FIREBASE_PROJECT_ID=
@@ -357,11 +432,11 @@ FIREBASE_CLIENT_EMAIL=
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
 
-La clave privada debe mantener los saltos de linea escapados con `\n`.
+La clave privada debe conservar los saltos de linea escapados mediante `\n`.
 
-Nunca subir `.env` al repositorio.
+El archivo `.env` no debe subirse al repositorio.
 
-## Scripts
+## Scripts Disponibles
 
 ```bash
 npm run dev
@@ -370,19 +445,21 @@ npm run start
 npm run lint
 ```
 
-## Propuesta para avanzar con Firestore
+## Orientacion Para La Implementacion Con Firestore
 
-El siguiente paso recomendado para este boilerplate es agregar un ABM base de ejemplo usando Firestore.
+Se recomienda incorporar un ABM base utilizando Firestore como referencia tecnica.
 
-Ese ABM no deberia imponer el tema final de la SaaS. Conviene llamarlo de forma generica, por ejemplo `items`, para que cada grupo pueda renombrarlo y adaptarlo a su dominio.
+Una estrategia posible es implementar inicialmente una entidad generica denominada `items` y luego adaptarla al dominio elegido por cada grupo.
 
-La base podria incluir:
+La implementacion base puede incluir:
 
 - Helper server-side para Firestore Admin.
 - Coleccion `items`.
 - Ruta `/dashboard/items`.
-- Formulario para crear items.
-- Listado de items del usuario autenticado.
-- Acciones server-side para crear y eliminar.
+- Formulario de creacion.
+- Listado filtrado por usuario autenticado.
+- Edicion de registros.
+- Eliminacion de registros.
+- Validacion de propiedad mediante `userId`.
 
-Luego cada grupo deberia transformar `items` en su entidad real: `clientes`, `turnos`, `productos`, `gastos`, etc.
+Luego, cada grupo debera reemplazar la entidad generica por una entidad especifica de su SaaS, por ejemplo `expenses`, `habits`, `products`, `projects` o `applications`.
