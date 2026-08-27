@@ -3,6 +3,7 @@ import Link from "next/link";
 import { logout } from "./actions";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
+import { getCurrentUserProfile, listUserProfiles } from "@/lib/users/users";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,9 @@ export default async function DashboardPage() {
   }
 
   const items = await listUserItems(user.uid);
+  const profile = await getCurrentUserProfile(user);
+  const isAdmin = profile?.user_type === "admin";
+  const users = isAdmin ? await listUserProfiles() : [];
 
   return (
     <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
@@ -50,31 +54,49 @@ export default async function DashboardPage() {
           </strong>
         </article>
         <article className="min-w-0 bg-zinc-950 p-5">
-          <span className="block text-sm text-zinc-500">Items</span>
+          <span className="block text-sm text-zinc-500">Tipo</span>
           <strong className="mt-3 block overflow-wrap-anywhere text-base font-semibold text-zinc-100">
-            {items.length}
+            {profile?.user_type || "user"}
           </strong>
         </article>
       </section>
 
-      <section className="mx-auto mt-7 w-full max-w-6xl border border-zinc-800 p-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-lg font-semibold text-zinc-100">
-              ABM base con Firestore
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-zinc-400">
-              La coleccion `items` muestra documentos filtrados por el usuario
-              autenticado.
-            </p>
-          </div>
+      <section className="mx-auto mt-7 grid w-full max-w-6xl gap-px overflow-hidden border border-zinc-800 bg-zinc-800 lg:grid-cols-2">
+        <div className="bg-zinc-950 p-5">
+          <span className="block text-sm text-zinc-500">Items propios</span>
+          <strong className="mt-3 block text-3xl font-semibold text-zinc-100">
+            {items.length}
+          </strong>
+          <p className="mt-3 text-sm leading-6 text-zinc-400">
+            Documentos de Firestore filtrados por el usuario autenticado.
+          </p>
           <Link
-            className="inline-flex h-10 items-center justify-center border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
+            className="mt-5 inline-flex h-10 items-center justify-center border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
             href="/dashboard/items"
           >
             Ver items
           </Link>
         </div>
+
+        {isAdmin ? (
+          <div className="bg-zinc-950 p-5">
+            <span className="block text-sm text-zinc-500">
+              Usuarios registrados
+            </span>
+            <strong className="mt-3 block text-3xl font-semibold text-zinc-100">
+              {users.length}
+            </strong>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              Gestion de perfiles de usuario disponible para cuentas admin.
+            </p>
+            <Link
+              className="mt-5 inline-flex h-10 items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
+              href="/dashboard/users"
+            >
+              Gestionar usuarios
+            </Link>
+          </div>
+        ) : null}
       </section>
     </main>
   );

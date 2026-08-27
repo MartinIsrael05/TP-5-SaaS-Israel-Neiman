@@ -4,6 +4,8 @@ import {
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE,
 } from "@/lib/firebase/session";
+import { getAdminAuth } from "@/lib/firebase/admin";
+import { ensureUserProfile } from "@/lib/users/users";
 
 export async function POST(request) {
   const { idToken } = await request.json();
@@ -13,6 +15,9 @@ export async function POST(request) {
   }
 
   try {
+    const decodedToken = await getAdminAuth().verifyIdToken(idToken);
+    await ensureUserProfile(decodedToken);
+
     const sessionCookie = await createSessionCookie(idToken);
     const response = NextResponse.json({ ok: true });
 

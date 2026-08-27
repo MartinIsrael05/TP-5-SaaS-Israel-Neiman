@@ -375,4 +375,22 @@ La implementacion debe incluir:
 - Eliminacion de registros.
 - Validacion de propiedad mediante `userId`.
 
+El boilerplate crea automaticamente un documento en la coleccion `users` cuando un usuario inicia sesion. El identificador del documento corresponde al `uid` de Firebase Authentication.
+
+Ejemplo de documento en `users`:
+
+```js
+{
+  email: "usuario@example.com",
+  displayName: "Usuario",
+  provider: "google.com",
+  user_type: "user",
+  createdAt: "...",
+  updatedAt: "...",
+  lastLoginAt: "..."
+}
+```
+
+Los usuarios registrados desde la web se crean con `user_type: "user"`. Para habilitar el panel administrativo, el primer usuario administrador debe modificarse manualmente en Firestore cambiando `user_type` a `"admin"`. A partir de ese momento, ese usuario puede acceder al ABM de usuarios desde el dashboard.
+
 Este boilerplate incluye una implementacion inicial con la coleccion `items`, disponible en `/dashboard/items`.
