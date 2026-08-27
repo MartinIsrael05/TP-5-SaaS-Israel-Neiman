@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import DashboardNavbar from "@/components/DashboardNavbar";
 import ItemForm from "@/components/items/ItemForm";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getUserItem } from "@/lib/items/items";
+import { getCurrentUserProfile } from "@/lib/users/users";
 import { updateItem } from "../../actions";
 
 export const dynamic = "force-dynamic";
@@ -16,14 +18,17 @@ export default async function EditItemPage({ params }) {
 
   const { id } = await params;
   const item = await getUserItem(user.uid, id);
+  const profile = await getCurrentUserProfile(user);
+  const useFirebaseStorage = process.env.FIREBASE_STORAGE === "true";
 
   if (!item) {
     notFound();
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
-      <section className="mx-auto w-full max-w-2xl">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <DashboardNavbar user={user} profile={profile} />
+      <section className="mx-auto w-full max-w-2xl px-5 py-7 sm:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
           Firestore
         </p>
@@ -38,7 +43,9 @@ export default async function EditItemPage({ params }) {
           <ItemForm
             action={updateItem.bind(null, item.id)}
             item={item}
+            storageItemId={item.id}
             submitLabel="Guardar cambios"
+            useFirebaseStorage={useFirebaseStorage}
           />
         </div>
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import DashboardNavbar from "@/components/DashboardNavbar";
 import UserForm from "@/components/users/UserForm";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getCurrentUserProfile, listUserProfiles } from "@/lib/users/users";
@@ -34,8 +35,9 @@ export default async function UsersPage() {
   const users = await listUserProfiles();
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
-      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 pb-7 sm:flex-row sm:items-end sm:justify-between">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <DashboardNavbar user={user} profile={profile} />
+      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 px-5 py-7 sm:flex-row sm:items-end sm:justify-between sm:px-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
             Administracion
@@ -47,15 +49,9 @@ export default async function UsersPage() {
             Gestion de perfiles almacenados en Firestore.
           </p>
         </div>
-        <Link
-          className="inline-flex h-10 items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
-          href="/dashboard"
-        >
-          Volver
-        </Link>
       </header>
 
-      <section className="mx-auto mt-7 grid w-full max-w-6xl gap-6 lg:grid-cols-[360px_1fr]">
+      <section className="mx-auto mt-7 grid w-full max-w-6xl gap-6 px-5 sm:px-8 lg:grid-cols-[360px_1fr]">
         <div>
           <h2 className="mb-3 text-lg font-semibold text-zinc-100">
             Crear usuario

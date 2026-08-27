@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import DashboardNavbar from "@/components/DashboardNavbar";
 import ItemForm from "@/components/items/ItemForm";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
+import { getCurrentUserProfile } from "@/lib/users/users";
 import { createItem, deleteItem } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -26,10 +28,13 @@ export default async function ItemsPage() {
   }
 
   const items = await listUserItems(user.uid);
+  const profile = await getCurrentUserProfile(user);
+  const useFirebaseStorage = process.env.FIREBASE_STORAGE === "true";
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
-      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 pb-7 sm:flex-row sm:items-end sm:justify-between">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <DashboardNavbar user={user} profile={profile} />
+      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 px-5 py-7 sm:flex-row sm:items-end sm:justify-between sm:px-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
             Firestore
@@ -41,20 +46,18 @@ export default async function ItemsPage() {
             ABM base con documentos asociados al usuario autenticado.
           </p>
         </div>
-        <Link
-          className="inline-flex h-10 items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
-          href="/dashboard"
-        >
-          Volver
-        </Link>
       </header>
 
-      <section className="mx-auto mt-7 grid w-full max-w-6xl gap-6 lg:grid-cols-[360px_1fr]">
+      <section className="mx-auto mt-7 grid w-full max-w-6xl gap-6 px-5 sm:px-8 lg:grid-cols-[360px_1fr]">
         <div>
           <h2 className="mb-3 text-lg font-semibold text-zinc-100">
             Crear item
           </h2>
-          <ItemForm action={createItem} submitLabel="Crear item" />
+          <ItemForm
+            action={createItem}
+            submitLabel="Crear item"
+            useFirebaseStorage={useFirebaseStorage}
+          />
         </div>
 
         <div>
@@ -77,12 +80,25 @@ export default async function ItemsPage() {
                   key={item.id}
                 >
                   <div className="min-w-0">
+                    {item.imageUrl ? (
+                      <div className="mb-4 border border-zinc-800 bg-zinc-900">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          alt={item.title}
+                          className="h-40 w-full object-cover"
+                          src={item.imageUrl}
+                        />
+                      </div>
+                    ) : null}
                     <div className="flex flex-wrap items-center gap-3">
                       <h3 className="overflow-wrap-anywhere text-base font-semibold text-zinc-100">
                         {item.title}
                       </h3>
                       <span className="border border-zinc-800 px-2 py-1 text-xs uppercase tracking-[0.12em] text-zinc-400">
                         {item.status}
+                      </span>
+                      <span className="border border-zinc-800 px-2 py-1 text-xs uppercase tracking-[0.12em] text-zinc-400">
+                        {item.published ? "published" : "draft"}
                       </span>
                     </div>
                     {item.description ? (
@@ -96,6 +112,14 @@ export default async function ItemsPage() {
                   </div>
 
                   <div className="flex items-start gap-2">
+                    {item.published ? (
+                      <Link
+                        className="inline-flex h-9 items-center border border-zinc-700 px-3 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
+                        href={`/items/${item.id}`}
+                      >
+                        Ver
+                      </Link>
+                    ) : null}
                     <Link
                       className="inline-flex h-9 items-center border border-zinc-700 px-3 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
                       href={`/dashboard/items/${item.id}/edit`}

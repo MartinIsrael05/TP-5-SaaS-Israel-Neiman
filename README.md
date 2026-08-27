@@ -314,13 +314,15 @@ cp .env.example .env
 
 5. Habilitar Cloud Firestore.
 
-6. Ejecutar el servidor de desarrollo:
+6. Mantener `FIREBASE_STORAGE=false` para utilizar imagenes locales. Si se requiere upload con Cloud Storage for Firebase, habilitar Storage en Firebase y configurar `FIREBASE_STORAGE=true`.
+
+7. Ejecutar el servidor de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-7. Abrir la aplicacion:
+8. Abrir la aplicacion:
 
 ```txt
 http://localhost:3000
@@ -328,24 +330,27 @@ http://localhost:3000
 
 ## Variables De Entorno
 
-Variables publicas utilizadas por el cliente:
+Ejemplo completo:
 
 ```bash
+# Firebase Web App
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
-```
 
-Variables privadas utilizadas por Firebase Admin SDK:
-
-```bash
+# Firebase Admin SDK
 FIREBASE_PROJECT_ID=
 FIREBASE_CLIENT_EMAIL=
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+
+# Imagenes
+FIREBASE_STORAGE=false
 ```
+
+Las variables con prefijo `NEXT_PUBLIC_` son visibles desde el cliente. Las variables `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL` y `FIREBASE_PRIVATE_KEY` son privadas y se utilizan desde Firebase Admin SDK en el servidor.
 
 La clave privada debe conservar los saltos de linea escapados mediante `\n`.
 
@@ -394,3 +399,93 @@ Ejemplo de documento en `users`:
 Los usuarios registrados desde la web se crean con `user_type: "user"`. Para habilitar el panel administrativo, el primer usuario administrador debe modificarse manualmente en Firestore cambiando `user_type` a `"admin"`. A partir de ese momento, ese usuario puede acceder al ABM de usuarios desde el dashboard.
 
 Este boilerplate incluye una implementacion inicial con la coleccion `items`, disponible en `/dashboard/items`.
+
+## Imagenes En La Entidad Principal
+
+El boilerplate permite asociar una imagen a cada item. La opcion predeterminada utiliza archivos locales dentro de `public`, lo que permite trabajar con el plan Spark sin configurar facturacion.
+
+Tambien existe una opcion alternativa con Cloud Storage for Firebase. Esa opcion queda desactivada por defecto y solo se habilita si la variable `FIREBASE_STORAGE` tiene el valor `true`.
+
+### Opcion Predeterminada: Imagen Local
+
+Las imagenes deben ubicarse dentro de la carpeta `public`. Por ejemplo:
+
+```txt
+public/
+  items/
+    ejemplo.jpg
+```
+
+En el formulario debe ingresarse solamente el nombre del archivo:
+
+```txt
+ejemplo.jpg
+```
+
+La aplicacion transforma ese valor en la ruta publica `/items/ejemplo.jpg` antes de guardar el documento.
+
+Campo incorporado al documento:
+
+```js
+{
+  imageUrl: "/items/ejemplo.jpg",
+  imagePath: ""
+}
+```
+
+Adaptacion por entidad:
+
+- Si la entidad se mantiene como `items`, puede conservarse el campo `imageUrl`.
+- Si la entidad se reemplaza por `products`, `projects` u otra coleccion, puede reutilizarse el mismo campo.
+- Si la entidad se reemplaza por `products`, puede utilizarse una carpeta como `public/products`.
+- Si la entidad se reemplaza por `projects`, puede utilizarse una carpeta como `public/projects`.
+- La imagen debe renderizarse en el listado privado, en la home publica cuando el documento este publicado y en la ruta publica propia del registro.
+
+### Opcion Alternativa: Firebase Storage
+
+Cloud Storage for Firebase requiere habilitar facturacion en Firebase. Por ese motivo no forma parte del alcance obligatorio del trabajo. Puede utilizarse como ampliacion en proyectos que tengan plan Blaze.
+
+Configuracion requerida:
+
+1. En Firebase Console, ingresar a Build > Storage.
+2. Crear el bucket de Cloud Storage.
+3. Verificar que `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` este completo en `.env`.
+4. Configurar `FIREBASE_STORAGE=true`.
+5. Reiniciar el servidor de desarrollo.
+
+Reglas sugeridas para Storage:
+
+```js
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /items/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+```
+
+En modo Storage, el formulario muestra un campo de archivo. La imagen se guarda en una ruta con este formato:
+
+```txt
+items/{uid-del-usuario}/{id-del-item-o-uploads}/{timestamp}.jpg
+```
+
+El documento de Firestore conserva dos campos:
+
+```js
+{
+  imageUrl: "https://firebasestorage.googleapis.com/...",
+  imagePath: "items/uid/itemId/archivo.jpg"
+}
+```
+
+Al adaptar el boilerplate a otra entidad, debe modificarse tambien el nombre de la entidad usado para imagenes. Por ejemplo, una SaaS con coleccion `products` deberia utilizar:
+
+- Carpeta local: `public/products`.
+- Ruta local guardada: `/products/imagen.jpg`.
+- Ruta en Storage: `products/{uid}/{id}/{archivo}`.
+- Regla de Storage: `match /products/{userId}/{allPaths=**}`.

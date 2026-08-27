@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import DashboardNavbar from "@/components/DashboardNavbar";
 import UserForm from "@/components/users/UserForm";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getCurrentUserProfile, getUserProfile } from "@/lib/users/users";
@@ -28,8 +29,9 @@ export default async function EditUserPage({ params }) {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
-      <section className="mx-auto w-full max-w-2xl">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <DashboardNavbar user={currentUser} profile={currentProfile} />
+      <section className="mx-auto w-full max-w-2xl px-5 py-7 sm:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
           Administracion
         </p>

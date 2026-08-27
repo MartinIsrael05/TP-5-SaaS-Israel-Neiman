@@ -31,9 +31,12 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   async function finishLogin(userCredential) {
+    setLoadingMessage("Creando sesion segura...");
     await persistSession(userCredential.user);
+    setLoadingMessage("Redirigiendo al dashboard...");
     router.push(nextUrl);
     router.refresh();
   }
@@ -41,6 +44,9 @@ export default function LoginForm() {
   async function handleEmailSubmit(event) {
     event.preventDefault();
     setLoading(true);
+    setLoadingMessage(
+      mode === "signup" ? "Creando cuenta..." : "Iniciando sesion...",
+    );
     setError("");
 
     try {
@@ -52,21 +58,22 @@ export default function LoginForm() {
       await finishLogin(await action(getClientAuth(), email, password));
     } catch (err) {
       setError(err.message || "No se pudo iniciar sesion.");
-    } finally {
       setLoading(false);
+      setLoadingMessage("");
     }
   }
 
   async function handleGoogleLogin() {
     setLoading(true);
+    setLoadingMessage("Conectando con Google...");
     setError("");
 
     try {
       await finishLogin(await signInWithPopup(getClientAuth(), getGoogleProvider()));
     } catch (err) {
       setError(err.message || "No se pudo iniciar sesion con Google.");
-    } finally {
       setLoading(false);
+      setLoadingMessage("");
     }
   }
 
@@ -87,6 +94,7 @@ export default function LoginForm() {
               : "border border-transparent text-zinc-500 hover:text-zinc-300"
           }`}
           onClick={() => setMode("signin")}
+          disabled={loading}
         >
           Ingresar
         </button>
@@ -98,6 +106,7 @@ export default function LoginForm() {
               : "border border-transparent text-zinc-500 hover:text-zinc-300"
           }`}
           onClick={() => setMode("signup")}
+          disabled={loading}
         >
           Crear cuenta
         </button>
@@ -125,6 +134,7 @@ export default function LoginForm() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             autoComplete="email"
+            disabled={loading}
             required
           />
         </label>
@@ -137,6 +147,7 @@ export default function LoginForm() {
             onChange={(event) => setPassword(event.target.value)}
             autoComplete={mode === "signup" ? "new-password" : "current-password"}
             minLength={6}
+            disabled={loading}
             required
           />
         </label>
@@ -145,7 +156,7 @@ export default function LoginForm() {
           className="mt-2 h-11 border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300 disabled:hover:border-cyan-400 disabled:hover:bg-cyan-400"
           disabled={loading}
         >
-          {mode === "signup" ? "Crear cuenta" : "Ingresar"}
+          {loading ? "Procesando..." : mode === "signup" ? "Crear cuenta" : "Ingresar"}
         </button>
       </form>
 
@@ -161,13 +172,32 @@ export default function LoginForm() {
         onClick={handleGoogleLogin}
         disabled={loading}
       >
-        Continuar con Google
+        {loading ? "Procesando..." : "Continuar con Google"}
       </button>
 
       {error ? (
         <p className="mt-5 border border-red-900/70 bg-red-950/40 p-3 text-sm leading-6 text-red-300">
           {error}
         </p>
+      ) : null}
+
+      {loading ? (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-zinc-950/90 px-5 backdrop-blur-sm"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="w-full max-w-sm border border-zinc-800 bg-zinc-950 p-6 text-center">
+            <div className="mx-auto h-10 w-10 animate-spin border border-zinc-700 border-t-cyan-300" />
+            <p className="mt-5 text-sm font-semibold text-zinc-100">
+              {loadingMessage || "Procesando autenticacion..."}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-zinc-500">
+              La aplicacion esta validando la identidad y preparando la sesion
+              del usuario.
+            </p>
+          </div>
+        </div>
       ) : null}
     </section>
   );

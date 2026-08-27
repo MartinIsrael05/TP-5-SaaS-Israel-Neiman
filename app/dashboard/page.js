@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { logout } from "./actions";
+import DashboardNavbar from "@/components/DashboardNavbar";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { getCurrentUserProfile, listUserProfiles } from "@/lib/users/users";
@@ -20,8 +20,9 @@ export default async function DashboardPage() {
   const users = isAdmin ? await listUserProfiles() : [];
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-5 py-7 text-zinc-100 sm:px-8">
-      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 pb-7 sm:flex-row sm:items-end sm:justify-between">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <DashboardNavbar user={user} profile={profile} />
+      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 px-5 py-7 sm:flex-row sm:items-end sm:justify-between sm:px-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
             Ruta protegida
@@ -30,14 +31,6 @@ export default async function DashboardPage() {
             Dashboard
           </h1>
         </div>
-        <form action={logout}>
-          <button
-            className="h-10 border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
-            type="submit"
-          >
-            Cerrar sesion
-          </button>
-        </form>
       </header>
 
       <section className="mx-auto mt-7 grid w-full max-w-6xl grid-cols-1 gap-px overflow-hidden border border-zinc-800 bg-zinc-800 md:grid-cols-3">
