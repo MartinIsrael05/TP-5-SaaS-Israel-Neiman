@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Footer from "@/components/Footer";
 import LoginForm from "@/components/LoginForm";
 import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/firebase/session";
@@ -18,6 +19,7 @@ export default async function LoginPage() {
       <section className="grid min-h-[calc(100vh-65px)] place-items-center px-4 py-8 sm:px-5 sm:py-10">
         <LoginForm />
       </section>
+      <Footer />
     </main>
   );
 }

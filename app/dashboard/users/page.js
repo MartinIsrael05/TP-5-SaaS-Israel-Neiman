@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import UserForm from "@/components/users/UserForm";
 import { getCurrentUser } from "@/lib/firebase/session";
@@ -128,6 +129,7 @@ export default async function UsersPage() {
           )}
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

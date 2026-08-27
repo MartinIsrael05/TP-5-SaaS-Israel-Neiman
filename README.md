@@ -1,39 +1,37 @@
-# Trabajo Practico: Desarrollo de una Aplicacion SaaS con Next.js y Firebase
+# Next.js SaaS Starter with Firebase
 
-## Presentacion
+Starter profesional para construir aplicaciones SaaS con Next.js, Firebase Authentication, Firebase Admin SDK, Cloud Firestore y Tailwind CSS.
 
-Este repositorio proporciona una base tecnica para el desarrollo de una aplicacion web de tipo SaaS utilizando Next.js, Firebase Authentication, Firebase Admin SDK, Firestore y Tailwind CSS.
+La base prioriza renderizado server-side, rutas protegidas, sesion HTTP-only, aislamiento de datos por usuario y una estructura extensible para reemplazar la entidad `items` por la entidad principal de cada producto.
 
-El trabajo practico debera realizarse en grupos de 2 integrantes. Cada grupo debera definir una propuesta propia de aplicacion, disenar su modelo de datos, implementar las rutas y componentes necesarios, y desarrollar una funcionalidad principal que permita a los usuarios autenticados gestionar informacion persistente.
+## SaaS
 
-La finalidad del trabajo es integrar conceptos de desarrollo web moderno, autenticacion, autorizacion, persistencia de datos, arquitectura basada en componentes y diseno de interfaces.
+Una SaaS, o Software as a Service, es una aplicacion accesible desde internet en la que los usuarios utilizan funcionalidades sin instalar software localmente. La aplicacion se ejecuta en infraestructura remota y entrega su interfaz mediante el navegador.
 
-## Que Es Una SaaS
+En terminos funcionales, una SaaS suele incluir:
 
-Una SaaS, o Software as a Service, es una aplicacion de software disponible a traves de internet que permite a los usuarios acceder a funcionalidades sin instalar programas localmente. En este modelo, la aplicacion se ejecuta en servidores remotos y los usuarios interactuan con ella mediante un navegador.
-
-En terminos practicos, una SaaS suele incluir:
-
-- Registro e inicio de sesion de usuarios.
-- Gestion de datos propios de cada usuario.
+- Registro e inicio de sesion.
+- Gestion de informacion propia por usuario.
 - Panel privado o dashboard.
-- Funcionalidades especificas asociadas a un problema o necesidad.
-- Persistencia de informacion en una base de datos.
-- Separacion entre vistas publicas y vistas protegidas.
+- Persistencia de datos.
+- Rutas publicas y rutas protegidas.
+- Roles y permisos.
+- Funcionalidades especificas asociadas a un dominio.
 
-Ejemplos conocidos de productos SaaS son gestores de tareas, plataformas de estudio, herramientas de finanzas personales, sistemas de organizacion de proyectos, aplicaciones de planificacion, CRMs, sistemas de reservas, plataformas de contenido y herramientas colaborativas.
+Casos posibles:
 
-## Objetivo General
+- Gestor de proyectos.
+- Administrador de gastos.
+- Seguimiento de habitos.
+- Catalogo de productos.
+- Organizador de contenido.
+- Registro de suscripciones.
+- Administrador de clientes.
+- Plataforma de publicaciones.
+- Seguimiento de postulaciones.
+- Panel de recursos educativos.
 
-Desarrollar una aplicacion SaaS funcional a partir del boilerplate provisto.
-
-Cada grupo debera definir un problema concreto, proponer una solucion digital y construir una aplicacion que permita a un usuario autenticado crear, consultar, modificar y eliminar informacion propia.
-
-El resultado esperado no es una maqueta visual ni una landing page estatica, sino una aplicacion web con autenticacion, rutas protegidas, persistencia de datos y una funcionalidad principal completa.
-
-## Tecnologias Incluidas En El Boilerplate
-
-El proyecto base incluye:
+## Caracteristicas
 
 - Next.js con App Router.
 - JavaScript.
@@ -44,254 +42,64 @@ El proyecto base incluye:
 - Inicio de sesion con email y contrasena.
 - Inicio de sesion con Google.
 - Sesion server-side mediante cookie HTTP-only.
-- Rutas protegidas.
+- Firebase Admin SDK para validacion segura desde servidor.
+- Cloud Firestore como base de datos.
+- Rutas protegidas mediante middleware.
 - Dashboard privado en `/dashboard`.
-- ABM base en `/dashboard/items` con documentos de Firestore asociados al usuario autenticado.
-- Firebase Admin SDK para validacion de sesion desde el servidor.
+- Perfiles de usuario en la coleccion `users`.
+- Roles simples mediante `user_type`.
+- ABM base en `/dashboard/items`.
+- Publicacion de registros en la home.
+- Ruta publica por item en `/items/[id]`.
+- Imagen local por defecto.
+- Upload opcional con Cloud Storage for Firebase mediante `FIREBASE_STORAGE=true`.
 
-## Tematicas Posibles
+## Arquitectura
 
-La tematica de la SaaS es libre, pero debe responder a una necesidad clara y permitir la gestion de informacion por parte de usuarios autenticados.
+El proyecto utiliza App Router y separa responsabilidades entre servidor y cliente.
 
-Ejemplos de tematicas:
+- Las paginas son Server Components por defecto.
+- Las operaciones de escritura utilizan Server Actions.
+- La sesion se valida en servidor con Firebase Admin SDK.
+- Los datos privados se filtran por `userId`.
+- Los Client Components se utilizan para interactividad de UI, autenticacion client-side y formularios con estado local.
 
-- Gestion academica personal.
-- Administracion de gastos.
-- Seguimiento de habitos.
-- Planificacion de actividades.
-- Gestion de proyectos.
-- Administracion de pedidos.
-- Catalogo de productos.
-- Registro de suscripciones.
-- Organizacion de viajes.
-- Gestion de eventos.
-- Administracion de recursos educativos.
-- Seguimiento de postulaciones.
-- Gestion de clientes.
-- Planificacion de contenido.
-
-La evaluacion considerara la coherencia entre el problema elegido, el modelo de datos, las funcionalidades implementadas y la experiencia de uso.
-
-## Alcance Obligatorio
-
-La aplicacion debe cumplir con los siguientes requisitos minimos.
-
-### 1. Autenticacion
-
-La aplicacion debe permitir:
-
-- Registro con email y contrasena.
-- Inicio de sesion con email y contrasena.
-- Inicio de sesion con Google.
-- Cierre de sesion.
-- Proteccion de rutas privadas.
-
-Las rutas internas de la aplicacion no deben ser accesibles por usuarios no autenticados.
-
-### 2. Dashboard Privado
-
-La ruta `/dashboard` debe funcionar como panel principal de la SaaS.
-
-Debe mostrar informacion relevante para el usuario autenticado, por ejemplo:
-
-- Resumen general de la actividad.
-- Cantidad total de registros.
-- Ultimos registros creados.
-- Accesos directos a las acciones principales.
-- Estado general de la informacion gestionada.
-
-El dashboard debe ser especifico para la tematica elegida por el grupo.
-
-### 3. Entidad Principal
-
-Cada aplicacion debe definir al menos una entidad principal.
-
-Ejemplos:
-
-- Materias.
-- Entregas.
-- Gastos.
-- Habitos.
-- Rutinas.
-- Productos.
-- Pedidos.
-- Proyectos.
-- Clientes.
-- Publicaciones.
-- Viajes.
-- Eventos.
-- Postulaciones.
-
-La entidad debe tener campos adecuados al problema elegido. No alcanza con una entidad generica sin relacion con la propuesta.
-
-Ejemplo:
-
-```txt
-Aplicacion: Gestor de gastos compartidos
-Entidad principal: gastos
-Campos posibles: titulo, monto, categoria, fecha, pagadoPor, estado
-```
-
-### 4. ABM Completo
-
-La entidad principal debe permitir:
-
-- Alta: crear nuevos registros.
-- Baja: eliminar registros existentes.
-- Modificacion: editar registros.
-- Listado: visualizar los registros guardados.
-
-Las operaciones deben estar integradas en la interfaz de la aplicacion y deben persistir los datos en Firestore.
-
-### 5. Persistencia En Firestore
-
-Cada grupo debera utilizar Cloud Firestore como base de datos.
-
-Cada documento debe guardar la relacion con el usuario autenticado mediante su `uid`.
-
-Ejemplo de documento:
-
-```js
-{
-  userId: "uid-del-usuario",
-  title: "Entrega de Programacion",
-  description: "Resolver ejercicio integrador",
-  status: "pending",
-  createdAt: serverTimestamp(),
-  updatedAt: serverTimestamp()
-}
-```
-
-Un usuario no debe poder ver, editar ni eliminar datos pertenecientes a otro usuario.
-
-### 6. Rutas Y Componentes Propios
-
-Cada grupo debera agregar las rutas, componentes y acciones necesarias para su aplicacion.
-
-Ejemplo de estructura posible:
+Estructura principal:
 
 ```txt
 app/
+  api/
+    session/
+      login/
+      logout/
   dashboard/
-    page.js
-    gastos/
-      page.js
-      new/
-        page.js
-      [id]/
-        edit/
-          page.js
+    items/
+    users/
+  items/
+    [id]/
+  login/
 
 components/
-  ExpenseForm.js
-  ExpenseList.js
-  EmptyState.js
+  items/
+  users/
+
+lib/
+  firebase/
+  items/
+  users/
 ```
 
-Tambien puede utilizarse una estructura mas compacta:
+## Requisitos
 
-```txt
-app/
-  dashboard/
-    habits/
-      page.js
-      actions.js
+- Node.js compatible con Next.js 16.
+- Proyecto Firebase.
+- Authentication habilitado.
+- Cloud Firestore habilitado.
+- Cuenta de servicio de Firebase Admin SDK.
 
-components/
-  HabitForm.js
-  HabitList.js
-```
+Cloud Storage for Firebase es opcional. El modo predeterminado utiliza imagenes locales dentro de `public`.
 
-La estructura debe ser consistente, legible y adecuada al tamano del proyecto.
-
-### 7. Uso De Funcionalidades Server-Side
-
-El proyecto debera priorizar las capacidades server-side de Next.js.
-
-Se espera el uso de:
-
-- Server Components para paginas protegidas y listados.
-- Server Actions o Route Handlers para operaciones de escritura.
-- Firebase Admin SDK para operaciones seguras desde el servidor.
-- Client Components unicamente cuando sean necesarios para interactividad, formularios controlados o estados locales de interfaz.
-
-No se aceptara una implementacion completamente client-side si las operaciones pueden resolverse desde el servidor.
-
-### 8. Interfaz De Usuario
-
-La aplicacion debe presentar una interfaz clara, consistente y usable.
-
-Requisitos minimos de interfaz:
-
-- Dark mode coherente.
-- Navegacion interna clara.
-- Formularios comprensibles.
-- Estados vacios.
-- Mensajes de error o validacion.
-- Diseno responsive.
-- Jerarquia visual adecuada.
-- Botones y acciones consistentes.
-
-## Alcance Ampliado
-
-Los siguientes puntos constituyen funcionalidades complementarias:
-
-- Filtros o busqueda.
-- Estados para los registros, por ejemplo pendiente, activo, completado o cancelado.
-- Ordenamiento por fecha, categoria o prioridad.
-- Metricas adicionales en el dashboard.
-- Subida de archivos o imagenes.
-- Integracion con una API externa.
-- Exportacion de datos en CSV.
-- Roles simples, por ejemplo usuario y administrador.
-- Limite de uso simulado por usuario.
-- Pagina publica de presentacion del producto.
-
-## Fuera De Alcance
-
-No se requiere:
-
-- Implementar pagos reales.
-- Implementar multi-tenancy avanzado.
-- Desarrollar una aplicacion movil nativa.
-- Crear un sistema de roles complejo.
-- Implementar notificaciones push.
-- Publicar obligatoriamente en produccion.
-- Utilizar TypeScript.
-
-Estos elementos no forman parte de los requisitos minimos de aprobacion.
-
-## Entregables
-
-Cada grupo debera entregar:
-
-- Repositorio completo del proyecto.
-- README actualizado.
-- Archivo `.env.example` con las variables necesarias sin valores secretos.
-- Capturas de pantalla o breve demostracion funcional.
-- Descripcion de la entidad principal y su modelo de datos.
-
-El README final del grupo debe incluir:
-
-- Nombre de la SaaS.
-- Integrantes.
-- Descripcion del problema.
-- Usuario objetivo.
-- Funcionalidades implementadas.
-- Entidad principal y campos.
-- Rutas principales.
-- Instrucciones para ejecutar el proyecto.
-
-## Criterios De Evaluacion
-
-- Autenticacion y proteccion de rutas: 20%.
-- Modelo de datos y aislamiento por usuario: 20%.
-- ABM funcional sobre Firestore: 25%.
-- Uso adecuado de Next.js server-side: 15%.
-- Interfaz, responsive y experiencia de uso: 10%.
-- Documentacion y presentacion: 10%.
-
-## Configuracion Inicial Del Proyecto
+## Configuracion
 
 1. Instalar dependencias:
 
@@ -314,7 +122,7 @@ cp .env.example .env
 
 5. Habilitar Cloud Firestore.
 
-6. Mantener `FIREBASE_STORAGE=false` para utilizar imagenes locales. Si se requiere upload con Cloud Storage for Firebase, habilitar Storage en Firebase y configurar `FIREBASE_STORAGE=true`.
+6. Mantener `FIREBASE_STORAGE=false` para utilizar imagenes locales.
 
 7. Ejecutar el servidor de desarrollo:
 
@@ -337,17 +145,17 @@ Ejemplo completo:
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
+
+# Firebase Storage
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+FIREBASE_STORAGE=false
 
 # Firebase Admin SDK
 FIREBASE_PROJECT_ID=
 FIREBASE_CLIENT_EMAIL=
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
-
-# Imagenes
-FIREBASE_STORAGE=false
 ```
 
 Las variables con prefijo `NEXT_PUBLIC_` son visibles desde el cliente. Las variables `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL` y `FIREBASE_PRIVATE_KEY` son privadas y se utilizan desde Firebase Admin SDK en el servidor.
@@ -356,7 +164,7 @@ La clave privada debe conservar los saltos de linea escapados mediante `\n`.
 
 El archivo `.env` no debe subirse al repositorio.
 
-## Scripts Disponibles
+## Scripts
 
 ```bash
 npm run dev
@@ -365,24 +173,24 @@ npm run start
 npm run lint
 ```
 
-## Implementacion Con Firestore
+## Autenticacion
 
-El proyecto debe incorporar un ABM utilizando Firestore como mecanismo de persistencia.
+El proyecto incluye autenticacion con Firebase Authentication.
 
-La implementacion debe incluir:
+Metodos incluidos:
 
-- Helper server-side para Firestore Admin.
-- Coleccion correspondiente a la entidad principal.
-- Ruta dentro de `/dashboard`.
-- Formulario de creacion.
-- Listado filtrado por usuario autenticado.
-- Edicion de registros.
-- Eliminacion de registros.
-- Validacion de propiedad mediante `userId`.
+- Email y contrasena.
+- Google.
 
-El boilerplate crea automaticamente un documento en la coleccion `users` cuando un usuario inicia sesion. El identificador del documento corresponde al `uid` de Firebase Authentication.
+Al iniciar sesion, el cliente obtiene el ID token de Firebase y lo envia a `/api/session/login`. El servidor crea una session cookie HTTP-only que luego se valida desde Server Components, Server Actions y middleware.
 
-Ejemplo de documento en `users`:
+Las rutas privadas redirigen a `/login` si no existe una sesion valida.
+
+## Usuarios Y Roles
+
+Cada usuario autenticado tiene un documento asociado en la coleccion `users`.
+
+Ejemplo:
 
 ```js
 {
@@ -396,17 +204,76 @@ Ejemplo de documento en `users`:
 }
 ```
 
-Los usuarios registrados desde la web se crean con `user_type: "user"`. Para habilitar el panel administrativo, el primer usuario administrador debe modificarse manualmente en Firestore cambiando `user_type` a `"admin"`. A partir de ese momento, ese usuario puede acceder al ABM de usuarios desde el dashboard.
+Los usuarios creados desde la web se registran con `user_type: "user"`.
 
-Este boilerplate incluye una implementacion inicial con la coleccion `items`, disponible en `/dashboard/items`.
+Si un usuario tiene `user_type: "admin"`, puede acceder al panel de administracion de usuarios desde `/dashboard/users`.
 
-## Imagenes En La Entidad Principal
+Para crear el primer administrador, modificar manualmente en Firestore el documento correspondiente dentro de `users` y cambiar `user_type` a `"admin"`.
 
-El boilerplate permite asociar una imagen a cada item. La opcion predeterminada utiliza archivos locales dentro de `public`, lo que permite trabajar con el plan Spark sin configurar facturacion.
+## Firestore
 
-Tambien existe una opcion alternativa con Cloud Storage for Firebase. Esa opcion queda desactivada por defecto y solo se habilita si la variable `FIREBASE_STORAGE` tiene el valor `true`.
+El ABM base utiliza la coleccion `items`.
 
-### Opcion Predeterminada: Imagen Local
+Cada documento guarda la relacion con el usuario autenticado mediante `userId`.
+
+Ejemplo:
+
+```js
+{
+  userId: "uid-del-usuario",
+  title: "Registro de ejemplo",
+  description: "Descripcion del registro",
+  status: "pending",
+  published: false,
+  imageUrl: "/items/ejemplo.jpg",
+  imagePath: "",
+  createdAt: serverTimestamp(),
+  updatedAt: serverTimestamp()
+}
+```
+
+El acceso a datos privados debe conservar siempre la validacion de propiedad:
+
+- Un usuario solo lista sus propios documentos.
+- Un usuario solo edita sus propios documentos.
+- Un usuario solo elimina sus propios documentos.
+- Los registros publicados pueden consultarse desde rutas publicas.
+
+## Adaptacion De La Entidad Principal
+
+La entidad `items` funciona como referencia inicial. Para construir un producto real, puede reemplazarse por una entidad propia del dominio.
+
+Ejemplos:
+
+- `projects`
+- `products`
+- `expenses`
+- `clients`
+- `posts`
+- `courses`
+
+Al adaptar la entidad, revisar:
+
+- Nombre de la coleccion en Firestore.
+- Rutas dentro de `/dashboard`.
+- Server Actions de creacion, edicion y eliminacion.
+- Campos del formulario.
+- Validaciones.
+- Listados privados.
+- Vistas publicas, si corresponde.
+- Carpeta de imagenes locales.
+- Reglas de Storage, si se usa Firebase Storage.
+
+## Imagenes
+
+El proyecto soporta dos estrategias para imagenes:
+
+- Imagen local en `public`, activa por defecto.
+- Cloud Storage for Firebase, opcional mediante `FIREBASE_STORAGE=true`.
+
+### Imagen Local
+
+Esta es la opcion predeterminada.
 
 Las imagenes deben ubicarse dentro de la carpeta `public`. Por ejemplo:
 
@@ -422,9 +289,13 @@ En el formulario debe ingresarse solamente el nombre del archivo:
 ejemplo.jpg
 ```
 
-La aplicacion transforma ese valor en la ruta publica `/items/ejemplo.jpg` antes de guardar el documento.
+La aplicacion transforma ese valor en la ruta publica:
 
-Campo incorporado al documento:
+```txt
+/items/ejemplo.jpg
+```
+
+Documento resultante:
 
 ```js
 {
@@ -433,27 +304,27 @@ Campo incorporado al documento:
 }
 ```
 
-Adaptacion por entidad:
+Para otra entidad, usar una carpeta equivalente. Por ejemplo:
 
-- Si la entidad se mantiene como `items`, puede conservarse el campo `imageUrl`.
-- Si la entidad se reemplaza por `products`, `projects` u otra coleccion, puede reutilizarse el mismo campo.
-- Si la entidad se reemplaza por `products`, puede utilizarse una carpeta como `public/products`.
-- Si la entidad se reemplaza por `projects`, puede utilizarse una carpeta como `public/projects`.
-- La imagen debe renderizarse en el listado privado, en la home publica cuando el documento este publicado y en la ruta publica propia del registro.
+```txt
+public/
+  products/
+    producto.jpg
+```
 
-### Opcion Alternativa: Firebase Storage
+## Firebase Storage Opcional
 
-Cloud Storage for Firebase requiere habilitar facturacion en Firebase. Por ese motivo no forma parte del alcance obligatorio del trabajo. Puede utilizarse como ampliacion en proyectos que tengan plan Blaze.
+Cloud Storage for Firebase puede activarse para permitir upload de archivos desde el formulario.
 
 Configuracion requerida:
 
-1. En Firebase Console, ingresar a Build > Storage.
-2. Crear el bucket de Cloud Storage.
-3. Verificar que `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` este completo en `.env`.
+1. Habilitar Cloud Storage for Firebase en Firebase Console.
+2. Verificar que el proyecto este en plan Blaze si Firebase lo requiere.
+3. Completar `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`.
 4. Configurar `FIREBASE_STORAGE=true`.
 5. Reiniciar el servidor de desarrollo.
 
-Reglas sugeridas para Storage:
+Reglas sugeridas para Storage con la entidad `items`:
 
 ```js
 rules_version = '2';
@@ -468,13 +339,13 @@ service firebase.storage {
 }
 ```
 
-En modo Storage, el formulario muestra un campo de archivo. La imagen se guarda en una ruta con este formato:
+En modo Storage, las imagenes se guardan con este formato:
 
 ```txt
 items/{uid-del-usuario}/{id-del-item-o-uploads}/{timestamp}.jpg
 ```
 
-El documento de Firestore conserva dos campos:
+Documento resultante:
 
 ```js
 {
@@ -483,9 +354,82 @@ El documento de Firestore conserva dos campos:
 }
 ```
 
-Al adaptar el boilerplate a otra entidad, debe modificarse tambien el nombre de la entidad usado para imagenes. Por ejemplo, una SaaS con coleccion `products` deberia utilizar:
+Para otra entidad, actualizar la ruta y las reglas. Por ejemplo, con `products`:
 
 - Carpeta local: `public/products`.
 - Ruta local guardada: `/products/imagen.jpg`.
 - Ruta en Storage: `products/{uid}/{id}/{archivo}`.
 - Regla de Storage: `match /products/{userId}/{allPaths=**}`.
+
+## Pricing De Firebase
+
+Valores consultados en la pagina oficial de Firebase Pricing el 27 de agosto de 2026.
+
+Fuente: https://firebase.google.com/pricing
+
+### Plan Spark
+
+Spark es el plan sin costo inicial y no requiere metodo de pago.
+
+Limites relevantes:
+
+- Authentication: email/password y proveedores sociales incluidos.
+- Authentication con Identity Platform: hasta 50.000 usuarios activos mensuales.
+- Cloud Firestore Standard: 1 GiB de datos almacenados.
+- Cloud Firestore Standard: 50.000 lecturas de documentos por dia.
+- Cloud Firestore Standard: 20.000 escrituras de documentos por dia.
+- Cloud Firestore Standard: 20.000 eliminaciones de documentos por dia.
+- Cloud Firestore Standard: 10 GiB de egreso de red por mes.
+- Firebase Hosting: 10 GB de almacenamiento.
+- Firebase Hosting: 360 MB por dia de transferencia.
+
+Consideracion sobre Storage:
+
+- En proyectos nuevos, Firebase puede requerir actualizar a Blaze para utilizar Cloud Storage for Firebase.
+- Por ese motivo, este starter usa imagenes locales por defecto y deja Storage como opcion configurable.
+
+### Plan Blaze
+
+Blaze es el plan de pago por uso. Requiere vincular una cuenta de facturacion, incluye cuotas sin costo y cobra el uso excedente segun el producto.
+
+Cuotas sin costo relevantes en Blaze:
+
+- Authentication con Identity Platform: hasta 50.000 usuarios activos mensuales; luego aplica pricing de Google Cloud.
+- Cloud Firestore Standard: hasta 1 GiB de datos almacenados; luego aplica pricing de Google Cloud.
+- Cloud Firestore Standard: hasta 50.000 lecturas por dia; luego aplica pricing de Google Cloud.
+- Cloud Firestore Standard: hasta 20.000 escrituras por dia; luego aplica pricing de Google Cloud.
+- Cloud Firestore Standard: hasta 20.000 eliminaciones por dia; luego aplica pricing de Google Cloud.
+- Cloud Firestore Standard: hasta 10 GiB de egreso por mes; luego aplica pricing de Google Cloud.
+
+Cloud Storage en Blaze para buckets `*.firebasestorage.app` y buckets adicionales:
+
+- Hasta 5 GB-mes almacenados sin costo; luego aplica pricing de Google Cloud Storage.
+- Hasta 100 GB descargados por mes sin costo; luego aplica pricing de Google Cloud Storage.
+- Hasta 5.000 operaciones de upload por mes sin costo; luego aplica pricing de Google Cloud Storage.
+- Hasta 50.000 operaciones de download por mes sin costo; luego aplica pricing de Google Cloud Storage.
+
+Cloud Storage en Blaze para buckets legacy `*.appspot.com`:
+
+- Hasta 5 GB almacenados sin costo; luego USD 0,026 por GB.
+- Hasta 1 GB descargado por dia sin costo; luego USD 0,12 por GB.
+- Hasta 20.000 operaciones de upload por dia sin costo; luego USD 0,05 cada 10.000 operaciones.
+- Hasta 50.000 operaciones de download por dia sin costo; luego USD 0,004 cada 10.000 operaciones.
+
+Los importes pueden variar por region, producto y cambios de pricing. Para estimaciones productivas debe utilizarse la calculadora oficial de Firebase.
+
+## Desarrollo
+
+Comandos habituales:
+
+```bash
+npm run dev
+npm run lint
+npm run build
+```
+
+En desarrollo, Next.js compila rutas bajo demanda. La navegacion puede sentirse mas lenta que en una build productiva ejecutada con:
+
+```bash
+npm run build
+npm run start
+```

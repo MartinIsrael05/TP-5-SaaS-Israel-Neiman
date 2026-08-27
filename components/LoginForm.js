@@ -119,7 +119,7 @@ export default function LoginForm() {
         id="login-title"
         className="mt-3 text-2xl font-semibold tracking-normal text-zinc-50 sm:text-3xl"
       >
-        TP5 SaaS Starter
+        SaaS Starter
       </h1>
       <p className="mt-3 text-sm leading-6 text-zinc-400">
         Boilerplate Next server-side con Firebase Auth, email/password y Google.

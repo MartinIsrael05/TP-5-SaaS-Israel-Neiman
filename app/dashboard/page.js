@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
@@ -91,6 +92,7 @@ export default async function DashboardPage() {
           </div>
         ) : null}
       </section>
+      <Footer />
     </main>
   );
 }

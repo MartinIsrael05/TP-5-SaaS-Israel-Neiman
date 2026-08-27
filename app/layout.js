@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TP5 SaaS Starter",
+  title: "SaaS Starter",
   description: "Next.js server-side boilerplate with Firebase Auth",
 };
 

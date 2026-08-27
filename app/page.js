@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listPublishedItems } from "@/lib/items/items";
@@ -105,6 +106,7 @@ export default async function Home() {
         )}
       </section>
 
+      <Footer />
     </main>
   );
 }

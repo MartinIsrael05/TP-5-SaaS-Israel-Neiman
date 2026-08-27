@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getPublishedItem } from "@/lib/items/items";
@@ -81,6 +82,7 @@ export default async function PublicItemPage({ params }) {
           Publicado: {formatDate(item.createdAt)}
         </footer>
       </article>
+      <Footer />
     </main>
   );
 }
