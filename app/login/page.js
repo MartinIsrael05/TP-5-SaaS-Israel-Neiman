@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import LoginForm from "@/components/LoginForm";
+import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/firebase/session";
 
 export const dynamic = "force-dynamic";
@@ -12,8 +13,11 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-zinc-950 px-5 py-10 text-zinc-100">
-      <LoginForm />
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <Navbar />
+      <section className="grid min-h-[calc(100vh-65px)] place-items-center px-4 py-8 sm:px-5 sm:py-10">
+        <LoginForm />
+      </section>
     </main>
   );
 }

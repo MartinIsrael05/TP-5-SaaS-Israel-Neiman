@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import DashboardNavbar from "@/components/DashboardNavbar";
+import Navbar from "@/components/Navbar";
 import ItemForm from "@/components/items/ItemForm";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getUserItem } from "@/lib/items/items";
@@ -27,12 +27,12 @@ export default async function EditItemPage({ params }) {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
-      <DashboardNavbar user={user} profile={profile} />
-      <section className="mx-auto w-full max-w-2xl px-5 py-7 sm:px-8">
+      <Navbar user={user} profile={profile} />
+      <section className="mx-auto w-full max-w-2xl px-4 py-7 sm:px-6 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
           Firestore
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-normal text-zinc-50">
+        <h1 className="mt-3 text-3xl font-semibold tracking-normal text-zinc-50 sm:text-4xl">
           Editar item
         </h1>
         <p className="mt-4 text-sm leading-6 text-zinc-400">
@@ -50,7 +50,7 @@ export default async function EditItemPage({ params }) {
         </div>
 
         <Link
-          className="mt-4 inline-flex h-10 items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
+          className="mt-4 inline-flex h-10 w-full items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
           href="/dashboard/items"
         >
           Volver a items

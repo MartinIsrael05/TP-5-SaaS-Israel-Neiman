@@ -107,7 +107,10 @@ export default function ItemForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-4 border border-zinc-800 p-5">
+    <form
+      onSubmit={handleSubmit}
+      className="grid min-w-0 gap-4 border border-zinc-800 p-4 sm:p-5"
+    >
       <label className="grid gap-2 text-sm font-medium text-zinc-300">
         <span>Titulo</span>
         <input
@@ -147,11 +150,19 @@ export default function ItemForm({
         <span>Imagen</span>
         {useFirebaseStorage ? (
           <>
-            <input name="imageUrl" type="hidden" defaultValue={item?.imageUrl || ""} />
-            <input name="imagePath" type="hidden" defaultValue={item?.imagePath || ""} />
+            <input
+              name="imageUrl"
+              type="hidden"
+              defaultValue={item?.imageUrl || ""}
+            />
+            <input
+              name="imagePath"
+              type="hidden"
+              defaultValue={item?.imagePath || ""}
+            />
             <input
               accept="image/jpeg,image/png,image/webp,image/gif"
-              className="border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition file:mr-4 file:border-0 file:bg-zinc-800 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-100 hover:file:bg-zinc-700 focus:border-cyan-400"
+              className="min-w-0 border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition file:mr-4 file:border-0 file:bg-zinc-800 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-100 hover:file:bg-zinc-700 focus:border-cyan-400"
               name="imageFile"
               type="file"
               disabled={loading}
@@ -228,7 +239,7 @@ export default function ItemForm({
       </label>
 
       <button
-        className="h-11 border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
+        className="h-11 w-full border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
         disabled={loading}
         type="submit"
       >

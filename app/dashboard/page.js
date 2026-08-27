@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import DashboardNavbar from "@/components/DashboardNavbar";
+import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { getCurrentUserProfile, listUserProfiles } from "@/lib/users/users";
@@ -21,19 +21,19 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
-      <DashboardNavbar user={user} profile={profile} />
-      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 px-5 py-7 sm:flex-row sm:items-end sm:justify-between sm:px-8">
+      <Navbar user={user} profile={profile} />
+      <header className="mx-auto flex w-full max-w-6xl flex-col gap-5 border-b border-zinc-800 px-4 py-7 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
             Ruta protegida
           </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-normal text-zinc-50 sm:text-6xl">
+          <h1 className="mt-3 text-3xl font-semibold tracking-normal text-zinc-50 sm:text-5xl lg:text-6xl">
             Dashboard
           </h1>
         </div>
       </header>
 
-      <section className="mx-auto mt-7 grid w-full max-w-6xl grid-cols-1 gap-px overflow-hidden border border-zinc-800 bg-zinc-800 md:grid-cols-3">
+      <section className="mx-auto mt-7 grid w-[calc(100%-2rem)] max-w-6xl grid-cols-1 gap-px overflow-hidden border border-zinc-800 bg-zinc-800 sm:w-[calc(100%-3rem)] md:grid-cols-3 lg:w-[calc(100%-4rem)]">
         <article className="min-w-0 bg-zinc-950 p-5">
           <span className="block text-sm text-zinc-500">Usuario</span>
           <strong className="mt-3 block overflow-wrap-anywhere text-base font-semibold text-zinc-100">
@@ -54,7 +54,7 @@ export default async function DashboardPage() {
         </article>
       </section>
 
-      <section className="mx-auto mt-7 grid w-full max-w-6xl gap-px overflow-hidden border border-zinc-800 bg-zinc-800 lg:grid-cols-2">
+      <section className="mx-auto mt-7 grid w-[calc(100%-2rem)] max-w-6xl gap-px overflow-hidden border border-zinc-800 bg-zinc-800 sm:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] lg:grid-cols-2">
         <div className="bg-zinc-950 p-5">
           <span className="block text-sm text-zinc-500">Items propios</span>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-100">
@@ -64,7 +64,7 @@ export default async function DashboardPage() {
             Documentos de Firestore filtrados por el usuario autenticado.
           </p>
           <Link
-            className="mt-5 inline-flex h-10 items-center justify-center border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
+            className="mt-5 inline-flex h-10 w-full items-center justify-center border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300 sm:w-auto"
             href="/dashboard/items"
           >
             Ver items
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
               Gestion de perfiles de usuario disponible para cuentas admin.
             </p>
             <Link
-              className="mt-5 inline-flex h-10 items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900"
+              className="mt-5 inline-flex h-10 w-full items-center justify-center border border-zinc-700 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
               href="/dashboard/users"
             >
               Gestionar usuarios

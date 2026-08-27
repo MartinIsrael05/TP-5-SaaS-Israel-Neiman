@@ -79,7 +79,7 @@ export default function LoginForm() {
 
   return (
     <section
-      className="w-full max-w-md border border-zinc-800 bg-zinc-950 p-7 shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+      className="w-full max-w-md border border-zinc-800 bg-zinc-950 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:p-7"
       aria-labelledby="login-title"
     >
       <div
@@ -117,7 +117,7 @@ export default function LoginForm() {
       </p>
       <h1
         id="login-title"
-        className="mt-3 text-3xl font-semibold tracking-normal text-zinc-50"
+        className="mt-3 text-2xl font-semibold tracking-normal text-zinc-50 sm:text-3xl"
       >
         TP5 SaaS Starter
       </h1>
@@ -193,8 +193,7 @@ export default function LoginForm() {
               {loadingMessage || "Procesando autenticacion..."}
             </p>
             <p className="mt-2 text-sm leading-6 text-zinc-500">
-              La aplicacion esta validando la identidad y preparando la sesion
-              del usuario.
+              Validando identidad y preparando la sesion.
             </p>
           </div>
         </div>

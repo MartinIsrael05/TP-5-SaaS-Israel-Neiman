@@ -5,7 +5,7 @@ export default function UserForm({
   submitLabel = "Guardar",
 }) {
   return (
-    <form action={action} className="grid gap-4 border border-zinc-800 p-5">
+    <form action={action} className="grid min-w-0 gap-4 border border-zinc-800 p-4 sm:p-5">
       {showCredentials ? (
         <label className="grid gap-2 text-sm font-medium text-zinc-300">
           <span>Email</span>
@@ -54,7 +54,7 @@ export default function UserForm({
       </label>
 
       <button
-        className="h-11 border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
+        className="h-11 w-full border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
         type="submit"
       >
         {submitLabel}
