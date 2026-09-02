@@ -3,6 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { getClientAuth } from "@/lib/firebase/client";
 import { uploadEntityImage } from "@/lib/firebase/storage";
+import {
+  buttonClass,
+  cardClass,
+  fileInputClass,
+  inputClass,
+  labelClass,
+  textareaClass,
+} from "@/components/ui/styles";
 
 function normalizeLocalImagePath(imageName, imageBasePath) {
   const value = String(imageName || "").trim();
@@ -107,14 +115,11 @@ export default function ItemForm({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="grid min-w-0 gap-4 border border-zinc-800 p-4 sm:p-5"
-    >
-      <label className="grid gap-2 text-sm font-medium text-zinc-300">
+    <form onSubmit={handleSubmit} className={`grid min-w-0 gap-4 ${cardClass}`}>
+      <label className={labelClass}>
         <span>Titulo</span>
         <input
-          className="h-11 border border-zinc-800 bg-zinc-950 px-3 text-zinc-100 outline-none transition focus:border-cyan-400"
+          className={inputClass}
           name="title"
           defaultValue={item?.title || ""}
           disabled={loading}
@@ -122,20 +127,20 @@ export default function ItemForm({
         />
       </label>
 
-      <label className="grid gap-2 text-sm font-medium text-zinc-300">
+      <label className={labelClass}>
         <span>Descripcion</span>
         <textarea
-          className="min-h-28 resize-y border border-zinc-800 bg-zinc-950 px-3 py-3 text-zinc-100 outline-none transition focus:border-cyan-400"
+          className={textareaClass}
           name="description"
           defaultValue={item?.description || ""}
           disabled={loading}
         />
       </label>
 
-      <label className="grid gap-2 text-sm font-medium text-zinc-300">
+      <label className={labelClass}>
         <span>Estado</span>
         <select
-          className="h-11 border border-zinc-800 bg-zinc-950 px-3 text-zinc-100 outline-none transition focus:border-cyan-400"
+          className={inputClass}
           name="status"
           defaultValue={item?.status || "pending"}
           disabled={loading}
@@ -146,7 +151,7 @@ export default function ItemForm({
         </select>
       </label>
 
-      <label className="grid gap-2 text-sm font-medium text-zinc-300">
+      <label className={labelClass}>
         <span>Imagen</span>
         {useFirebaseStorage ? (
           <>
@@ -162,7 +167,7 @@ export default function ItemForm({
             />
             <input
               accept="image/jpeg,image/png,image/webp,image/gif"
-              className="min-w-0 border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none transition file:mr-4 file:border-0 file:bg-zinc-800 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-100 hover:file:bg-zinc-700 focus:border-cyan-400"
+              className={fileInputClass}
               name="imageFile"
               type="file"
               disabled={loading}
@@ -188,7 +193,7 @@ export default function ItemForm({
         ) : (
           <>
             <input
-              className="h-11 border border-zinc-800 bg-zinc-950 px-3 text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-400"
+              className={inputClass}
               name="imageUrl"
               type="text"
               defaultValue={getLocalImageInputValue(
@@ -211,19 +216,19 @@ export default function ItemForm({
       </label>
 
       {previewUrl ? (
-        <div className="border border-zinc-800 bg-zinc-900">
+        <div className="overflow-hidden rounded-xl border border-white/10 bg-zinc-900">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            alt="Preview del item"
+            alt="Preview de la categoria"
             className="h-44 w-full object-cover"
             src={previewUrl}
           />
         </div>
       ) : null}
 
-      <label className="flex items-start gap-3 border border-zinc-800 p-3 text-sm font-medium text-zinc-300">
+      <label className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3.5 text-sm font-medium text-zinc-300">
         <input
-          className="mt-1 size-4 border border-zinc-700 bg-zinc-950 accent-cyan-400"
+          className="mt-1 size-4 rounded border border-white/20 bg-zinc-950 accent-emerald-400"
           name="published"
           type="checkbox"
           defaultChecked={Boolean(item?.published)}
@@ -232,22 +237,18 @@ export default function ItemForm({
         <span>
           Publicado
           <span className="mt-1 block text-sm font-normal leading-6 text-zinc-500">
-            Si esta activo, el item se mostrara en la home publica y tendra una
-            ruta publica propia.
+            Si esta activo, la categoria se mostrara en la home publica y
+            tendra una ruta publica propia.
           </span>
         </span>
       </label>
 
-      <button
-        className="h-11 w-full border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300"
-        disabled={loading}
-        type="submit"
-      >
+      <button className={buttonClass("primary", "w-full")} disabled={loading} type="submit">
         {loading ? "Guardando..." : submitLabel}
       </button>
 
       {error ? (
-        <p className="border border-red-900/70 bg-red-950/40 p-3 text-sm leading-6 text-red-300">
+        <p className="rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm leading-6 text-red-300">
           {error}
         </p>
       ) : null}

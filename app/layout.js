@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "SaaS Starter",
-  description: "Next.js server-side boilerplate with Firebase Auth",
+  title: "SuscripciApp",
+  description: "Controla tus suscripciones y gastos recurrentes en un solo lugar.",
 };
 
 export default function RootLayout({ children }) {

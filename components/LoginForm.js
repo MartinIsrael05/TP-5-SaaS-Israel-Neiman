@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getClientAuth, getGoogleProvider } from "@/lib/firebase/client";
+import { buttonClass, cardClass, inputClass, labelClass } from "@/components/ui/styles";
 
 async function persistSession(user) {
   const idToken = await user.getIdToken();
@@ -79,19 +80,19 @@ export default function LoginForm() {
 
   return (
     <section
-      className="w-full max-w-md border border-zinc-800 bg-zinc-950 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:p-7"
+      className={`w-full max-w-md ${cardClass} shadow-[0_24px_80px_rgba(0,0,0,0.45)]`}
       aria-labelledby="login-title"
     >
       <div
-        className="mb-7 grid grid-cols-2 border border-zinc-800 bg-zinc-900/60 p-1"
+        className="mb-7 grid grid-cols-2 rounded-full border border-white/10 bg-white/[0.03] p-1"
         aria-label="Modo de autenticacion"
       >
         <button
           type="button"
-          className={`h-10 text-sm font-semibold transition ${
+          className={`h-10 rounded-full text-sm font-semibold transition ${
             mode === "signin"
-              ? "border border-zinc-700 bg-zinc-800 text-zinc-50"
-              : "border border-transparent text-zinc-500 hover:text-zinc-300"
+              ? "bg-white/10 text-zinc-50"
+              : "text-zinc-500 hover:text-zinc-300"
           }`}
           onClick={() => setMode("signin")}
           disabled={loading}
@@ -100,10 +101,10 @@ export default function LoginForm() {
         </button>
         <button
           type="button"
-          className={`h-10 text-sm font-semibold transition ${
+          className={`h-10 rounded-full text-sm font-semibold transition ${
             mode === "signup"
-              ? "border border-zinc-700 bg-zinc-800 text-zinc-50"
-              : "border border-transparent text-zinc-500 hover:text-zinc-300"
+              ? "bg-white/10 text-zinc-50"
+              : "text-zinc-500 hover:text-zinc-300"
           }`}
           onClick={() => setMode("signup")}
           disabled={loading}
@@ -112,24 +113,24 @@ export default function LoginForm() {
         </button>
       </div>
 
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
         Firebase Auth
       </p>
       <h1
         id="login-title"
         className="mt-3 text-2xl font-semibold tracking-normal text-zinc-50 sm:text-3xl"
       >
-        SaaS Starter
+        SuscripciApp
       </h1>
       <p className="mt-3 text-sm leading-6 text-zinc-400">
-        Boilerplate Next server-side con Firebase Auth, email/password y Google.
+        Entra para llevar el control de tus suscripciones y gastos recurrentes.
       </p>
 
       <form onSubmit={handleEmailSubmit} className="mt-7 grid gap-4">
-        <label className="grid gap-2 text-sm font-medium text-zinc-300">
+        <label className={labelClass}>
           <span>Email</span>
           <input
-            className="h-11 border border-zinc-800 bg-zinc-950 px-3 text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-400"
+            className={inputClass}
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -138,10 +139,10 @@ export default function LoginForm() {
             required
           />
         </label>
-        <label className="grid gap-2 text-sm font-medium text-zinc-300">
+        <label className={labelClass}>
           <span>Password</span>
           <input
-            className="h-11 border border-zinc-800 bg-zinc-950 px-3 text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-400"
+            className={inputClass}
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -151,32 +152,28 @@ export default function LoginForm() {
             required
           />
         </label>
-        <button
-          type="submit"
-          className="mt-2 h-11 border border-cyan-400 bg-cyan-400 px-4 text-sm font-semibold text-zinc-950 transition hover:border-cyan-300 hover:bg-cyan-300 disabled:hover:border-cyan-400 disabled:hover:bg-cyan-400"
-          disabled={loading}
-        >
+        <button className={buttonClass("primary", "mt-2 w-full")} disabled={loading} type="submit">
           {loading ? "Procesando..." : mode === "signup" ? "Crear cuenta" : "Ingresar"}
         </button>
       </form>
 
       <div className="my-6 flex items-center gap-3 text-xs text-zinc-500">
-        <span className="h-px flex-1 bg-zinc-800" />
+        <span className="h-px flex-1 bg-white/10" />
         <span>o</span>
-        <span className="h-px flex-1 bg-zinc-800" />
+        <span className="h-px flex-1 bg-white/10" />
       </div>
 
       <button
-        type="button"
-        className="h-11 w-full border border-zinc-800 bg-transparent px-4 text-sm font-semibold text-zinc-100 transition hover:border-zinc-600 hover:bg-zinc-900"
+        className={buttonClass("secondary", "w-full")}
         onClick={handleGoogleLogin}
         disabled={loading}
+        type="button"
       >
         {loading ? "Procesando..." : "Continuar con Google"}
       </button>
 
       {error ? (
-        <p className="mt-5 border border-red-900/70 bg-red-950/40 p-3 text-sm leading-6 text-red-300">
+        <p className="mt-5 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm leading-6 text-red-300">
           {error}
         </p>
       ) : null}
@@ -187,8 +184,8 @@ export default function LoginForm() {
           role="status"
           aria-live="polite"
         >
-          <div className="w-full max-w-sm border border-zinc-800 bg-zinc-950 p-6 text-center">
-            <div className="mx-auto h-10 w-10 animate-spin border border-zinc-700 border-t-cyan-300" />
+          <div className={`w-full max-w-sm text-center ${cardClass}`}>
+            <div className="mx-auto h-10 w-10 animate-spin rounded-full border border-white/15 border-t-emerald-300" />
             <p className="mt-5 text-sm font-semibold text-zinc-100">
               {loadingMessage || "Procesando autenticacion..."}
             </p>
