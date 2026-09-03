@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { LayoutDashboard, LogOut, Menu, Tags, Users as UsersIcon, X } from "lucide-react";
+import {
+  CreditCard,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  Tags,
+  Users as UsersIcon,
+  X,
+} from "lucide-react";
 import { logout } from "@/app/dashboard/actions";
 
 function isActivePath(pathname, href) {
@@ -36,6 +44,7 @@ export default function Sidebar({ profile, user }) {
 
   const links = [
     { href: "/dashboard", label: "Panel", icon: LayoutDashboard },
+    { href: "/dashboard/subscriptions", label: "Suscripciones", icon: CreditCard },
     { href: "/dashboard/items", label: "Categorias", icon: Tags },
     ...(isAdmin
       ? [{ href: "/dashboard/users", label: "Usuarios", icon: UsersIcon }]
