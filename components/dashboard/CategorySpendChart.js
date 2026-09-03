@@ -14,7 +14,7 @@ import { formatMoney, formatMoneyCompact } from "@/lib/format";
 import { CHART } from "./chartTheme";
 
 // Una sola medida (gasto mensual) comparada entre categorias: barras en un
-// unico tono. Pintarlas de distinto color por tamano seria codificar dos veces
+// unico tono. Pintarlas de distinto color por tamaño seria codificar dos veces
 // lo mismo, porque el largo de la barra ya dice cual es mas grande.
 
 function ChartTooltip({ active, payload }) {

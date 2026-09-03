@@ -187,7 +187,7 @@ export default function ItemForm({
             />
             <span className="text-sm font-normal leading-6 text-zinc-500">
               Modo Storage activo. Requiere Cloud Storage for Firebase y plan Blaze.
-              Formatos admitidos: JPG, PNG, WEBP o GIF. Tamano maximo: 2 MB.
+              Formatos admitidos: JPG, PNG, WEBP o GIF. Tamaño maximo: 2 MB.
             </span>
           </>
         ) : (

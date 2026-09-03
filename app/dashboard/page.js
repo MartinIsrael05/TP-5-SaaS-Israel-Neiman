@@ -132,7 +132,7 @@ export default async function DashboardPage() {
             <StatTile
               hint={
                 summary.pausedCount > 0
-                  ? "Por ano, si cancelas las pausadas"
+                  ? "Por año, si cancelas las pausadas"
                   : "No tenes suscripciones pausadas"
               }
               icon={PiggyBank}
