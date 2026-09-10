@@ -12,23 +12,12 @@ import {
 function parseItemForm(formData) {
   const title = String(formData.get("title") || "").trim();
   const description = String(formData.get("description") || "").trim();
-  const status = String(formData.get("status") || "pending");
-  const published = formData.get("published") === "on";
-  const imageUrl = String(formData.get("imageUrl") || "").trim();
-  const imagePath = String(formData.get("imagePath") || "").trim();
 
   if (!title) {
-    throw new Error("El titulo es obligatorio.");
+    throw new Error("El nombre es obligatorio.");
   }
 
-  return {
-    title,
-    description,
-    status,
-    published,
-    imageUrl,
-    imagePath,
-  };
+  return { title, description };
 }
 
 export async function createItem(formData) {
@@ -39,9 +28,9 @@ export async function createItem(formData) {
   }
 
   await createUserItem(user.uid, parseItemForm(formData));
-  revalidatePath("/");
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/items");
+  revalidatePath("/dashboard/subscriptions");
 }
 
 export async function updateItem(itemId, formData) {
@@ -52,10 +41,9 @@ export async function updateItem(itemId, formData) {
   }
 
   await updateUserItem(user.uid, itemId, parseItemForm(formData));
-  revalidatePath("/");
-  revalidatePath(`/items/${itemId}`);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/items");
+  revalidatePath("/dashboard/subscriptions");
   redirect("/dashboard/items");
 }
 
@@ -67,8 +55,7 @@ export async function deleteItem(itemId) {
   }
 
   await deleteUserItem(user.uid, itemId);
-  revalidatePath("/");
-  revalidatePath(`/items/${itemId}`);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/items");
+  revalidatePath("/dashboard/subscriptions");
 }

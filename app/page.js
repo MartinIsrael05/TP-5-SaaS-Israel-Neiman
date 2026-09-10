@@ -1,49 +1,78 @@
 import Link from "next/link";
-import { Bell, CalendarClock, PiggyBank, Tags } from "lucide-react";
+import {
+  ArrowRight,
+  Bell,
+  CalendarClock,
+  FileSpreadsheet,
+  LayoutDashboard,
+  PiggyBank,
+  Plus,
+  Tags,
+  Wallet,
+} from "lucide-react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
+import { buttonClass, cardClass } from "@/components/ui/styles";
+import { formatMoney, formatShortDate } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
-import { listPublishedItems } from "@/lib/items/items";
+import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
+import { summarize, upcomingCharges } from "@/lib/subscriptions/metrics";
+import { getCurrentUserProfile } from "@/lib/users/users";
 
 export const dynamic = "force-dynamic";
 
-const FEATURES = [
+const STEPS = [
   {
-    icon: Tags,
-    title: "Categorias a medida",
-    description: "Agrupa tus suscripciones como quieras: streaming, salud, software, lo que necesites.",
-    status: "Disponible",
+    title: "Carga lo que pagas",
+    description:
+      "Una por una, o importando el Excel donde ya las tenias anotadas.",
   },
   {
-    icon: PiggyBank,
-    title: "Panel con el gasto real",
-    description: "Total mensual, proyeccion anual y cuanto ahorrarias si cancelas lo que tenes pausado.",
-    status: "En camino",
+    title: "Agrupalas por categoria",
+    description:
+      "Streaming, salud, software, lo que uses. Vos decidis los grupos.",
   },
   {
-    icon: Bell,
-    title: "Alertas de renovacion",
-    description: "Que cobro se viene en los proximos 7 dias, antes de que te sorprenda en el resumen.",
-    status: "En camino",
-  },
-  {
-    icon: CalendarClock,
-    title: "Calendario de cobros",
-    description: "Cada suscripcion marcada en el dia exacto en que se renueva.",
-    status: "En camino",
+    title: "Mira cuanto se te va",
+    description:
+      "Total mensual, proyeccion anual y que cobro se viene esta semana.",
   },
 ];
 
-export default async function Home() {
-  const user = await getCurrentUser();
-  const publishedItems = await listPublishedItems();
+const FEATURES = [
+  {
+    icon: PiggyBank,
+    title: "El gasto real, no el que creias",
+    description:
+      "Total por mes con las anuales prorrateadas, proyeccion a 12 meses y cuanto ahorrarias cancelando lo que tenes pausado.",
+  },
+  {
+    icon: Bell,
+    title: "Nada te agarra de sorpresa",
+    description:
+      "Los cobros de los proximos 30 dias ordenados por fecha, con aviso de los que caen esta semana.",
+  },
+  {
+    icon: FileSpreadsheet,
+    title: "Importas tu Excel y listo",
+    description:
+      "Si ya llevabas la cuenta en una planilla, la subis y se cargan todas juntas. Te mostramos que va a entrar antes de confirmar.",
+  },
+  {
+    icon: Tags,
+    title: "Ordenado a tu manera",
+    description:
+      "Categorias propias y privadas, para ver en que se te va la plata y no solo cuanto.",
+  },
+];
 
+/**
+ * Home para quien todavia no tiene cuenta: hay que explicar el producto.
+ */
+function LandingHome() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
-      <Navbar user={user} />
-
-      <section className="mx-auto flex w-full max-w-6xl flex-col justify-center px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <>
+      <section className="mx-auto flex w-full max-w-6xl flex-col px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
           Control de gastos recurrentes
         </p>
@@ -52,24 +81,43 @@ export default async function Home() {
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400">
           Netflix, gimnasio, seguros, software. Entre seis y quince cobros
-          automaticos que pasan desapercibidos. SuscripciApp los centraliza
-          en un solo lugar y te dice cuanto suman de verdad y cuando se
-          renuevan.
+          automaticos que pasan desapercibidos. Aca los ves todos juntos, sabes
+          cuanto suman de verdad y cuando se renuevan.
         </p>
         <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
-          <Link className={buttonClass("primary", "w-full sm:w-auto")} href={user ? "/dashboard" : "/login"}>
-            {user ? "Ir al panel" : "Empezar gratis"}
+          <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/login">
+            Crear cuenta gratis
+            <ArrowRight size={16} />
           </Link>
-          {!user ? (
-            <Link className={buttonClass("secondary", "w-full sm:w-auto")} href="/login">
-              Ya tengo cuenta
-            </Link>
-          ) : null}
+          <Link className={buttonClass("secondary", "w-full sm:w-auto")} href="/login">
+            Ya tengo cuenta
+          </Link>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-semibold tracking-normal text-zinc-50">
+          Como funciona
+        </h2>
+        <ol className="mt-8 grid gap-8 sm:grid-cols-3">
+          {STEPS.map((step, index) => (
+            <li key={step.title}>
+              <span className="flex size-9 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10 text-sm font-semibold text-emerald-300">
+                {index + 1}
+              </span>
+              <h3 className="mt-4 text-base font-semibold text-zinc-100">
+                {step.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                {step.description}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid gap-4 sm:grid-cols-2">
           {FEATURES.map((feature) => (
             <div className={cardClass} key={feature.title}>
               <span className="flex size-10 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300">
@@ -81,69 +129,172 @@ export default async function Home() {
               <p className="mt-2 text-sm leading-6 text-zinc-400">
                 {feature.description}
               </p>
-              <span className={`${badgeClass(feature.status === "Disponible" ? "accent" : "neutral")} mt-4`}>
-                {feature.status}
-              </span>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-        <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className={`${cardClass} flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between`}>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
-              Publicadas
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-normal text-zinc-50">
-              Categorias disponibles
+            <h2 className="text-xl font-semibold tracking-normal text-zinc-50">
+              Empeza por la que ni te acordabas que pagabas
             </h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">
+              Crear la cuenta lleva menos de un minuto y no hace falta tarjeta.
+            </p>
           </div>
-          <span className="text-sm text-zinc-500">
-            {publishedItems.length} total
-          </span>
+          <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/login">
+            Empezar
+            <ArrowRight size={16} />
+          </Link>
         </div>
-
-        {publishedItems.length === 0 ? (
-          <div className={`${cardClass} text-sm leading-6 text-zinc-400`}>
-            No hay categorias publicadas.
-          </div>
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {publishedItems.map((item) => (
-              <article className={`min-w-0 ${cardClass}`} key={item.id}>
-                {item.imageUrl ? (
-                  <div className="-m-5 mb-5 overflow-hidden rounded-t-2xl border-b border-white/10 bg-zinc-900 sm:-m-6 sm:mb-6">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      alt={item.title}
-                      className="h-44 w-full object-cover"
-                      src={item.imageUrl}
-                    />
-                  </div>
-                ) : null}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className={badgeClass("neutral")}>{item.status}</span>
-                  <span className={badgeClass("accent")}>published</span>
-                </div>
-                <h3 className="mt-4 overflow-wrap-anywhere text-lg font-semibold text-zinc-100">
-                  {item.title}
-                </h3>
-                {item.description ? (
-                  <p className="mt-3 line-clamp-3 overflow-wrap-anywhere text-sm leading-6 text-zinc-400">
-                    {item.description}
-                  </p>
-                ) : null}
-                <Link className={buttonClass("secondary", "mt-5 w-full")} href={`/items/${item.id}`}>
-                  Ver detalle
-                </Link>
-              </article>
-            ))}
-          </div>
-        )}
       </section>
+    </>
+  );
+}
 
-      <Footer />
+/**
+ * Home para quien ya tiene cuenta: no hay nada que venderle, lo que quiere es
+ * su numero y una via rapida al panel.
+ */
+async function MemberHome({ user }) {
+  const [subscriptions, profile] = await Promise.all([
+    listUserSubscriptions(user.uid),
+    getCurrentUserProfile(user),
+  ]);
+
+  const summary = summarize(subscriptions);
+  const [nextCharge] = upcomingCharges(subscriptions, { days: 60 });
+  const firstName = (profile?.displayName || user.email || "").split(" ")[0];
+
+  return (
+    <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+        Tu resumen
+      </p>
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+        Hola{firstName ? `, ${firstName}` : ""}
+      </h1>
+
+      {subscriptions.length === 0 ? (
+        <>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-400">
+            Tu cuenta esta lista, pero todavia no cargaste ninguna suscripcion.
+            Podes cargarlas de a una o importar la planilla que ya tengas.
+          </p>
+          <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
+            <Link
+              className={buttonClass("primary", "w-full sm:w-auto")}
+              href="/dashboard/subscriptions"
+            >
+              <Plus size={16} />
+              Cargar la primera
+            </Link>
+            <Link
+              className={buttonClass("secondary", "w-full sm:w-auto")}
+              href="/dashboard/subscriptions/import"
+            >
+              <FileSpreadsheet size={16} />
+              Importar desde Excel
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-400">
+            Esto es lo que se te va este mes en gastos recurrentes.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className={cardClass}>
+              <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400">
+                <Wallet size={18} />
+              </span>
+              <span className="mt-4 block text-sm text-zinc-500">
+                Gasto mensual
+              </span>
+              <strong className="mt-1 block text-3xl font-semibold tracking-tight text-zinc-50">
+                {formatMoney(summary.monthlyTotal)}
+              </strong>
+            </div>
+
+            <div className={cardClass}>
+              <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400">
+                <CalendarClock size={18} />
+              </span>
+              <span className="mt-4 block text-sm text-zinc-500">
+                Proximo cobro
+              </span>
+              {nextCharge ? (
+                <>
+                  <strong className="mt-1 block overflow-wrap-anywhere text-xl font-semibold tracking-tight text-zinc-50">
+                    {nextCharge.name}
+                  </strong>
+                  <span className="mt-1 block text-sm text-zinc-500">
+                    {formatShortDate(nextCharge.chargeDate)} ·{" "}
+                    {formatMoney(nextCharge.amount)}
+                  </span>
+                </>
+              ) : (
+                <strong className="mt-1 block text-xl font-semibold text-zinc-50">
+                  Sin cobros cerca
+                </strong>
+              )}
+            </div>
+
+            <div className={cardClass}>
+              <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400">
+                <Tags size={18} />
+              </span>
+              <span className="mt-4 block text-sm text-zinc-500">
+                Suscripciones activas
+              </span>
+              <strong className="mt-1 block text-3xl font-semibold tracking-tight text-zinc-50">
+                {summary.activeCount}
+              </strong>
+              {summary.pausedCount > 0 ? (
+                <span className="mt-1 block text-sm text-zinc-500">
+                  {summary.pausedCount} pausadas
+                </span>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
+            <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/dashboard">
+              <LayoutDashboard size={16} />
+              Ver el panel completo
+            </Link>
+            <Link
+              className={buttonClass("secondary", "w-full sm:w-auto")}
+              href="/dashboard/subscriptions"
+            >
+              <Plus size={16} />
+              Cargar una suscripcion
+            </Link>
+            <Link
+              className={buttonClass("secondary", "w-full sm:w-auto")}
+              href="/dashboard/subscriptions/import"
+            >
+              <FileSpreadsheet size={16} />
+              Importar Excel
+            </Link>
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
+export default async function Home() {
+  const user = await getCurrentUser();
+
+  return (
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <Navbar user={user} />
+      {user ? <MemberHome user={user} /> : <LandingHome />}
+      <Footer user={user} />
     </main>
   );
 }

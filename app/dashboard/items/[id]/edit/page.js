@@ -12,7 +12,6 @@ export default async function EditItemPage({ params }) {
   const user = await getCurrentUser();
   const { id } = await params;
   const item = await getUserItem(user.uid, id);
-  const useFirebaseStorage = process.env.FIREBASE_STORAGE === "true";
 
   if (!item) {
     notFound();
@@ -35,9 +34,7 @@ export default async function EditItemPage({ params }) {
       <ItemForm
         action={updateItem.bind(null, item.id)}
         item={item}
-        storageItemId={item.id}
         submitLabel="Guardar cambios"
-        useFirebaseStorage={useFirebaseStorage}
       />
 
       <Link className={buttonClass("secondary", "w-full sm:w-auto")} href="/dashboard/items">

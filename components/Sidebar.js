@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  ShieldCheck,
   Tags,
   Users as UsersIcon,
   X,
@@ -46,9 +47,13 @@ export default function Sidebar({ profile, user }) {
     { href: "/dashboard", label: "Panel", icon: LayoutDashboard },
     { href: "/dashboard/subscriptions", label: "Suscripciones", icon: CreditCard },
     { href: "/dashboard/items", label: "Categorias", icon: Tags },
-    ...(isAdmin
-      ? [{ href: "/dashboard/users", label: "Usuarios", icon: UsersIcon }]
-      : []),
+  ];
+
+  // Lo de administrador va en su propio grupo rotulado, para que quede claro
+  // que es otro modo de uso y no una funcion mas de la cuenta.
+  const adminLinks = [
+    { href: "/dashboard/admin", label: "Plataforma", icon: ShieldCheck },
+    { href: "/dashboard/users", label: "Usuarios", icon: UsersIcon },
   ];
 
   function close() {
@@ -60,14 +65,41 @@ export default function Sidebar({ profile, user }) {
       {links.map((link) => (
         <NavItem key={link.href} {...link} onClick={close} pathname={pathname} />
       ))}
+
+      {isAdmin ? (
+        <div className="pt-5">
+          <p className="flex items-center gap-2 px-3.5 pb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-600">
+            <ShieldCheck size={12} />
+            Administracion
+          </p>
+          <div className="space-y-1">
+            {adminLinks.map((link) => (
+              <NavItem
+                key={link.href}
+                {...link}
+                onClick={close}
+                pathname={pathname}
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 
   const accountBlock = (
     <div className="space-y-2 border-t border-white/10 pt-4">
-      <p className="truncate px-3.5 text-xs text-zinc-500">
-        {user?.email || "Sin email"}
-      </p>
+      <div className="px-3.5">
+        <p className="truncate text-xs text-zinc-500">
+          {user?.email || "Sin email"}
+        </p>
+        {isAdmin ? (
+          <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-emerald-300">
+            <ShieldCheck size={11} />
+            Administrador
+          </span>
+        ) : null}
+      </div>
       <form action={logout}>
         <button
           className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100"

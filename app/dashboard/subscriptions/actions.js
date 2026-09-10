@@ -5,53 +5,30 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getUserItem } from "@/lib/items/items";
 import {
-  BILLING_CYCLES,
-  STATUSES,
   createUserSubscription,
   deleteUserSubscription,
   updateUserSubscription,
 } from "@/lib/subscriptions/subscriptions";
+import { validateSubscription } from "@/lib/subscriptions/validation";
 
 async function parseSubscriptionForm(userId, formData) {
-  const name = String(formData.get("name") || "").trim();
   const categoryItemId = String(formData.get("categoryItemId") || "").trim();
-  const amount = Number(String(formData.get("amount") || "").trim());
-  const billingCycle = String(formData.get("billingCycle") || "monthly");
-  const nextChargeDate = String(formData.get("nextChargeDate") || "").trim();
-  const paymentMethod = String(formData.get("paymentMethod") || "").trim();
-  const status = String(formData.get("status") || "active");
-  const reminderDaysBefore = Number(
-    String(formData.get("reminderDaysBefore") || "0").trim(),
-  );
-  const cancelUrl = String(formData.get("cancelUrl") || "").trim();
-  const notes = String(formData.get("notes") || "").trim();
 
-  if (!name) {
-    throw new Error("El nombre es obligatorio.");
-  }
+  // Las reglas de los campos son las mismas que usa la importacion de Excel.
+  const { data, errors } = validateSubscription({
+    name: formData.get("name"),
+    amount: formData.get("amount"),
+    billingCycle: formData.get("billingCycle"),
+    nextChargeDate: formData.get("nextChargeDate"),
+    paymentMethod: formData.get("paymentMethod"),
+    status: formData.get("status"),
+    reminderDaysBefore: formData.get("reminderDaysBefore"),
+    cancelUrl: formData.get("cancelUrl"),
+    notes: formData.get("notes"),
+  });
 
-  if (!Number.isFinite(amount) || amount <= 0) {
-    throw new Error("El monto tiene que ser un numero mayor a cero.");
-  }
-
-  if (!BILLING_CYCLES.includes(billingCycle)) {
-    throw new Error("El ciclo de cobro no es valido.");
-  }
-
-  if (!STATUSES.includes(status)) {
-    throw new Error("El estado no es valido.");
-  }
-
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(nextChargeDate)) {
-    throw new Error("La fecha del proximo cobro es obligatoria.");
-  }
-
-  if (!Number.isInteger(reminderDaysBefore) || reminderDaysBefore < 0) {
-    throw new Error("Los dias de aviso tienen que ser un numero entero.");
-  }
-
-  if (cancelUrl && !/^https?:\/\//.test(cancelUrl)) {
-    throw new Error("El link de cancelacion tiene que empezar con http o https.");
+  if (errors.length > 0) {
+    throw new Error(errors[0]);
   }
 
   // La categoria llega del cliente, asi que confirmamos que sea del usuario.
@@ -59,19 +36,7 @@ async function parseSubscriptionForm(userId, formData) {
     throw new Error("La categoria seleccionada no existe.");
   }
 
-  return {
-    name,
-    categoryItemId,
-    amount,
-    currency: "ARS",
-    billingCycle,
-    nextChargeDate,
-    paymentMethod,
-    status,
-    reminderDaysBefore,
-    cancelUrl,
-    notes,
-  };
+  return { ...data, categoryItemId };
 }
 
 export async function createSubscription(formData) {

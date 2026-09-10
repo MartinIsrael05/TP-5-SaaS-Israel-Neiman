@@ -1,27 +1,44 @@
 import Link from "next/link";
 import ItemForm from "@/components/items/ItemForm";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
+import { formatMoney } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
+import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
+import { monthlyAmount } from "@/lib/subscriptions/metrics";
 import { createItem, deleteItem } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-function formatDate(value) {
-  if (!value) {
-    return "Sin fecha";
-  }
-
-  return new Intl.DateTimeFormat("es-AR", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(value));
-}
-
 export default async function ItemsPage() {
   const user = await getCurrentUser();
-  const items = await listUserItems(user.uid);
-  const useFirebaseStorage = process.env.FIREBASE_STORAGE === "true";
+  const [items, subscriptions] = await Promise.all([
+    listUserItems(user.uid),
+    listUserSubscriptions(user.uid),
+  ]);
+
+  // Cuantas suscripciones y cuanta plata hay detras de cada categoria: es lo
+  // que hace util a la pantalla, mucho mas que una lista de nombres sueltos.
+  const usage = new Map();
+
+  for (const subscription of subscriptions) {
+    const current = usage.get(subscription.categoryItemId) || {
+      count: 0,
+      monthly: 0,
+    };
+
+    current.count += 1;
+
+    if (subscription.status === "active") {
+      current.monthly += monthlyAmount(subscription);
+    }
+
+    usage.set(subscription.categoryItemId, current);
+  }
+
+  const uncategorized = subscriptions.filter(
+    (subscription) => !subscription.categoryItemId,
+  ).length;
 
   return (
     <div className="space-y-8">
@@ -33,21 +50,17 @@ export default async function ItemsPage() {
           Categorias
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-          Categorias para agrupar tus suscripciones (streaming, salud,
-          software, hogar, educacion, y las que necesites).
+          Los grupos con los que ordenas tus suscripciones. Son privadas: solo
+          las ves vos.
         </p>
       </header>
 
       <section className="grid gap-6 xl:grid-cols-[minmax(280px,360px)_1fr]">
         <div>
           <h2 className="mb-3 text-lg font-semibold text-zinc-100">
-            Crear categoria
+            Nueva categoria
           </h2>
-          <ItemForm
-            action={createItem}
-            submitLabel="Crear categoria"
-            useFirebaseStorage={useFirebaseStorage}
-          />
+          <ItemForm action={createItem} submitLabel="Crear categoria" />
         </div>
 
         <div>
@@ -60,64 +73,77 @@ export default async function ItemsPage() {
 
           {items.length === 0 ? (
             <div className={`${cardClass} text-sm leading-6 text-zinc-400`}>
-              Todavia no hay categorias cargadas para este usuario.
+              Todavia no tenes categorias. Crea la primera para empezar a
+              agrupar tus suscripciones.
             </div>
           ) : (
             <div className="grid gap-4">
-              {items.map((item) => (
-                <article className={`${cardClass} grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_auto]`} key={item.id}>
-                  <div className="min-w-0">
-                    {item.imageUrl ? (
-                      <div className="mb-4 overflow-hidden rounded-xl border border-white/10 bg-zinc-900">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt={item.title}
-                          className="h-40 w-full object-cover"
-                          src={item.imageUrl}
-                        />
-                      </div>
-                    ) : null}
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="overflow-wrap-anywhere text-base font-semibold text-zinc-100">
-                        {item.title}
-                      </h3>
-                      <span className={badgeClass("neutral")}>{item.status}</span>
-                      <span className={badgeClass(item.published ? "accent" : "neutral")}>
-                        {item.published ? "published" : "draft"}
-                      </span>
-                    </div>
-                    {item.description ? (
-                      <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-zinc-400">
-                        {item.description}
-                      </p>
-                    ) : null}
-                    <p className="mt-3 text-xs text-zinc-600">
-                      Creado: {formatDate(item.createdAt)}
-                    </p>
-                  </div>
+              {items.map((item) => {
+                const stats = usage.get(item.id) || { count: 0, monthly: 0 };
 
-                  <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-start lg:justify-end">
-                    {item.published ? (
-                      <Link className={buttonClass("secondary")} href={`/items/${item.id}`}>
-                        Ver
+                return (
+                  <article
+                    className={`${cardClass} grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_auto]`}
+                    key={item.id}
+                  >
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="overflow-wrap-anywhere text-base font-semibold text-zinc-100">
+                          {item.title}
+                        </h3>
+                        <span className={badgeClass(stats.count > 0 ? "accent" : "neutral")}>
+                          {stats.count === 1
+                            ? "1 suscripcion"
+                            : `${stats.count} suscripciones`}
+                        </span>
+                      </div>
+
+                      {stats.monthly > 0 ? (
+                        <p className="mt-2 text-sm text-zinc-400">
+                          {formatMoney(stats.monthly)} por mes en activas
+                        </p>
+                      ) : null}
+
+                      {item.description ? (
+                        <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-zinc-500">
+                          {item.description}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-start lg:justify-end">
+                      <Link
+                        className={buttonClass("secondary")}
+                        href={`/dashboard/items/${item.id}/edit`}
+                      >
+                        Editar
                       </Link>
-                    ) : null}
-                    <Link
-                      className={buttonClass("secondary")}
-                      href={`/dashboard/items/${item.id}/edit`}
-                    >
-                      Editar
-                    </Link>
-                    <form action={deleteItem.bind(null, item.id)}>
-                      <button className={buttonClass("danger", "w-full sm:w-auto")} type="submit">
-                        Eliminar
-                      </button>
-                    </form>
-                  </div>
-                </article>
-              ))}
+                      <form action={deleteItem.bind(null, item.id)}>
+                        <button className={buttonClass("danger", "w-full sm:w-auto")} type="submit">
+                          Eliminar
+                        </button>
+                      </form>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
+
+          {uncategorized > 0 ? (
+            <p className="mt-4 text-sm leading-6 text-zinc-500">
+              Tenes {uncategorized}{" "}
+              {uncategorized === 1 ? "suscripcion" : "suscripciones"} sin
+              categoria.{" "}
+              <Link
+                className="text-emerald-300 underline-offset-4 hover:underline"
+                href="/dashboard/subscriptions"
+              >
+                Asignarles una
+              </Link>
+              .
+            </p>
+          ) : null}
         </div>
       </section>
     </div>

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { FileSpreadsheet } from "lucide-react";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
+import { formatDate, formatMoney, parseDateOnly } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import {
@@ -29,24 +31,10 @@ const CYCLE_LABELS = {
   annual: "Anual",
 };
 
-function formatAmount(amount) {
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
 function formatChargeDate(value) {
-  if (!value) {
-    return "Sin fecha";
-  }
+  const date = parseDateOnly(value);
 
-  // El valor viene como "YYYY-MM-DD": lo leemos en hora local para que no
-  // se corra un dia por la zona horaria.
-  return new Intl.DateTimeFormat("es-AR", { dateStyle: "long" }).format(
-    new Date(`${value}T00:00:00`),
-  );
+  return date ? formatDate(date) : "Sin fecha";
 }
 
 export default async function SubscriptionsPage() {
@@ -62,17 +50,26 @@ export default async function SubscriptionsPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
-          Gastos recurrentes
-        </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
-          Suscripciones
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-          Todo lo que se te cobra automaticamente, en un solo lugar: cuanto
-          sale, cada cuanto y cuando se renueva.
-        </p>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+            Gastos recurrentes
+          </p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+            Suscripciones
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+            Todo lo que se te cobra automaticamente, en un solo lugar: cuanto
+            sale, cada cuanto y cuando se renueva.
+          </p>
+        </div>
+        <Link
+          className={buttonClass("secondary", "shrink-0")}
+          href="/dashboard/subscriptions/import"
+        >
+          <FileSpreadsheet size={16} />
+          Importar Excel
+        </Link>
       </header>
 
       <section className="grid gap-6 xl:grid-cols-[minmax(280px,380px)_1fr]">
@@ -124,7 +121,7 @@ export default async function SubscriptionsPage() {
                     </div>
 
                     <p className="mt-3 text-2xl font-semibold text-zinc-50">
-                      {formatAmount(subscription.amount)}
+                      {formatMoney(subscription.amount)}
                       <span className="ml-2 text-sm font-medium text-zinc-500">
                         {CYCLE_LABELS[subscription.billingCycle]}
                       </span>
