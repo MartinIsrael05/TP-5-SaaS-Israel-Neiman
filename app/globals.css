@@ -1,8 +1,29 @@
 @import "tailwindcss";
 
+/*
+  TECA · Sistema de diseño
+  Los tokens de marca viven aca porque Tailwind 4 se configura por CSS:
+  no existe tailwind.config.js en este proyecto.
+
+  Cada `--color-*` declarado en @theme genera sus utilidades
+  (bg-surface, text-ink, border-line, etc.).
+*/
 @theme {
-  --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  --font-mono: var(--font-geist-mono), "SFMono-Regular", Consolas, monospace;
+  /* Tipografia: Jakarta estructura, Mono todo dato y cuerpo de texto. */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Consolas,
+    monospace;
+
+  /* Paleta "Teca Nocturna" */
+  --color-base: #0f1115;
+  --color-surface: #1a1d24;
+  --color-inset: #14171c;
+  --color-line: #262a33;
+  --color-ink: #f3f4f6;
+  --color-muted: #9ca3af;
+  --color-primary: #6366f1;
+  --color-positive: #34d399;
+  --color-alert: #f87171;
 }
 
 @layer base {
@@ -11,14 +32,30 @@
     color-scheme: dark;
   }
 
+  /*
+    El cuerpo arranca en monoespaciada: por norma del manual, descripciones,
+    celdas, estados, importes y fechas van en JetBrains Mono. La Jakarta se
+    reserva para la estructura, asi que se aplica desde aca a titulos y
+    botones en vez de repetir `font-sans` en cada componente.
+  */
   body {
     min-height: 100%;
     overflow-x: hidden;
-    background: #05070a;
-    color: #e6edf3;
-    font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+    background: var(--color-base);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button {
+    font-family: var(--font-sans);
   }
 
   button {
@@ -35,6 +72,12 @@
   textarea,
   button {
     max-width: 100%;
+  }
+
+  /* Foco visible y consistente, siempre en el indigo de interaccion. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 }
 

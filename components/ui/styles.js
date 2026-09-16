@@ -1,47 +1,91 @@
-export const cardClass =
-  "rounded-2xl border border-white/10 bg-zinc-900/40 p-5 shadow-lg shadow-black/20 backdrop-blur-sm sm:p-6";
+/*
+  TECA · Vocabulario visual compartido.
 
-export const panelClass =
-  "rounded-2xl border border-white/10 bg-zinc-950/60 p-4 sm:p-5";
+  Todo componente toma sus clases de aca, asi la identidad se sostiene por
+  sistema y no por memoria. Los tokens (bg-surface, text-muted, etc.) se
+  declaran en app/globals.css.
+
+  Dos normas del manual que explican decisiones que podrian sorprender:
+  - Region comun: las tarjetas NO llevan borde. El cambio de valor luminico
+    entre el fondo (#0F1115) y la superficie (#1A1D24) alcanza como limite.
+  - Sobriedad: sin degradados, sin blur, sin sombras sobre las superficies.
+*/
+
+export const cardClass = "rounded-xl bg-surface p-5 sm:p-6";
+
+export const panelClass = "rounded-xl bg-inset p-4 sm:p-5";
+
+/* --- Escala tipografica del manual --- */
+
+// Display · 40/700 Jakarta · titulo de vista y saldo consolidado
+export const displayClass =
+  "font-sans text-3xl font-bold tracking-tight text-ink sm:text-[40px] sm:leading-[1.1]";
+
+// Titulo · 24/600 Jakarta · encabezado de card y de modulo
+export const titleClass =
+  "font-sans text-xl font-semibold tracking-tight text-ink sm:text-2xl";
+
+// Dato · 18/500 Mono · importes, fechas y porcentajes
+export const dataClass = "text-[18px] font-medium tabular-nums text-ink";
+
+// Etiqueta · 12/500 Mono · rotulos, metadatos y ejes
+export const eyebrowClass =
+  "text-xs font-medium uppercase tracking-[0.12em] text-muted";
+
+/* --- Controles --- */
 
 const buttonVariants = {
-  primary:
-    "border border-emerald-400 bg-emerald-400 text-zinc-950 hover:border-emerald-300 hover:bg-emerald-300",
-  secondary:
-    "border border-white/15 bg-white/[0.03] text-zinc-100 hover:border-white/30 hover:bg-white/[0.06]",
-  ghost: "border border-transparent text-zinc-400 hover:text-zinc-100",
-  danger:
-    "border border-red-500/30 bg-red-500/10 text-red-300 hover:border-red-500/50 hover:bg-red-500/15",
+  // Una sola accion primaria por vista: es la regla de gobernanza.
+  primary: "bg-primary text-white hover:bg-indigo-400",
+  secondary: "bg-line text-ink hover:bg-[#2f3440]",
+  ghost: "text-muted hover:text-ink",
+  /*
+    Destructivo, no "alerta". El coral significa renovacion inminente o desvio
+    de presupuesto; si ademas pinta cada boton Eliminar de cada fila, deja de
+    senalar nada. Aparece solo al pasar el mouse, cuando el gesto es deliberado.
+  */
+  danger: "bg-line text-muted hover:bg-alert/15 hover:text-alert",
 };
 
 export function buttonClass(variant = "primary", extra = "") {
   const base =
-    "inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50";
+    "inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50";
 
   return `${base} ${buttonVariants[variant] || buttonVariants.primary} ${extra}`.trim();
 }
 
+/*
+  El color significa estado. Solo hay tres semanticos, asi que "warning" y
+  "danger" comparten el coral: el manual no contempla un cuarto matiz.
+  Ojo con la norma de una sola anomalia coral activa por vista.
+*/
 const badgeTones = {
-  neutral: "bg-white/5 text-zinc-400",
-  accent: "bg-emerald-400/10 text-emerald-300",
-  warning: "bg-amber-400/10 text-amber-300",
-  danger: "bg-red-500/10 text-red-300",
+  neutral: "bg-line text-muted",
+  accent: "bg-positive/10 text-positive",
+  positive: "bg-positive/10 text-positive",
+  primary: "bg-primary/10 text-primary",
+  warning: "bg-alert/10 text-alert",
+  danger: "bg-alert/10 text-alert",
+  alert: "bg-alert/10 text-alert",
 };
 
 export function badgeClass(tone = "neutral") {
   const base =
-    "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em]";
+    "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium uppercase tracking-[0.08em]";
 
   return `${base} ${badgeTones[tone] || badgeTones.neutral}`;
 }
 
-export const inputClass =
-  "h-11 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-emerald-400/70 focus:bg-white/[0.05]";
+/* --- Formularios --- */
 
-export const textareaClass =
-  "min-h-28 w-full resize-y rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-3 text-zinc-100 outline-none transition focus:border-emerald-400/70 focus:bg-white/[0.05]";
+const fieldBase =
+  "w-full rounded-lg bg-inset text-ink outline-none transition placeholder:text-muted/50 focus:ring-2 focus:ring-primary";
 
-export const fileInputClass =
-  "w-full min-w-0 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-100 hover:file:bg-white/15 focus:border-emerald-400/70";
+export const inputClass = `h-11 px-3.5 ${fieldBase}`;
 
-export const labelClass = "grid gap-2 text-sm font-medium text-zinc-300";
+export const textareaClass = `min-h-28 resize-y px-3.5 py-3 ${fieldBase}`;
+
+export const fileInputClass = `min-w-0 px-3.5 py-2.5 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-line file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-[#2f3440] ${fieldBase}`;
+
+// Proximidad: rotulo y control quedan a 8px, como pide el manual.
+export const labelClass = "grid gap-2 text-sm font-medium text-muted";

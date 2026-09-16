@@ -26,13 +26,13 @@ export default async function EditUserPage({ params }) {
   return (
     <div className="mx-auto w-full max-w-2xl space-y-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+        <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Administracion
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Editar usuario
         </h1>
-        <p className="mt-2 overflow-wrap-anywhere font-mono text-xs leading-6 text-zinc-500">
+        <p className="mt-2 overflow-wrap-anywhere font-mono text-xs leading-6 text-muted">
           {managedUser.uid}
         </p>
       </div>

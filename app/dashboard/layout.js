@@ -15,7 +15,7 @@ export default async function DashboardLayout({ children }) {
   const profile = await getCurrentUserProfile(user);
 
   return (
-    <div className="min-h-screen bg-[#05070a] text-zinc-100">
+    <div className="min-h-screen bg-base text-ink">
       <Sidebar profile={profile} user={user} />
       <main className="md:ml-64">
         <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">

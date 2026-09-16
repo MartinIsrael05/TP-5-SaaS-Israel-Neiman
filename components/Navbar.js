@@ -5,6 +5,7 @@ import { useState } from "react";
 import { LayoutDashboard, LogOut, Menu, X } from "lucide-react";
 import { logout } from "@/app/dashboard/actions";
 import { buttonClass } from "@/components/ui/styles";
+import Wordmark from "@/components/ui/Wordmark";
 
 export default function Navbar({ actions, user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,36 +15,36 @@ export default function Navbar({ actions, user }) {
   }
 
   return (
-    <nav className="sticky top-0 z-30 border-b border-white/10 bg-zinc-950/80 backdrop-blur">
+    <nav className="sticky top-0 z-30 border-b border-line bg-base">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-16 items-center justify-between gap-3 py-3">
-          <Link
-            className="text-base font-semibold tracking-tight text-zinc-50"
-            href="/"
-            onClick={closeMenu}
-          >
-            Suscripci<span className="text-emerald-400">App</span>
+          <Link href="/" onClick={closeMenu}>
+            <Wordmark />
           </Link>
 
           <div className="hidden items-center gap-3 md:flex">
             {actions}
             {user ? (
               <>
-                <span className="max-w-64 overflow-wrap-anywhere text-right text-sm text-zinc-500">
+                <span className="max-w-64 overflow-wrap-anywhere text-right text-sm text-muted">
                   {user.email || "Sin email"}
                 </span>
-                <Link className={buttonClass("primary")} href="/dashboard">
+                <Link className={buttonClass("secondary")} href="/dashboard">
                   <LayoutDashboard size={16} />
                   Ir al panel
                 </Link>
                 <form action={logout}>
-                  <button className={buttonClass("secondary")} type="submit">
+                  <button
+                    aria-label="Cerrar sesion"
+                    className={buttonClass("secondary")}
+                    type="submit"
+                  >
                     <LogOut size={16} />
                   </button>
                 </form>
               </>
             ) : (
-              <Link className={buttonClass("primary")} href="/login">
+              <Link className={buttonClass("secondary")} href="/login">
                 Ingresar
               </Link>
             )}
@@ -52,7 +53,7 @@ export default function Navbar({ actions, user }) {
           <button
             aria-controls="mobile-menu"
             aria-expanded={isOpen}
-            className="grid size-10 place-items-center rounded-xl border border-white/10 text-zinc-100 md:hidden"
+            className="grid size-10 place-items-center rounded-lg bg-line text-ink md:hidden"
             onClick={() => setIsOpen((value) => !value)}
             type="button"
           >
@@ -68,14 +69,18 @@ export default function Navbar({ actions, user }) {
           id="mobile-menu"
         >
           <div className="min-h-0 overflow-hidden">
-            <div className="grid gap-3 border-t border-white/10 pt-3">
+            <div className="grid gap-3 border-t border-line pt-3">
               {actions}
               {user ? (
                 <>
-                  <span className="overflow-wrap-anywhere text-sm text-zinc-500">
+                  <span className="overflow-wrap-anywhere text-sm text-muted">
                     {user.email || "Sin email"}
                   </span>
-                  <Link className={buttonClass("primary", "w-full")} href="/dashboard" onClick={closeMenu}>
+                  <Link
+                    className={buttonClass("secondary", "w-full")}
+                    href="/dashboard"
+                    onClick={closeMenu}
+                  >
                     <LayoutDashboard size={16} />
                     Ir al panel
                   </Link>
@@ -86,7 +91,11 @@ export default function Navbar({ actions, user }) {
                   </form>
                 </>
               ) : (
-                <Link className={buttonClass("primary", "w-full")} href="/login" onClick={closeMenu}>
+                <Link
+                  className={buttonClass("secondary", "w-full")}
+                  href="/login"
+                  onClick={closeMenu}
+                >
                   Ingresar
                 </Link>
               )}

@@ -26,28 +26,30 @@ function ChartTooltip({ active, payload }) {
   const row = payload[0].payload;
 
   return (
-    <div className="rounded-xl border border-white/10 bg-zinc-950/95 px-3 py-2 shadow-lg shadow-black/40">
-      <p className="text-sm font-semibold text-zinc-100">
-        {row.label} · {formatMoney(row.total)}
+    <div className="rounded-lg bg-inset px-3 py-2">
+      <p className="font-sans text-sm font-semibold text-ink">
+        {row.label} · <span className="tabular-nums">{formatMoney(row.total)}</span>
       </p>
-      <p className="mt-1 flex items-center gap-2 text-sm text-zinc-400">
+      <p className="mt-1 flex items-center gap-2 text-sm text-muted">
         <span
-          className="inline-block size-2.5 rounded-full"
+          className="inline-block size-2.5 rounded-sm"
           style={{ backgroundColor: CHART.series1 }}
         />
-        {SERIES_LABELS.monthly}: {formatMoney(row.monthly)}
+        {SERIES_LABELS.monthly}:{" "}
+        <span className="tabular-nums">{formatMoney(row.monthly)}</span>
       </p>
       {row.annual > 0 ? (
-        <p className="mt-0.5 flex items-center gap-2 text-sm text-zinc-400">
+        <p className="mt-0.5 flex items-center gap-2 text-sm text-muted">
           <span
-            className="inline-block size-2.5 rounded-full"
+            className="inline-block size-2.5 rounded-sm"
             style={{ backgroundColor: CHART.series2 }}
           />
-          {SERIES_LABELS.annual}: {formatMoney(row.annual)}
+          {SERIES_LABELS.annual}:{" "}
+          <span className="tabular-nums">{formatMoney(row.annual)}</span>
         </p>
       ) : null}
       {row.renewalNames.length > 0 ? (
-        <p className="mt-1 text-xs text-zinc-500">
+        <p className="mt-1 text-xs text-muted">
           Renueva: {row.renewalNames.join(", ")}
         </p>
       ) : null}
@@ -57,9 +59,9 @@ function ChartTooltip({ active, payload }) {
 
 function LegendSwatch({ color, label }) {
   return (
-    <span className="flex items-center gap-2 text-sm text-zinc-400">
+    <span className="flex items-center gap-2 text-sm text-muted">
       <span
-        className="inline-block size-2.5 rounded-full"
+        className="inline-block size-2.5 rounded-sm"
         style={{ backgroundColor: color }}
       />
       {label}
@@ -77,28 +79,22 @@ export default function ProjectionChart({ data }) {
 
       <div style={{ height: 260 }}>
         <ResponsiveContainer height="100%" width="100%">
-          <BarChart
-            data={data}
-            margin={{ top: 24, right: 8, bottom: 4, left: 4 }}
-          >
+          <BarChart data={data} margin={{ top: 24, right: 8, bottom: 4, left: 4 }}>
             <CartesianGrid stroke={CHART.grid} strokeWidth={1} vertical={false} />
             <XAxis
               axisLine={false}
               dataKey="label"
-              tick={{ fill: CHART.axis, fontSize: 12 }}
+              tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
               tickLine={false}
             />
             <YAxis
               axisLine={false}
-              tick={{ fill: CHART.axis, fontSize: 12 }}
+              tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
               tickFormatter={formatMoneyCompact}
               tickLine={false}
-              width={52}
+              width={56}
             />
-            <Tooltip
-              content={<ChartTooltip />}
-              cursor={{ fill: "rgba(255,255,255,0.04)" }}
-            />
+            <Tooltip content={<ChartTooltip />} cursor={{ fill: "#262A33" }} />
             <Bar
               dataKey="monthly"
               fill={CHART.series1}
@@ -125,6 +121,7 @@ export default function ProjectionChart({ data }) {
                   return (
                     <text
                       fill={CHART.ink}
+                      fontFamily={CHART.fontFamily}
                       fontSize={12}
                       textAnchor="middle"
                       x={x + width / 2}
@@ -136,12 +133,7 @@ export default function ProjectionChart({ data }) {
                 }}
               />
             </Bar>
-            <Bar
-              dataKey="annual"
-              maxBarSize={48}
-              radius={[4, 4, 0, 0]}
-              stackId="spend"
-            >
+            <Bar dataKey="annual" maxBarSize={48} radius={[4, 4, 0, 0]} stackId="spend">
               {data.map((row) => (
                 <Cell
                   fill={CHART.series2}

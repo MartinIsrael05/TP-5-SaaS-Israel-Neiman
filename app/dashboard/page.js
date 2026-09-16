@@ -2,12 +2,8 @@ import Link from "next/link";
 import {
   AlertTriangle,
   CalendarClock,
-  CreditCard,
   Info,
-  PiggyBank,
-  TrendingUp,
   Users as UsersIcon,
-  Wallet,
 } from "lucide-react";
 import CategorySpendChart from "@/components/dashboard/CategorySpendChart";
 import ProjectionChart from "@/components/dashboard/ProjectionChart";
@@ -35,9 +31,14 @@ const SUGGESTION_ICONS = {
   neutral: Info,
 };
 
+/*
+  El verde significa "pagado o favorable": una renovacion anual que se viene no
+  es ninguna de las dos cosas, asi que va en neutro. El coral queda reservado
+  para la unica anomalia de la vista.
+*/
 const SUGGESTION_TONES = {
   warning: "warning",
-  serious: "accent",
+  serious: "neutral",
   neutral: "neutral",
 };
 
@@ -46,9 +47,9 @@ function SectionCard({ action, children, subtitle, title }) {
     <section className={cardClass}>
       <div className="mb-4 flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h2 className="text-lg font-semibold text-zinc-100">{title}</h2>
+          <h2 className="text-lg font-semibold text-ink">{title}</h2>
           {subtitle ? (
-            <p className="mt-1 text-sm leading-6 text-zinc-500">{subtitle}</p>
+            <p className="mt-1 text-sm leading-6 text-muted">{subtitle}</p>
           ) : null}
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
@@ -79,20 +80,20 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+        <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Tu panel
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Hola, {profile?.displayName || user.email}
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
           Todo lo que se te cobra automaticamente, con los numeros que importan:
           cuanto se te va por mes, que se viene y donde hay plata dormida.
         </p>
       </header>
 
       {subscriptions.length === 0 ? (
-        <section className={`${cardClass} text-sm leading-6 text-zinc-400`}>
+        <section className={`${cardClass} text-sm leading-6 text-muted`}>
           <p>
             Todavia no cargaste suscripciones, asi que no hay nada para resumir.
             Cargá la primera y el panel se arma solo.
@@ -113,19 +114,16 @@ export default async function DashboardPage() {
                   ? `Incluye ${summary.annualCount} anuales prorrateadas`
                   : "Suma de todas tus activas"
               }
-              icon={Wallet}
               label="Gasto mensual"
               value={formatMoney(summary.monthlyTotal)}
             />
             <StatTile
               hint="Lo que vas a pagar en 12 meses"
-              icon={TrendingUp}
               label="Proyeccion anual"
               value={formatMoney(summary.annualProjection)}
             />
             <StatTile
               hint={`${summary.pausedCount} pausadas · ${summary.cancelledCount} canceladas`}
-              icon={CreditCard}
               label="Suscripciones activas"
               value={summary.activeCount}
             />
@@ -135,7 +133,6 @@ export default async function DashboardPage() {
                   ? "Por año, si cancelas las pausadas"
                   : "No tenes suscripciones pausadas"
               }
-              icon={PiggyBank}
               label="Ahorro potencial"
               value={formatMoney(summary.potentialAnnualSavings)}
             />
@@ -155,32 +152,37 @@ export default async function DashboardPage() {
               title="Proximos 30 dias"
             >
               {upcoming.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-400">
+                <p className="text-sm leading-6 text-muted">
                   No hay cobros en los proximos 30 dias.
                 </p>
               ) : (
-                <ul className="divide-y divide-white/5">
-                  {upcoming.slice(0, 6).map((charge) => (
+                <ul className="divide-y divide-line">
+                  {upcoming.slice(0, 6).map((charge, index) => (
                     <li
                       className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
                       key={charge.id}
                     >
                       <div className="flex min-w-0 items-center gap-3">
-                        <span className="w-12 shrink-0 text-sm tabular-nums text-zinc-500">
+                        <span className="w-12 shrink-0 text-sm tabular-nums text-muted">
                           {formatShortDate(charge.chargeDate)}
                         </span>
-                        <span className="truncate text-sm font-medium text-zinc-100">
+                        <span className="truncate text-sm font-medium text-ink">
                           {charge.name}
                         </span>
+                        {/*
+                          Solo el cobro mas proximo lleva coral: la norma es una
+                          sola anomalia activa por vista. Si todos los de la
+                          semana se pintan igual, ninguno resalta.
+                        */}
                         {charge.daysUntil <= 7 ? (
-                          <span className={badgeClass("warning")}>
+                          <span className={badgeClass(index === 0 ? "alert" : "neutral")}>
                             {charge.daysUntil === 0
                               ? "hoy"
                               : `${charge.daysUntil}d`}
                           </span>
                         ) : null}
                       </div>
-                      <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-100">
+                      <span className="shrink-0 text-sm font-semibold tabular-nums text-ink">
                         {formatMoney(charge.amount)}
                       </span>
                     </li>
@@ -194,7 +196,7 @@ export default async function DashboardPage() {
               title="Gasto por categoria"
             >
               {byCategory.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-400">
+                <p className="text-sm leading-6 text-muted">
                   No hay suscripciones activas para agrupar.
                 </p>
               ) : (
@@ -216,28 +218,28 @@ export default async function DashboardPage() {
               title="Las mas caras"
             >
               {mostExpensive.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-400">
+                <p className="text-sm leading-6 text-muted">
                   No hay suscripciones activas.
                 </p>
               ) : (
-                <ol className="divide-y divide-white/5">
+                <ol className="divide-y divide-line">
                   {mostExpensive.map((subscription, index) => (
                     <li
                       className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
                       key={subscription.id}
                     >
                       <div className="flex min-w-0 items-center gap-3">
-                        <span className="w-4 shrink-0 text-sm tabular-nums text-zinc-600">
+                        <span className="w-4 shrink-0 text-sm tabular-nums text-muted">
                           {index + 1}
                         </span>
-                        <span className="truncate text-sm font-medium text-zinc-100">
+                        <span className="truncate text-sm font-medium text-ink">
                           {subscription.name}
                         </span>
                         {subscription.billingCycle === "annual" ? (
                           <span className={badgeClass("neutral")}>anual</span>
                         ) : null}
                       </div>
-                      <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-100">
+                      <span className="shrink-0 text-sm font-semibold tabular-nums text-ink">
                         {formatMoney(subscription.monthly)}
                       </span>
                     </li>
@@ -251,7 +253,7 @@ export default async function DashboardPage() {
               title="Para revisar"
             >
               {suggestions.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-400">
+                <p className="text-sm leading-6 text-muted">
                   Todo en orden. No hay nada pausado ni renovaciones anuales
                   cerca.
                 </p>
@@ -269,12 +271,12 @@ export default async function DashboardPage() {
                         </span>
                         <div className="min-w-0">
                           <Link
-                            className="text-sm font-medium text-zinc-100 underline-offset-4 hover:underline"
+                            className="text-sm font-medium text-ink underline-offset-4 hover:underline"
                             href={`/dashboard/subscriptions/${suggestion.subscriptionId}/edit`}
                           >
                             {suggestion.title}
                           </Link>
-                          <p className="mt-0.5 text-sm leading-6 text-zinc-500">
+                          <p className="mt-0.5 text-sm leading-6 text-muted">
                             {suggestion.detail}
                           </p>
                         </div>
@@ -301,8 +303,8 @@ export default async function DashboardPage() {
           subtitle="Visible solo para administradores."
           title="Usuarios registrados"
         >
-          <p className="flex items-center gap-3 text-3xl font-semibold text-zinc-50">
-            <UsersIcon className="text-zinc-500" size={22} />
+          <p className="flex items-center gap-3 text-3xl font-semibold text-ink">
+            <UsersIcon className="text-muted" size={22} />
             {users.length}
           </p>
         </SectionCard>

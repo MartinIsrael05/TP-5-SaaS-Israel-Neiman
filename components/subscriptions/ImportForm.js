@@ -162,10 +162,10 @@ export default function ImportForm({ action, categories = [] }) {
       <div className={`grid gap-4 ${cardClass}`}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
-            <h2 className="text-lg font-semibold text-zinc-100">
+            <h2 className="text-lg font-semibold text-ink">
               1. Elegi el archivo
             </h2>
-            <p className="mt-1 text-sm leading-6 text-zinc-500">
+            <p className="mt-1 text-sm leading-6 text-muted">
               Acepta .xlsx, .xls y .csv. Se lee en tu navegador: el archivo no
               se sube a ningun servidor.
             </p>
@@ -189,24 +189,24 @@ export default function ImportForm({ action, categories = [] }) {
         />
 
         {fileName ? (
-          <p className="flex items-center gap-2 text-sm text-zinc-400">
+          <p className="flex items-center gap-2 text-sm text-muted">
             <FileSpreadsheet size={16} />
             {fileName}
           </p>
         ) : null}
 
         {parsing ? (
-          <p className="text-sm text-zinc-400">Leyendo el archivo...</p>
+          <p className="text-sm text-muted">Leyendo el archivo...</p>
         ) : null}
       </div>
 
       {missing.length > 0 ? (
-        <div className={`${cardClass} border-amber-400/30 bg-amber-400/[0.06]`}>
-          <p className="flex items-center gap-2 text-sm font-semibold text-amber-300">
+        <div className={`${cardClass} bg-alert/10`}>
+          <p className="flex items-center gap-2 text-sm font-semibold text-alert">
             <AlertTriangle size={16} />
             Faltan columnas obligatorias
           </p>
-          <p className="mt-2 text-sm leading-6 text-zinc-300">
+          <p className="mt-2 text-sm leading-6 text-muted">
             No encontramos {missing.join(", ")}. Revisa que la primera fila del
             archivo tenga los encabezados, o descarga la plantilla para ver el
             formato esperado.
@@ -215,18 +215,18 @@ export default function ImportForm({ action, categories = [] }) {
       ) : null}
 
       {error ? (
-        <div className={`${cardClass} border-red-500/30 bg-red-500/[0.06]`}>
-          <p className="text-sm leading-6 text-red-300">{error}</p>
+        <div className={`${cardClass} bg-alert/10`}>
+          <p className="text-sm leading-6 text-alert">{error}</p>
         </div>
       ) : null}
 
       {result ? (
-        <div className={`${cardClass} border-emerald-400/30 bg-emerald-400/[0.06]`}>
-          <p className="flex items-center gap-2 text-sm font-semibold text-emerald-300">
+        <div className={`${cardClass} bg-positive/10`}>
+          <p className="flex items-center gap-2 text-sm font-semibold text-positive">
             <CheckCircle2 size={16} />
             Importacion terminada
           </p>
-          <p className="mt-2 text-sm leading-6 text-zinc-300">
+          <p className="mt-2 text-sm leading-6 text-muted">
             Se cargaron {result.imported}{" "}
             {result.imported === 1 ? "suscripcion" : "suscripciones"}.
             {result.createdCategories.length > 0
@@ -243,10 +243,10 @@ export default function ImportForm({ action, categories = [] }) {
         <div className={cardClass}>
           <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h2 className="text-lg font-semibold text-zinc-100">
+              <h2 className="text-lg font-semibold text-ink">
                 2. Revisa que va a entrar
               </h2>
-              <p className="mt-1 text-sm leading-6 text-zinc-500">
+              <p className="mt-1 text-sm leading-6 text-muted">
                 {validRows.length}{" "}
                 {validRows.length === 1 ? "fila lista" : "filas listas"}
                 {invalidRows.length > 0
@@ -272,7 +272,7 @@ export default function ImportForm({ action, categories = [] }) {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] border-collapse text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-left text-xs uppercase tracking-[0.08em] text-zinc-500">
+                <tr className="border-b border-line text-left text-xs uppercase tracking-[0.08em] text-muted">
                   <th className="py-2 pr-3 font-semibold">Fila</th>
                   <th className="py-2 pr-3 font-semibold">Nombre</th>
                   <th className="py-2 pr-3 font-semibold">Categoria</th>
@@ -282,25 +282,25 @@ export default function ImportForm({ action, categories = [] }) {
                   <th className="py-2 font-semibold">Estado</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-line">
                 {rows.map((row) => (
                   <tr
-                    className={row.errors.length > 0 ? "bg-red-500/[0.04]" : ""}
+                    className={row.errors.length > 0 ? "bg-alert/5" : ""}
                     key={row.number}
                   >
-                    <td className="py-3 pr-3 align-top tabular-nums text-zinc-600">
+                    <td className="py-3 pr-3 align-top tabular-nums text-muted">
                       {row.number}
                     </td>
 
                     {row.errors.length > 0 ? (
-                      <td className="py-3 align-top text-zinc-400" colSpan={6}>
-                        <span className="font-medium text-zinc-200">
+                      <td className="py-3 align-top text-muted" colSpan={6}>
+                        <span className="font-medium text-ink">
                           {String(row.input.name || "").trim() || "Sin nombre"}
                         </span>
                         <ul className="mt-1 space-y-0.5">
                           {row.errors.map((message) => (
                             <li
-                              className="flex items-start gap-1.5 text-red-300"
+                              className="flex items-start gap-1.5 text-alert"
                               key={message}
                             >
                               <AlertTriangle className="mt-0.5 shrink-0" size={13} />
@@ -311,19 +311,19 @@ export default function ImportForm({ action, categories = [] }) {
                       </td>
                     ) : (
                       <>
-                        <td className="py-3 pr-3 align-top font-medium text-zinc-100">
+                        <td className="py-3 pr-3 align-top font-medium text-ink">
                           {row.data.name}
                         </td>
-                        <td className="py-3 pr-3 align-top text-zinc-400">
+                        <td className="py-3 pr-3 align-top text-muted">
                           {String(row.input.category || "").trim() || "—"}
                         </td>
-                        <td className="py-3 pr-3 align-top text-right tabular-nums text-zinc-100">
+                        <td className="py-3 pr-3 align-top text-right tabular-nums text-ink">
                           {formatMoney(row.data.amount)}
                         </td>
-                        <td className="py-3 pr-3 align-top text-zinc-400">
+                        <td className="py-3 pr-3 align-top text-muted">
                           {CYCLE_LABELS[row.data.billingCycle]}
                         </td>
-                        <td className="py-3 pr-3 align-top tabular-nums text-zinc-400">
+                        <td className="py-3 pr-3 align-top tabular-nums text-muted">
                           {row.data.nextChargeDate}
                         </td>
                         <td className="py-3 align-top">

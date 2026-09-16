@@ -43,13 +43,13 @@ export default async function ItemsPage() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+        <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Organizacion
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Categorias
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
           Los grupos con los que ordenas tus suscripciones. Son privadas: solo
           las ves vos.
         </p>
@@ -57,7 +57,7 @@ export default async function ItemsPage() {
 
       <section className="grid gap-6 xl:grid-cols-[minmax(280px,360px)_1fr]">
         <div>
-          <h2 className="mb-3 text-lg font-semibold text-zinc-100">
+          <h2 className="mb-3 text-lg font-semibold text-ink">
             Nueva categoria
           </h2>
           <ItemForm action={createItem} submitLabel="Crear categoria" />
@@ -65,14 +65,14 @@ export default async function ItemsPage() {
 
         <div>
           <div className="mb-3 flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-zinc-100">
+            <h2 className="text-lg font-semibold text-ink">
               Mis categorias
             </h2>
-            <span className="text-sm text-zinc-500">{items.length} total</span>
+            <span className="text-sm text-muted">{items.length} total</span>
           </div>
 
           {items.length === 0 ? (
-            <div className={`${cardClass} text-sm leading-6 text-zinc-400`}>
+            <div className={`${cardClass} text-sm leading-6 text-muted`}>
               Todavia no tenes categorias. Crea la primera para empezar a
               agrupar tus suscripciones.
             </div>
@@ -88,7 +88,7 @@ export default async function ItemsPage() {
                   >
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="overflow-wrap-anywhere text-base font-semibold text-zinc-100">
+                        <h3 className="overflow-wrap-anywhere text-base font-semibold text-ink">
                           {item.title}
                         </h3>
                         <span className={badgeClass(stats.count > 0 ? "accent" : "neutral")}>
@@ -99,13 +99,13 @@ export default async function ItemsPage() {
                       </div>
 
                       {stats.monthly > 0 ? (
-                        <p className="mt-2 text-sm text-zinc-400">
+                        <p className="mt-2 text-sm text-muted">
                           {formatMoney(stats.monthly)} por mes en activas
                         </p>
                       ) : null}
 
                       {item.description ? (
-                        <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-zinc-500">
+                        <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-muted">
                           {item.description}
                         </p>
                       ) : null}
@@ -131,12 +131,12 @@ export default async function ItemsPage() {
           )}
 
           {uncategorized > 0 ? (
-            <p className="mt-4 text-sm leading-6 text-zinc-500">
+            <p className="mt-4 text-sm leading-6 text-muted">
               Tenes {uncategorized}{" "}
               {uncategorized === 1 ? "suscripcion" : "suscripciones"} sin
               categoria.{" "}
               <Link
-                className="text-emerald-300 underline-offset-4 hover:underline"
+                className="text-primary underline-offset-4 hover:underline"
                 href="/dashboard/subscriptions"
               >
                 Asignarles una

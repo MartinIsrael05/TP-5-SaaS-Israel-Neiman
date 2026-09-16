@@ -14,7 +14,7 @@ import { formatMoney, formatMoneyCompact } from "@/lib/format";
 import { CHART } from "./chartTheme";
 
 // Una sola medida (gasto mensual) comparada entre categorias: barras en un
-// unico tono. Pintarlas de distinto color por tamaño seria codificar dos veces
+// unico tono. Pintarlas de distinto color por tamano seria codificar dos veces
 // lo mismo, porque el largo de la barra ya dice cual es mas grande.
 
 function ChartTooltip({ active, payload }) {
@@ -25,9 +25,9 @@ function ChartTooltip({ active, payload }) {
   const row = payload[0].payload;
 
   return (
-    <div className="rounded-xl border border-white/10 bg-zinc-950/95 px-3 py-2 shadow-lg shadow-black/40">
-      <p className="text-sm font-semibold text-zinc-100">{row.label}</p>
-      <p className="mt-0.5 text-sm text-zinc-400">
+    <div className="rounded-lg bg-inset px-3 py-2">
+      <p className="font-sans text-sm font-semibold text-ink">{row.label}</p>
+      <p className="mt-0.5 text-sm tabular-nums text-muted">
         {formatMoney(row.amount)} por mes · {Math.round(row.share * 100)}%
       </p>
     </div>
@@ -46,16 +46,12 @@ export default function CategorySpendChart({ data }) {
           barCategoryGap={6}
           data={data}
           layout="vertical"
-          margin={{ top: 4, right: 76, bottom: 4, left: 4 }}
+          margin={{ top: 4, right: 84, bottom: 4, left: 4 }}
         >
-          <CartesianGrid
-            horizontal={false}
-            stroke={CHART.grid}
-            strokeWidth={1}
-          />
+          <CartesianGrid horizontal={false} stroke={CHART.grid} strokeWidth={1} />
           <XAxis
             axisLine={false}
-            tick={{ fill: CHART.axis, fontSize: 12 }}
+            tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
             tickFormatter={formatMoneyCompact}
             tickLine={false}
             type="number"
@@ -63,21 +59,19 @@ export default function CategorySpendChart({ data }) {
           <YAxis
             axisLine={false}
             dataKey="label"
-            tick={{ fill: CHART.ink, fontSize: 13 }}
+            tick={{ fill: CHART.ink, fontSize: 12, fontFamily: CHART.fontFamily }}
             tickLine={false}
             type="category"
-            width={92}
+            width={96}
           />
-          <Tooltip
-            content={<ChartTooltip />}
-            cursor={{ fill: "rgba(255,255,255,0.04)" }}
-          />
+          <Tooltip content={<ChartTooltip />} cursor={{ fill: "#262A33" }} />
           <Bar
             barSize={18}
             dataKey="amount"
             label={{
               fill: CHART.ink,
               fontSize: 12,
+              fontFamily: CHART.fontFamily,
               formatter: formatMoney,
               position: "right",
             }}

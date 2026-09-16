@@ -32,20 +32,20 @@ export default async function UsersPage() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+        <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Administracion
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Usuarios
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
           Gestion de perfiles almacenados en Firestore.
         </p>
       </header>
 
       <section className="grid gap-6 xl:grid-cols-[minmax(280px,360px)_1fr]">
         <div>
-          <h2 className="mb-3 text-lg font-semibold text-zinc-100">
+          <h2 className="mb-3 text-lg font-semibold text-ink">
             Crear usuario
           </h2>
           <UserForm action={createUser} showCredentials submitLabel="Crear usuario" />
@@ -53,14 +53,14 @@ export default async function UsersPage() {
 
         <div>
           <div className="mb-3 flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-zinc-100">
+            <h2 className="text-lg font-semibold text-ink">
               Usuarios registrados
             </h2>
-            <span className="text-sm text-zinc-500">{users.length} total</span>
+            <span className="text-sm text-muted">{users.length} total</span>
           </div>
 
           {users.length === 0 ? (
-            <div className={`${cardClass} text-sm leading-6 text-zinc-400`}>
+            <div className={`${cardClass} text-sm leading-6 text-muted`}>
               No hay perfiles de usuario registrados.
             </div>
           ) : (
@@ -72,7 +72,7 @@ export default async function UsersPage() {
                 >
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="overflow-wrap-anywhere text-base font-semibold text-zinc-100">
+                      <h3 className="overflow-wrap-anywhere text-base font-semibold text-ink">
                         {managedUser.email || managedUser.uid}
                       </h3>
                       <span className={badgeClass(managedUser.user_type === "admin" ? "accent" : "neutral")}>
@@ -80,14 +80,14 @@ export default async function UsersPage() {
                       </span>
                     </div>
                     {managedUser.displayName ? (
-                      <p className="mt-3 text-sm leading-6 text-zinc-400">
+                      <p className="mt-3 text-sm leading-6 text-muted">
                         {managedUser.displayName}
                       </p>
                     ) : null}
-                    <p className="mt-3 overflow-wrap-anywhere font-mono text-xs text-zinc-600">
+                    <p className="mt-3 overflow-wrap-anywhere font-mono text-xs text-muted">
                       {managedUser.uid}
                     </p>
-                    <p className="mt-2 text-xs text-zinc-600">
+                    <p className="mt-2 text-xs text-muted">
                       Ultimo acceso: {formatDate(managedUser.lastLoginAt)}
                     </p>
                   </div>

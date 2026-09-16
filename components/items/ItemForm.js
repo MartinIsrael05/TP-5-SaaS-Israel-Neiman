@@ -57,7 +57,7 @@ export default function ItemForm({ action, item, submitLabel = "Guardar" }) {
           disabled={loading}
           placeholder="Peliculas, series y musica."
         />
-        <span className="text-sm font-normal leading-6 text-zinc-500">
+        <span className="text-sm font-normal leading-6 text-muted">
           Opcional. Sirve para acordarte que entra en esta categoria.
         </span>
       </label>
@@ -67,7 +67,7 @@ export default function ItemForm({ action, item, submitLabel = "Guardar" }) {
       </button>
 
       {error ? (
-        <p className="rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm leading-6 text-red-300">
+        <p className="rounded-lg bg-alert/10 p-3 text-sm leading-6 text-alert">
           {error}
         </p>
       ) : null}

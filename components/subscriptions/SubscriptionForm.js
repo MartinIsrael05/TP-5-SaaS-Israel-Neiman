@@ -67,7 +67,7 @@ export default function SubscriptionForm({
           ))}
         </select>
         {categories.length === 0 ? (
-          <span className="text-sm font-normal leading-6 text-zinc-500">
+          <span className="text-sm font-normal leading-6 text-muted">
             Todavia no tenes categorias. Podes cargar la suscripcion igual y
             asignarsela mas adelante.
           </span>
@@ -186,7 +186,7 @@ export default function SubscriptionForm({
       </button>
 
       {error ? (
-        <p className="rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm leading-6 text-red-300">
+        <p className="rounded-lg bg-alert/10 p-3 text-sm leading-6 text-alert">
           {error}
         </p>
       ) : null}

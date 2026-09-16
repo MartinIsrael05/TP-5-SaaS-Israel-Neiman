@@ -1,7 +1,8 @@
 import Link from "next/link";
+import Wordmark from "@/components/ui/Wordmark";
 
 const linkClass =
-  "rounded-full border border-white/10 px-3.5 py-2 font-medium text-zinc-400 transition hover:border-white/25 hover:bg-white/5 hover:text-zinc-100";
+  "rounded-lg bg-line px-3.5 py-2 font-medium text-muted transition hover:text-ink";
 
 export default function Footer({ user }) {
   // Los links dependen de si hay sesion: mandar a "Panel" a alguien sin cuenta
@@ -18,15 +19,13 @@ export default function Footer({ user }) {
       ];
 
   return (
-    <footer className="mt-10 border-t border-white/10 bg-zinc-950">
-      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 text-sm text-zinc-500 sm:px-6 md:grid-cols-[1fr_auto] md:items-center lg:px-8">
+    <footer className="mt-10 border-t border-line bg-base">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 text-sm text-muted sm:px-6 md:grid-cols-[1fr_auto] md:items-center lg:px-8">
         <div className="min-w-0">
-          <p className="text-sm font-semibold tracking-tight text-zinc-100">
-            Suscripci<span className="text-emerald-400">App</span>
-          </p>
+          <Wordmark size="sm" />
           <p className="mt-2 max-w-2xl leading-6">
-            Centraliza tus suscripciones y gastos recurrentes, y sabe
-            realmente cuanto se te va cada mes.
+            Centraliza tus suscripciones y gastos recurrentes, y sabe realmente
+            cuanto se te va cada mes.
           </p>
         </div>
 

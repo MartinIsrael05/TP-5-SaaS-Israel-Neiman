@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { logout } from "@/app/dashboard/actions";
+import Wordmark from "@/components/ui/Wordmark";
 
 function isActivePath(pathname, href) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -24,10 +25,10 @@ function NavItem({ href, label, icon: Icon, pathname, onClick }) {
 
   return (
     <Link
-      className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${
+      className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition ${
         active
-          ? "bg-emerald-400/10 text-emerald-300"
-          : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"
+          ? "bg-primary/10 text-primary"
+          : "text-muted hover:bg-line hover:text-ink"
       }`}
       href={href}
       onClick={onClick}
@@ -49,8 +50,6 @@ export default function Sidebar({ profile, user }) {
     { href: "/dashboard/items", label: "Categorias", icon: Tags },
   ];
 
-  // Lo de administrador va en su propio grupo rotulado, para que quede claro
-  // que es otro modo de uso y no una funcion mas de la cuenta.
   const adminLinks = [
     { href: "/dashboard/admin", label: "Plataforma", icon: ShieldCheck },
     { href: "/dashboard/users", label: "Usuarios", icon: UsersIcon },
@@ -67,8 +66,8 @@ export default function Sidebar({ profile, user }) {
       ))}
 
       {isAdmin ? (
-        <div className="pt-5">
-          <p className="flex items-center gap-2 px-3.5 pb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-600">
+        <div className="pt-6">
+          <p className="flex items-center gap-2 px-3.5 pb-2 text-xs font-medium uppercase tracking-[0.12em] text-muted">
             <ShieldCheck size={12} />
             Administracion
           </p>
@@ -88,13 +87,13 @@ export default function Sidebar({ profile, user }) {
   );
 
   const accountBlock = (
-    <div className="space-y-2 border-t border-white/10 pt-4">
+    <div className="space-y-2 border-t border-line pt-4">
       <div className="px-3.5">
-        <p className="truncate text-xs text-zinc-500">
+        <p className="truncate text-xs text-muted">
           {user?.email || "Sin email"}
         </p>
         {isAdmin ? (
-          <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-emerald-300">
+          <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium uppercase tracking-[0.08em] text-primary">
             <ShieldCheck size={11} />
             Administrador
           </span>
@@ -102,7 +101,7 @@ export default function Sidebar({ profile, user }) {
       </div>
       <form action={logout}>
         <button
-          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100"
+          className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-muted transition hover:bg-line hover:text-ink"
           type="submit"
         >
           <LogOut size={18} strokeWidth={2} />
@@ -114,12 +113,9 @@ export default function Sidebar({ profile, user }) {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-white/10 bg-zinc-950/95 p-5 md:flex">
-        <Link
-          className="mb-8 block text-lg font-semibold tracking-tight text-zinc-50"
-          href="/"
-        >
-          Suscripci<span className="text-emerald-400">App</span>
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-base p-5 md:flex">
+        <Link className="mb-8 block" href="/">
+          <Wordmark rule />
         </Link>
         <nav className="flex flex-1 flex-col justify-between">
           {navLinks}
@@ -127,16 +123,13 @@ export default function Sidebar({ profile, user }) {
         </nav>
       </aside>
 
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-zinc-950/95 px-4 py-3 backdrop-blur md:hidden">
-        <Link
-          className="text-base font-semibold tracking-tight text-zinc-50"
-          href="/"
-        >
-          Suscripci<span className="text-emerald-400">App</span>
+      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-base px-4 py-3 md:hidden">
+        <Link href="/">
+          <Wordmark size="sm" />
         </Link>
         <button
           aria-expanded={isOpen}
-          className="grid size-10 place-items-center rounded-xl border border-white/10 text-zinc-100"
+          className="grid size-10 place-items-center rounded-lg bg-line text-ink"
           onClick={() => setIsOpen((value) => !value)}
           type="button"
         >
@@ -146,7 +139,7 @@ export default function Sidebar({ profile, user }) {
       </div>
 
       {isOpen ? (
-        <div className="border-b border-white/10 bg-zinc-950/98 px-4 pb-5 md:hidden">
+        <div className="border-b border-line bg-base px-4 pb-5 md:hidden">
           <nav className="flex flex-col gap-4 pt-3">
             {navLinks}
             {accountBlock}

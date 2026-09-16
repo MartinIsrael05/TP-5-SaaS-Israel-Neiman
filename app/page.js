@@ -2,16 +2,15 @@ import Link from "next/link";
 import {
   ArrowRight,
   Bell,
-  CalendarClock,
   FileSpreadsheet,
   LayoutDashboard,
   PiggyBank,
   Plus,
   Tags,
-  Wallet,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import StatTile from "@/components/dashboard/StatTile";
 import { buttonClass, cardClass } from "@/components/ui/styles";
 import { formatMoney, formatShortDate } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
@@ -73,13 +72,13 @@ function LandingHome() {
   return (
     <>
       <section className="mx-auto flex w-full max-w-6xl flex-col px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+        <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Control de gastos recurrentes
         </p>
-        <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-zinc-50 sm:text-5xl lg:text-6xl lg:leading-none">
+        <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-ink sm:text-5xl lg:text-6xl lg:leading-none">
           Sabe cuanto se te va en suscripciones cada mes
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400">
+        <p className="mt-5 max-w-2xl text-base leading-7 text-muted">
           Netflix, gimnasio, seguros, software. Entre seis y quince cobros
           automaticos que pasan desapercibidos. Aca los ves todos juntos, sabes
           cuanto suman de verdad y cuando se renuevan.
@@ -95,20 +94,20 @@ function LandingHome() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-14 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-semibold tracking-normal text-zinc-50">
+      <section className="mx-auto w-full max-w-6xl border-t border-line px-4 py-14 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-semibold tracking-normal text-ink">
           Como funciona
         </h2>
         <ol className="mt-8 grid gap-8 sm:grid-cols-3">
           {STEPS.map((step, index) => (
             <li key={step.title}>
-              <span className="flex size-9 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10 text-sm font-semibold text-emerald-300">
+              <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
                 {index + 1}
               </span>
-              <h3 className="mt-4 text-base font-semibold text-zinc-100">
+              <h3 className="mt-4 text-base font-semibold text-ink">
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-400">
+              <p className="mt-2 text-sm leading-6 text-muted">
                 {step.description}
               </p>
             </li>
@@ -116,17 +115,17 @@ function LandingHome() {
         </ol>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-6xl border-t border-line px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-4 sm:grid-cols-2">
           {FEATURES.map((feature) => (
             <div className={cardClass} key={feature.title}>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <feature.icon size={18} />
               </span>
-              <h3 className="mt-4 text-base font-semibold text-zinc-100">
+              <h3 className="mt-4 text-base font-semibold text-ink">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-400">
+              <p className="mt-2 text-sm leading-6 text-muted">
                 {feature.description}
               </p>
             </div>
@@ -134,13 +133,13 @@ function LandingHome() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+      <section className="mx-auto w-full max-w-6xl border-t border-line px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <div className={`${cardClass} flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between`}>
           <div>
-            <h2 className="text-xl font-semibold tracking-normal text-zinc-50">
+            <h2 className="text-xl font-semibold tracking-normal text-ink">
               Empeza por la que ni te acordabas que pagabas
             </h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">
+            <p className="mt-2 max-w-xl text-sm leading-6 text-muted">
               Crear la cuenta lleva menos de un minuto y no hace falta tarjeta.
             </p>
           </div>
@@ -170,16 +169,16 @@ async function MemberHome({ user }) {
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">
+      <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
         Tu resumen
       </p>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
         Hola{firstName ? `, ${firstName}` : ""}
       </h1>
 
       {subscriptions.length === 0 ? (
         <>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-400">
+          <p className="mt-3 max-w-2xl text-base leading-7 text-muted">
             Tu cuenta esta lista, pero todavia no cargaste ninguna suscripcion.
             Podes cargarlas de a una o importar la planilla que ya tengas.
           </p>
@@ -202,63 +201,38 @@ async function MemberHome({ user }) {
         </>
       ) : (
         <>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-400">
+          <p className="mt-3 max-w-2xl text-base leading-7 text-muted">
             Esto es lo que se te va este mes en gastos recurrentes.
           </p>
 
+          {/*
+            Las tres metricas comparten estructura, escala y ritmo: la
+            similitud es la que hace que se lean como un conjunto. La fecha
+            ocupa el lugar de la cifra, igual que en la anatomia del manual.
+          */}
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <div className={cardClass}>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400">
-                <Wallet size={18} />
-              </span>
-              <span className="mt-4 block text-sm text-zinc-500">
-                Gasto mensual
-              </span>
-              <strong className="mt-1 block text-3xl font-semibold tracking-tight text-zinc-50">
-                {formatMoney(summary.monthlyTotal)}
-              </strong>
-            </div>
-
-            <div className={cardClass}>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400">
-                <CalendarClock size={18} />
-              </span>
-              <span className="mt-4 block text-sm text-zinc-500">
-                Proximo cobro
-              </span>
-              {nextCharge ? (
-                <>
-                  <strong className="mt-1 block overflow-wrap-anywhere text-xl font-semibold tracking-tight text-zinc-50">
-                    {nextCharge.name}
-                  </strong>
-                  <span className="mt-1 block text-sm text-zinc-500">
-                    {formatShortDate(nextCharge.chargeDate)} ·{" "}
-                    {formatMoney(nextCharge.amount)}
-                  </span>
-                </>
-              ) : (
-                <strong className="mt-1 block text-xl font-semibold text-zinc-50">
-                  Sin cobros cerca
-                </strong>
-              )}
-            </div>
-
-            <div className={cardClass}>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400">
-                <Tags size={18} />
-              </span>
-              <span className="mt-4 block text-sm text-zinc-500">
-                Suscripciones activas
-              </span>
-              <strong className="mt-1 block text-3xl font-semibold tracking-tight text-zinc-50">
-                {summary.activeCount}
-              </strong>
-              {summary.pausedCount > 0 ? (
-                <span className="mt-1 block text-sm text-zinc-500">
-                  {summary.pausedCount} pausadas
-                </span>
-              ) : null}
-            </div>
+            <StatTile
+              label="Gasto mensual"
+              value={formatMoney(summary.monthlyTotal)}
+            />
+            <StatTile
+              hint={
+                nextCharge
+                  ? `${nextCharge.name} · ${formatMoney(nextCharge.amount)}`
+                  : "No hay cobros proximos"
+              }
+              label="Proximo cobro"
+              value={nextCharge ? formatShortDate(nextCharge.chargeDate) : "—"}
+            />
+            <StatTile
+              hint={
+                summary.pausedCount > 0
+                  ? `${summary.pausedCount} pausadas`
+                  : "Todas en curso"
+              }
+              label="Suscripciones activas"
+              value={summary.activeCount}
+            />
           </div>
 
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
@@ -291,7 +265,7 @@ export default async function Home() {
   const user = await getCurrentUser();
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-base text-ink">
       <Navbar user={user} />
       {user ? <MemberHome user={user} /> : <LandingHome />}
       <Footer user={user} />
