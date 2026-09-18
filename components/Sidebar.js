@@ -27,8 +27,8 @@ function NavItem({ href, label, icon: Icon, pathname, onClick }) {
     <Link
       className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition ${
         active
-          ? "bg-primary/10 text-primary"
-          : "text-muted hover:bg-line hover:text-ink"
+          ? "border-l-2 border-primary bg-primary/10 pl-3 text-primary"
+          : "border-l-2 border-transparent text-muted hover:bg-line hover:text-ink"
       }`}
       href={href}
       onClick={onClick}
@@ -61,6 +61,9 @@ export default function Sidebar({ profile, user }) {
 
   const navLinks = (
     <div className="space-y-1">
+      <p className="px-3.5 pb-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted/60">
+        Tu dinero
+      </p>
       {links.map((link) => (
         <NavItem key={link.href} {...link} onClick={close} pathname={pathname} />
       ))}
@@ -89,7 +92,7 @@ export default function Sidebar({ profile, user }) {
   const accountBlock = (
     <div className="space-y-2 border-t border-line pt-4">
       <div className="px-3.5">
-        <p className="truncate text-xs text-muted">
+        <p className="truncate font-mono text-xs text-muted">
           {user?.email || "Sin email"}
         </p>
         {isAdmin ? (

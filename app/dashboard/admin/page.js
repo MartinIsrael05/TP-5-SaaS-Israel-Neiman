@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ShieldCheck } from "lucide-react";
+import { BarChart3, CreditCard, Inbox, ShieldCheck, Tags, Users } from "lucide-react";
 import StatTile from "@/components/dashboard/StatTile";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { formatMoney } from "@/lib/format";
@@ -60,39 +60,53 @@ export default async function AdminPage() {
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatTile
           hint={`${stats.admins} ${stats.admins === 1 ? "administrador" : "administradores"} · ${stats.newUsers} en 30 dias`}
+          icon={Users}
           label="Usuarios registrados"
           value={stats.totalUsers}
         />
         <StatTile
           hint={`${stats.averagePerUser.toLocaleString("es-AR", { maximumFractionDigits: 1 })} por usuario con datos`}
+          icon={CreditCard}
           label="Suscripciones cargadas"
           value={stats.totalSubscriptions}
         />
         <StatTile
           hint={`${stats.activatedUsers} de ${stats.totalUsers} cargaron al menos una`}
+          icon={BarChart3}
           label="Activacion"
           value={`${Math.round(stats.activationRate * 100)}%`}
         />
         <StatTile
           hint="Suma del gasto mensual de todas las cuentas"
+          icon={CreditCard}
           label="Gasto agregado"
           value={formatMoney(stats.platformMonthly)}
         />
       </section>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <section className={cardClass}>
-          <h2 className="text-lg font-semibold text-ink">
-            Suscripciones por estado
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-muted">
-            Sobre {totalStatuses} cargadas en total.
-          </p>
+        <section className={`${cardClass} transition-all duration-300 ease-in-out hover:bg-[#20242d]`}>
+          <div className="mb-4 flex items-start gap-3">
+            <span className="flex size-9 items-center justify-center rounded-lg bg-inset text-muted">
+              <BarChart3 size={16} />
+            </span>
+            <div>
+              <h2 className="font-sans text-lg font-semibold text-ink">
+                Suscripciones por estado
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-muted">
+                Sobre {totalStatuses} cargadas en total.
+              </p>
+            </div>
+          </div>
 
           {totalStatuses === 0 ? (
-            <p className="mt-4 text-sm leading-6 text-muted">
-              Todavia no hay suscripciones en la plataforma.
-            </p>
+            <div className="mt-4 flex flex-col items-center gap-3 rounded-lg bg-inset py-8 text-center">
+              <Inbox className="text-ink/10" size={34} />
+              <p className="text-sm leading-6 text-muted">
+                Todavia no hay suscripciones en la plataforma.
+              </p>
+            </div>
           ) : (
             <ul className="mt-4 space-y-3">
               {Object.entries(stats.statusCounts).map(([status, count]) => (
@@ -117,18 +131,28 @@ export default async function AdminPage() {
           )}
         </section>
 
-        <section className={cardClass}>
-          <h2 className="text-lg font-semibold text-ink">
-            Servicios mas cargados
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-muted">
-            Que contratan los usuarios de la plataforma.
-          </p>
+        <section className={`${cardClass} transition-all duration-300 ease-in-out hover:bg-[#20242d]`}>
+          <div className="mb-4 flex items-start gap-3">
+            <span className="flex size-9 items-center justify-center rounded-lg bg-inset text-muted">
+              <Tags size={16} />
+            </span>
+            <div>
+              <h2 className="font-sans text-lg font-semibold text-ink">
+                Servicios mas cargados
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-muted">
+                Que contratan los usuarios de la plataforma.
+              </p>
+            </div>
+          </div>
 
           {stats.topServices.length === 0 ? (
-            <p className="mt-4 text-sm leading-6 text-muted">
-              Todavia no hay datos suficientes.
-            </p>
+            <div className="mt-4 flex flex-col items-center gap-3 rounded-lg bg-inset py-8 text-center">
+              <Inbox className="text-ink/10" size={34} />
+              <p className="text-sm leading-6 text-muted">
+                Todavia no hay datos suficientes.
+              </p>
+            </div>
           ) : (
             <ol className="mt-4 divide-y divide-line">
               {stats.topServices.map((service, index) => (
@@ -179,7 +203,7 @@ export default async function AdminPage() {
             solo se cuenta cuantos hay.
           </p>
         </div>
-        <strong className="text-3xl font-semibold tracking-tight text-ink">
+        <strong className="font-mono text-3xl font-semibold tabular-nums tracking-tight text-ink">
           {stats.totalCategories}
         </strong>
       </section>

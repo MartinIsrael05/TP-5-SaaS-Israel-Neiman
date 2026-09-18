@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileSpreadsheet } from "lucide-react";
+import { CalendarClock, FileSpreadsheet, Inbox, Pencil, Tag, Trash2 } from "lucide-react";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { formatDate, formatMoney, parseDateOnly } from "@/lib/format";
@@ -100,19 +100,32 @@ export default async function SubscriptionsPage() {
           </div>
 
           {subscriptions.length === 0 ? (
-            <div className={`${cardClass} text-sm leading-6 text-muted`}>
-              Todavia no cargaste ninguna suscripcion. Empeza por la que mas
-              te preocupa: seguro hay una que ni recordabas que seguias pagando.
+            <div className={`${cardClass} flex flex-col items-center gap-5 py-14 text-center`}>
+              <span className="flex size-20 items-center justify-center rounded-2xl bg-[#1A1D24] text-ink/10">
+                <Inbox size={44} strokeWidth={1.5} />
+              </span>
+              <div className="max-w-sm space-y-1.5">
+                <h3 className="font-sans text-lg font-semibold text-ink">
+                  Todavia no hay suscripciones
+                </h3>
+                <p className="text-sm leading-6 text-muted">
+                  Empeza por la que mas te preocupa: seguro hay una que ni
+                  recordabas que seguias pagando.
+                </p>
+              </div>
             </div>
           ) : (
             <div className="grid gap-4">
               {subscriptions.map((subscription) => (
                 <article
-                  className={`${cardClass} grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_auto]`}
+                  className={`${cardClass} group relative grid min-w-0 gap-4 overflow-hidden transition-all duration-300 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
                   key={subscription.id}
                 >
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
+                      <span className="mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
+                        <Tag size={15} />
+                      </span>
                       <h3 className="overflow-wrap-anywhere text-base font-semibold text-ink">
                         {subscription.name}
                       </h3>
@@ -125,14 +138,15 @@ export default async function SubscriptionsPage() {
                       </span>
                     </div>
 
-                    <p className="mt-3 text-2xl font-semibold text-ink">
+                    <p className="mt-3 font-mono text-2xl font-semibold tabular-nums text-ink">
                       {formatMoney(subscription.amount)}
                       <span className="ml-2 text-sm font-medium text-muted">
                         {CYCLE_LABELS[subscription.billingCycle]}
                       </span>
                     </p>
 
-                    <p className="mt-2 text-sm text-muted">
+                    <p className="mt-2 flex items-center gap-1.5 text-sm text-muted">
+                      <CalendarClock size={14} />
                       Proximo cobro:{" "}
                       {formatChargeDate(resolveNextChargeDate(subscription))}
                       {subscription.paymentMethod
@@ -162,13 +176,15 @@ export default async function SubscriptionsPage() {
                       className={buttonClass("secondary")}
                       href={`/dashboard/subscriptions/${subscription.id}/edit`}
                     >
+                      <Pencil size={15} />
                       Editar
                     </Link>
                     <form action={deleteSubscription.bind(null, subscription.id)}>
-                      <button
+                        <button
                         className={buttonClass("danger", "w-full sm:w-auto")}
                         type="submit"
                       >
+                          <Trash2 size={15} />
                         Eliminar
                       </button>
                     </form>

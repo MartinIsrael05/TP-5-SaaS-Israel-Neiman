@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Inbox, Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
 import UserForm from "@/components/users/UserForm";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { getCurrentUser } from "@/lib/firebase/session";
@@ -60,18 +61,26 @@ export default async function UsersPage() {
           </div>
 
           {users.length === 0 ? (
-            <div className={`${cardClass} text-sm leading-6 text-muted`}>
-              No hay perfiles de usuario registrados.
+            <div className={`${cardClass} flex flex-col items-center gap-5 py-14 text-center`}>
+              <span className="flex size-20 items-center justify-center rounded-2xl bg-[#1A1D24] text-ink/10">
+                <Inbox size={44} strokeWidth={1.5} />
+              </span>
+              <p className="max-w-sm text-sm leading-6 text-muted">
+                No hay perfiles de usuario registrados.
+              </p>
             </div>
           ) : (
             <div className="grid gap-4">
               {users.map((managedUser) => (
                 <article
-                  className={`${cardClass} grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_auto]`}
+                  className={`${cardClass} group grid min-w-0 gap-4 transition-all duration-300 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
                   key={managedUser.uid}
                 >
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
+                      <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
+                        {managedUser.user_type === "admin" ? <ShieldCheck size={15} /> : <UserRound size={15} />}
+                      </span>
                       <h3 className="overflow-wrap-anywhere text-base font-semibold text-ink">
                         {managedUser.email || managedUser.uid}
                       </h3>
@@ -97,11 +106,13 @@ export default async function UsersPage() {
                       className={buttonClass("secondary")}
                       href={`/dashboard/users/${managedUser.uid}/edit`}
                     >
+                      <Pencil size={15} />
                       Editar
                     </Link>
                     {managedUser.uid !== user.uid ? (
                       <form action={deleteUser.bind(null, managedUser.uid)}>
                         <button className={buttonClass("danger", "w-full sm:w-auto")} type="submit">
+                          <Trash2 size={15} />
                           Eliminar
                         </button>
                       </form>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft, FileSpreadsheet, Table2 } from "lucide-react";
 import ImportForm from "@/components/subscriptions/ImportForm";
 import { buttonClass, cardClass } from "@/components/ui/styles";
 import { getCurrentUser } from "@/lib/firebase/session";
@@ -30,20 +31,27 @@ export default async function ImportPage() {
 
       <ImportForm action={importSubscriptions} categories={categories} />
 
-      <section className={cardClass}>
-        <h2 className="text-lg font-semibold text-ink">
-          Columnas que reconoce
-        </h2>
-        <p className="mt-1 text-sm leading-6 text-muted">
-          La primera fila del archivo tiene que ser la de encabezados. No
-          importa el orden ni las mayusculas, y cada campo acepta varios
-          nombres.
-        </p>
+      <section className={`${cardClass} relative overflow-hidden`}>
+        <div className="mb-4 flex items-start gap-3">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <Table2 size={17} />
+          </span>
+          <div>
+            <h2 className="font-sans text-lg font-semibold text-ink">
+              Columnas que reconoce
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-muted">
+              La primera fila del archivo tiene que ser la de encabezados. No
+              importa el orden ni las mayusculas, y cada campo acepta varios
+              nombres.
+            </p>
+          </div>
+        </div>
 
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[560px] border-collapse text-sm">
             <thead>
-              <tr className="border-b border-line text-left text-xs uppercase tracking-[0.08em] text-muted">
+              <tr className="border-b border-line text-left font-mono text-xs uppercase tracking-[0.08em] text-muted">
                 <th className="py-2 pr-4 font-semibold">Campo</th>
                 <th className="py-2 pr-4 font-semibold">Tambien acepta</th>
                 <th className="py-2 font-semibold">Si falta</th>
@@ -55,7 +63,7 @@ export default async function ImportPage() {
                   <td className="py-3 pr-4 align-top font-medium text-ink">
                     {column.label}
                   </td>
-                  <td className="py-3 pr-4 align-top text-muted">
+                  <td className="py-3 pr-4 align-top font-mono text-xs text-muted">
                     {column.aliases.slice(1).join(", ")}
                   </td>
                   <td className="py-3 align-top text-muted">
@@ -76,6 +84,7 @@ export default async function ImportPage() {
         className={buttonClass("secondary", "w-full sm:w-auto")}
         href="/dashboard/subscriptions"
       >
+        <ArrowLeft size={16} />
         Volver a suscripciones
       </Link>
     </div>
