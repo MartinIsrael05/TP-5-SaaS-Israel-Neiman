@@ -2,8 +2,11 @@ import Link from "next/link";
 import {
   ArrowRight,
   Bell,
+  Clapperboard,
+  Cloud,
   FileSpreadsheet,
   LayoutDashboard,
+  Music,
   PiggyBank,
   Plus,
   Tags,
@@ -20,40 +23,28 @@ import { getCurrentUserProfile } from "@/lib/users/users";
 
 export const dynamic = "force-dynamic";
 
-const STEPS = [
-  {
-    title: "Carga lo que pagas",
-    description:
-      "Una por una, o importando el Excel donde ya las tenias anotadas.",
-  },
-  {
-    title: "Agrupalas por categoria",
-    description:
-      "Streaming, salud, software, lo que uses. Vos decidis los grupos.",
-  },
-  {
-    title: "Mira cuanto se te va",
-    description:
-      "Total mensual, proyeccion anual y que cobro se viene esta semana.",
-  },
+const MOCK_SUBSCRIPTIONS = [
+  { name: "Netflix", icon: Clapperboard, amount: "$4.999" },
+  { name: "Spotify", icon: Music, amount: "$1.999" },
+  { name: "iCloud+", icon: Cloud, amount: "$990" },
 ];
 
 const FEATURES = [
   {
-    icon: PiggyBank,
-    title: "El gasto real, no el que creias",
-    description:
-      "Total por mes con las anuales prorrateadas, proyeccion a 12 meses y cuanto ahorrarias cancelando lo que tenes pausado.",
-  },
-  {
     icon: Bell,
-    title: "Nada te agarra de sorpresa",
+    title: "Alertas de renovacion",
     description:
       "Los cobros de los proximos 30 dias ordenados por fecha, con aviso de los que caen esta semana.",
   },
   {
+    icon: PiggyBank,
+    title: "Graficos claros",
+    description:
+      "Total mensual con las anuales prorrateadas, proyeccion a 12 meses y cuanto ahorrarias cancelando lo que tenes pausado.",
+  },
+  {
     icon: FileSpreadsheet,
-    title: "Importas tu Excel y listo",
+    title: "Importa tu Excel",
     description:
       "Si ya llevabas la cuenta en una planilla, la subis y se cargan todas juntas. Te mostramos que va a entrar antes de confirmar.",
   },
@@ -71,61 +62,93 @@ const FEATURES = [
 function LandingHome() {
   return (
     <>
-      <section className="mx-auto flex w-full max-w-6xl flex-col px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
-          Control de gastos recurrentes
-        </p>
-        <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-ink sm:text-5xl lg:text-6xl lg:leading-none">
-          Sabe cuanto se te va en suscripciones cada mes
-        </h1>
-        <p className="mt-5 max-w-2xl leading-7 text-muted">
-          Netflix, gimnasio, seguros, software. Entre seis y quince cobros
-          automaticos que pasan desapercibidos. Aca los ves todos juntos, sabes
-          cuanto suman de verdad y cuando se renuevan.
-        </p>
-        <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
-          <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/login">
-            Crear cuenta gratis
-            <ArrowRight size={16} />
-          </Link>
-          <Link className={buttonClass("secondary", "w-full sm:w-auto")} href="/login">
-            Ya tengo cuenta
-          </Link>
+      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#0F1115] to-[#0F1115]">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
+          <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#9CA3AF]">
+            Control de gastos recurrentes
+          </p>
+          <h1 className="mt-4 max-w-3xl font-sans text-4xl font-bold leading-tight tracking-tight text-[#F3F4F6] sm:text-5xl lg:text-6xl lg:leading-[1.05]">
+            Toma el control absoluto de tus suscripciones.
+          </h1>
+          <p className="mt-5 max-w-2xl leading-7 text-[#9CA3AF]">
+            Centraliza tus gastos, recibe alertas antes de cada cobro y
+            descubre a donde se va tu dinero mes a mes.
+          </p>
+          <div className="mt-8 grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:justify-center">
+            <Link
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
+              href="/login"
+            >
+              Comenzar gratis
+              <ArrowRight size={16} />
+            </Link>
+            <a
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-6 text-sm font-semibold text-[#F3F4F6] transition-colors hover:bg-white/10 sm:w-auto"
+              href="#features"
+            >
+              Ver caracteristicas
+            </a>
+          </div>
+
+          {/* Mockup del dashboard hecho en Tailwind, sin imagenes de por medio. */}
+          <div className="mt-16 w-full max-w-md rounded-xl border border-white/10 bg-[#1A1D24] p-6 shadow-2xl shadow-[0_0_50px_-12px_rgba(99,102,241,0.3)] sm:mt-20">
+            <div className="flex items-center justify-between border-b border-white/5 pb-4">
+              <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#9CA3AF]">
+                Tus suscripciones
+              </span>
+              <span className="font-mono text-xs tabular-nums text-[#9CA3AF]">
+                Sept 2026
+              </span>
+            </div>
+            <ul className="mt-4 space-y-3">
+              {MOCK_SUBSCRIPTIONS.map((row) => (
+                <li className="flex items-center justify-between gap-3" key={row.name}>
+                  <div className="flex items-center gap-3">
+                    <span className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-[#6366F1]">
+                      <row.icon size={15} />
+                    </span>
+                    <span className="text-sm font-medium text-[#F3F4F6]">
+                      {row.name}
+                    </span>
+                  </div>
+                  <span className="font-mono text-sm tabular-nums text-[#F3F4F6]">
+                    {row.amount}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl border-t border-line px-4 py-14 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-semibold tracking-normal text-ink">
-          Como funciona
+      <section
+        className="mx-auto w-full max-w-6xl border-t border-white/5 px-4 py-16 sm:px-6 lg:px-8"
+        id="features"
+      >
+        <h2 className="text-center font-sans text-2xl font-bold text-[#F3F4F6] sm:text-3xl">
+          Disenado para tu paz mental
         </h2>
-        <ol className="mt-8 grid gap-8 sm:grid-cols-3">
-          {STEPS.map((step, index) => (
-            <li key={step.title}>
-              <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                {index + 1}
-              </span>
-              <h3 className="mt-4  font-semibold text-ink">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                {step.description}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="mx-auto w-full max-w-6xl border-t border-line px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {FEATURES.map((feature) => (
-            <div className={cardClass} key={feature.title}>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+        <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-6 text-[#9CA3AF]">
+          Cada detalle de TECA existe para que dejes de perseguir cobros y
+          empieces a decidir con numeros reales.
+        </p>
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((feature, index) => (
+            <div
+              className={`group rounded-2xl border border-white/5 bg-[#1A1D24] p-6 transition-all duration-300 ease-in-out hover:border-white/15 ${
+                index === 0 || index === FEATURES.length - 1
+                  ? "md:col-span-2 lg:col-span-2"
+                  : ""
+              }`}
+              key={feature.title}
+            >
+              <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-[#6366F1] transition-transform duration-300 ease-in-out group-hover:scale-110">
                 <feature.icon size={18} />
               </span>
-              <h3 className="mt-4 font-semibold text-ink">
+              <h3 className="mt-4 font-sans font-semibold text-[#F3F4F6]">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-sm leading-6 text-muted">
+              <p className="mt-2 text-sm leading-6 text-[#9CA3AF]">
                 {feature.description}
               </p>
             </div>
@@ -133,18 +156,21 @@ function LandingHome() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl border-t border-line px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <div className={`${cardClass} flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between`}>
+      <section className="mx-auto w-full max-w-6xl border-t border-white/5 px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className="flex flex-col items-center gap-5 rounded-2xl border border-white/5 bg-[#1A1D24] p-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
-            <h2 className="text-xl font-semibold tracking-normal text-ink">
+            <h2 className="font-sans text-xl font-bold text-[#F3F4F6]">
               Empeza por la que ni te acordabas que pagabas
             </h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-muted">
+            <p className="mt-2 max-w-xl text-sm leading-6 text-[#9CA3AF]">
               Crear la cuenta lleva menos de un minuto y no hace falta tarjeta.
             </p>
           </div>
-          <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/login">
-            Empezar
+          <Link
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
+            href="/login"
+          >
+            Comenzar gratis
             <ArrowRight size={16} />
           </Link>
         </div>
