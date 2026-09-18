@@ -12,6 +12,7 @@ import {
 export default function SubscriptionForm({
   action,
   categories = [],
+  onSuccess,
   submitLabel = "Guardar",
   subscription,
 }) {
@@ -30,6 +31,7 @@ export default function SubscriptionForm({
       if (!subscription) {
         form.reset();
       }
+      onSuccess?.();
     } catch (err) {
       setError(err.message || "No se pudo guardar la suscripcion.");
     } finally {
