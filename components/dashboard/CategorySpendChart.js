@@ -25,9 +25,9 @@ function ChartTooltip({ active, payload }) {
   const row = payload[0].payload;
 
   return (
-    <div className="rounded-lg bg-inset px-3 py-2">
-      <p className="font-sans text-sm font-semibold text-ink">{row.label}</p>
-      <p className="mt-0.5 text-sm tabular-nums text-muted">
+    <div className="rounded-lg border border-white/5 bg-[#1A1D24] px-3 py-2 shadow-xl">
+      <p className="font-sans text-sm font-semibold text-[#F3F4F6]">{row.label}</p>
+      <p className="mt-0.5 text-sm tabular-nums text-[#9CA3AF]">
         {formatMoney(row.amount)} por mes · {Math.round(row.share * 100)}%
       </p>
     </div>

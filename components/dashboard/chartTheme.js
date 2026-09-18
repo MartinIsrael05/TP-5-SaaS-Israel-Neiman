@@ -31,6 +31,9 @@ export const CHART = {
   fontFamily: "var(--font-jetbrains), ui-monospace, monospace",
 };
 
+// Paleta para graficos con multiples categorias (dona/torta), a usar en orden.
+export const CATEGORY_COLORS = ["#6366F1", "#818CF8", "#34D399", "#F87171", "#9CA3AF"];
+
 export const SERIES_LABELS = {
   monthly: "Mensuales",
   annual: "Renovaciones anuales",

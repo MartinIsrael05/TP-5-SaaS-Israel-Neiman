@@ -26,11 +26,11 @@ function ChartTooltip({ active, payload }) {
   const row = payload[0].payload;
 
   return (
-    <div className="rounded-lg bg-inset px-3 py-2">
-      <p className="font-sans text-sm font-semibold text-ink">
+    <div className="rounded-lg border border-white/5 bg-[#1A1D24] px-3 py-2 shadow-xl">
+      <p className="font-sans text-sm font-semibold text-[#F3F4F6]">
         {row.label} · <span className="tabular-nums">{formatMoney(row.total)}</span>
       </p>
-      <p className="mt-1 flex items-center gap-2 text-sm text-muted">
+      <p className="mt-1 flex items-center gap-2 text-sm text-[#9CA3AF]">
         <span
           className="inline-block size-2.5 rounded-sm"
           style={{ backgroundColor: CHART.series1 }}
@@ -39,7 +39,7 @@ function ChartTooltip({ active, payload }) {
         <span className="tabular-nums">{formatMoney(row.monthly)}</span>
       </p>
       {row.annual > 0 ? (
-        <p className="mt-0.5 flex items-center gap-2 text-sm text-muted">
+        <p className="mt-0.5 flex items-center gap-2 text-sm text-[#9CA3AF]">
           <span
             className="inline-block size-2.5 rounded-sm"
             style={{ backgroundColor: CHART.series2 }}
@@ -49,7 +49,7 @@ function ChartTooltip({ active, payload }) {
         </p>
       ) : null}
       {row.renewalNames.length > 0 ? (
-        <p className="mt-1 text-xs text-muted">
+        <p className="mt-1 text-xs text-[#9CA3AF]">
           Renueva: {row.renewalNames.join(", ")}
         </p>
       ) : null}
@@ -59,7 +59,7 @@ function ChartTooltip({ active, payload }) {
 
 function LegendSwatch({ color, label }) {
   return (
-    <span className="flex items-center gap-2 text-sm text-muted">
+    <span className="flex items-center gap-2 text-sm text-[#9CA3AF]">
       <span
         className="inline-block size-2.5 rounded-sm"
         style={{ backgroundColor: color }}

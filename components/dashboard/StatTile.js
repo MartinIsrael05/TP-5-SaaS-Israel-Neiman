@@ -18,7 +18,8 @@ const toneClasses = {
 };
 
 const iconBoxTones = {
-  muted: "bg-line/60 text-muted",
+  // Decorativo por defecto: indigo muteado, el acento de marca sin semantica.
+  muted: "bg-primary/10 text-[#6366F1]",
   positive: "bg-positive/10 text-positive",
   alert: "bg-alert/10 text-alert",
 };
@@ -50,7 +51,7 @@ export default function StatTile({
           </span>
         ) : null}
       </div>
-      <strong className="font-mono text-3xl font-medium tabular-nums tracking-tight text-ink">
+      <strong className="font-mono text-3xl font-bold tabular-nums tracking-tight text-[#F3F4F6]">
         {value}
       </strong>
       {hint ? (
