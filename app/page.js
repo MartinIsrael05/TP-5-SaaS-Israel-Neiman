@@ -78,7 +78,7 @@ function LandingHome() {
         <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-ink sm:text-5xl lg:text-6xl lg:leading-none">
           Sabe cuanto se te va en suscripciones cada mes
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-muted">
+        <p className="mt-5 max-w-2xl leading-7 text-muted">
           Netflix, gimnasio, seguros, software. Entre seis y quince cobros
           automaticos que pasan desapercibidos. Aca los ves todos juntos, sabes
           cuanto suman de verdad y cuando se renuevan.
@@ -104,7 +104,7 @@ function LandingHome() {
               <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
                 {index + 1}
               </span>
-              <h3 className="mt-4 text-base font-semibold text-ink">
+              <h3 className="mt-4  font-semibold text-ink">
                 {step.title}
               </h3>
               <p className="mt-2 text-sm leading-6 text-muted">
@@ -122,7 +122,7 @@ function LandingHome() {
               <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <feature.icon size={18} />
               </span>
-              <h3 className="mt-4 text-base font-semibold text-ink">
+              <h3 className="mt-4 font-semibold text-ink">
                 {feature.title}
               </h3>
               <p className="mt-2 text-sm leading-6 text-muted">
@@ -178,7 +178,7 @@ async function MemberHome({ user }) {
 
       {subscriptions.length === 0 ? (
         <>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-muted">
+          <p className="mt-3 max-w-2xl leading-7 text-muted">
             Tu cuenta esta lista, pero todavia no cargaste ninguna suscripcion.
             Podes cargarlas de a una o importar la planilla que ya tengas.
           </p>
@@ -201,7 +201,7 @@ async function MemberHome({ user }) {
         </>
       ) : (
         <>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-muted">
+          <p className="mt-3 max-w-2xl leading-7 text-muted">
             Esto es lo que se te va este mes en gastos recurrentes.
           </p>
 

@@ -181,7 +181,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
         </div>
       ) : filteredSubscriptions.length === 0 ? (
         <div className={`${cardClass} flex flex-col items-center justify-center gap-2 py-16 text-center`}>
-          <p className="font-sans text-base font-semibold text-[#9CA3AF]">
+          <p className="font-sans font-semibold text-[#9CA3AF]">
             Ninguna suscripcion coincide con los filtros
           </p>
           <p className="text-sm leading-6 text-muted">
@@ -192,7 +192,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredSubscriptions.map((subscription) => (
             <article
-              className="group relative flex min-w-0 flex-col gap-4 overflow-hidden rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-white/15"
+              className="group relative flex h-full min-w-0 flex-col gap-4 overflow-hidden rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-white/15"
               key={subscription.id}
             >
               <div className="min-w-0">
@@ -200,7 +200,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                   <span className="mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
                     <Tag size={15} />
                   </span>
-                  <h3 className="overflow-wrap-anywhere font-sans text-base font-semibold text-[#F3F4F6]">
+                  <h3 className="line-clamp-1 min-w-0 flex-1 break-words font-sans font-semibold text-[#F3F4F6]">
                     {subscription.name}
                   </h3>
                   <span
@@ -220,30 +220,30 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                   </span>
                 </div>
 
-                <p className="mt-3 font-mono text-lg font-semibold tabular-nums text-ink">
+                <p className="mt-3 font-mono text-lg font-semibold tabular-nums text-[#F3F4F6]">
                   {formatMoney(subscription.amount)}
-                  <span className="ml-2 font-sans text-sm font-medium text-muted">
+                  <span className="ml-2 font-sans text-sm font-medium text-[#9CA3AF]">
                     {CYCLE_LABELS[subscription.billingCycle]}
                   </span>
                 </p>
 
-                <p className="mt-2 flex items-center gap-1.5 font-mono text-sm tabular-nums text-muted">
+                <p className="mt-2 flex items-center gap-1.5 font-mono text-sm tabular-nums text-[#9CA3AF]">
                   <CalendarClock size={14} />
                   Proximo cobro: {formatChargeDate(resolveNextChargeDate(subscription))}
                   {subscription.paymentMethod ? ` · ${subscription.paymentMethod}` : ""}
                 </p>
 
                 {subscription.notes ? (
-                  <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-muted">
+                  <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-[#9CA3AF]">
                     {subscription.notes}
                   </p>
                 ) : null}
               </div>
 
-              <div className="mt-auto flex flex-wrap items-center gap-2">
+              <div className="mt-auto flex flex-col gap-2">
                 {subscription.cancelUrl ? (
                   <a
-                    className={buttonClass("secondary")}
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-4 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
                     href={subscription.cancelUrl}
                     rel="noreferrer noopener"
                     target="_blank"
@@ -251,19 +251,24 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                     Cancelar
                   </a>
                 ) : null}
-                <Link
-                  className={buttonClass("secondary")}
-                  href={`/dashboard/subscriptions/${subscription.id}/edit`}
-                >
-                  <Pencil size={15} />
-                  Editar
-                </Link>
-                <form action={deleteSubscription.bind(null, subscription.id)}>
-                  <button className={buttonClass("danger", "w-full sm:w-auto")} type="submit">
-                    <Trash2 size={15} />
-                    Eliminar
-                  </button>
-                </form>
+                <div className="grid grid-cols-2 gap-3">
+                  <Link
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
+                    href={`/dashboard/subscriptions/${subscription.id}/edit`}
+                  >
+                    <Pencil size={15} />
+                    Editar
+                  </Link>
+                  <form action={deleteSubscription.bind(null, subscription.id)}>
+                    <button
+                      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-alert"
+                      type="submit"
+                    >
+                      <Trash2 size={15} />
+                      Eliminar
+                    </button>
+                  </form>
+                </div>
               </div>
             </article>
           ))}
@@ -271,25 +276,27 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
       )}
 
       {isModalOpen ? (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4 py-10 backdrop-blur-sm sm:items-center">
-          <div className="w-full max-w-lg rounded-2xl border border-white/5 bg-[#1A1D24] p-6">
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <h2 className="text-lg font-semibold text-ink">Nueva suscripcion</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/5 bg-[#1A1D24] shadow-xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/5 bg-[#1A1D24] px-6 py-4">
+              <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripcion</h2>
               <button
                 aria-label="Cerrar"
-                className="flex size-8 items-center justify-center rounded-lg text-muted transition hover:bg-white/5 hover:text-ink"
+                className="flex size-8 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] transition hover:bg-white/5 hover:text-[#F3F4F6]"
                 onClick={() => setModalOpen(false)}
                 type="button"
               >
                 <X size={18} />
               </button>
             </div>
-            <SubscriptionForm
-              action={createSubscription}
-              categories={categories}
-              onSuccess={() => setModalOpen(false)}
-              submitLabel="Agregar suscripcion"
-            />
+            <div className="p-6 pt-4">
+              <SubscriptionForm
+                action={createSubscription}
+                categories={categories}
+                onSuccess={() => setModalOpen(false)}
+                submitLabel="Agregar suscripcion"
+              />
+            </div>
           </div>
         </div>
       ) : null}

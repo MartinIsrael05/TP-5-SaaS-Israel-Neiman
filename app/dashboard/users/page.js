@@ -81,7 +81,7 @@ export default async function UsersPage() {
                       <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
                         {managedUser.user_type === "admin" ? <ShieldCheck size={15} /> : <UserRound size={15} />}
                       </span>
-                      <h3 className="overflow-wrap-anywhere text-base font-semibold text-ink">
+                      <h3 className="overflow-wrap-anywhere font-semibold text-ink">
                         {managedUser.email || managedUser.uid}
                       </h3>
                       <span className={badgeClass(managedUser.user_type === "admin" ? "accent" : "neutral")}>

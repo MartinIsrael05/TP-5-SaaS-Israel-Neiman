@@ -101,7 +101,7 @@ export default async function ItemsPage() {
                         <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
                           {stats.count > 0 ? <FolderOpen size={15} /> : <Tag size={15} />}
                         </span>
-                        <h3 className="overflow-wrap-anywhere text-base font-semibold text-ink">
+                        <h3 className="overflow-wrap-anywhere font-semibold text-ink">
                           {item.title}
                         </h3>
                         <span className={badgeClass(stats.count > 0 ? "accent" : "neutral")}>

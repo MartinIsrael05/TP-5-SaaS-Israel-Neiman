@@ -79,7 +79,7 @@ export function badgeClass(tone = "neutral") {
 /* --- Formularios --- */
 
 const fieldBase =
-  "w-full rounded-lg bg-inset text-ink outline-none transition placeholder:text-muted/50 focus:ring-2 focus:ring-primary";
+  "w-full rounded-lg border border-white/10 bg-[#0F1115] text-[#F3F4F6] outline-none transition placeholder:text-muted/50 focus:ring-2 focus:ring-primary";
 
 export const inputClass = `h-11 px-3.5 ${fieldBase}`;
 
@@ -88,4 +88,4 @@ export const textareaClass = `min-h-28 resize-y px-3.5 py-3 ${fieldBase}`;
 export const fileInputClass = `min-w-0 px-3.5 py-2.5 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-line file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-[#2f3440] ${fieldBase}`;
 
 // Proximidad: rotulo y control quedan a 8px, como pide el manual.
-export const labelClass = "grid gap-2 text-sm font-medium text-muted";
+export const labelClass = "grid gap-2 text-sm font-medium text-[#9CA3AF]";
