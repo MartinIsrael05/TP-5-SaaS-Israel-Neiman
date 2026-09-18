@@ -6,12 +6,12 @@
   declaran en app/globals.css.
 
   Dos normas del manual que explican decisiones que podrian sorprender:
-  - Region comun: las tarjetas NO llevan borde. El cambio de valor luminico
-    entre el fondo (#0F1115) y la superficie (#1A1D24) alcanza como limite.
+  - Region comun: el limite entre tarjeta y fondo se refuerza con un borde
+    sutil (border-white/5) sobre la superficie (#1A1D24), estilo Bento Box.
   - Sobriedad: sin degradados, sin blur, sin sombras sobre las superficies.
 */
 
-export const cardClass = "rounded-xl bg-surface p-5 sm:p-6";
+export const cardClass = "rounded-2xl border border-white/5 bg-surface p-6";
 
 export const panelClass = "rounded-xl bg-inset p-4 sm:p-5";
 

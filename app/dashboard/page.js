@@ -134,7 +134,7 @@ export default async function DashboardPage() {
   const categoryTitles = new Map(categories.map((item) => [item.id, item.title]));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-6 sm:p-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Tu panel
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
         </section>
       ) : (
         <>
-          <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
+          <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <StatTile
               accent
               hint={
@@ -182,22 +182,22 @@ export default async function DashboardPage() {
               }
               icon={Wallet}
               label="Gasto mensual"
-              span="xl:col-span-3"
+              span="md:col-span-2"
               value={formatMoney(summary.monthlyTotal)}
-            />
-            <StatTile
-              hint="Lo que vas a pagar en 12 meses"
-              icon={Banknote}
-              label="Proyeccion anual"
-              span="xl:col-span-3"
-              value={formatMoney(summary.annualProjection)}
             />
             <StatTile
               hint={`${summary.pausedCount} pausadas · ${summary.cancelledCount} canceladas`}
               icon={Repeat}
               label="Suscripciones activas"
-              span="sm:col-span-1 xl:col-span-2"
+              span="md:col-span-1"
               value={summary.activeCount}
+            />
+            <StatTile
+              hint="Lo que vas a pagar en 12 meses"
+              icon={Banknote}
+              label="Proyeccion anual"
+              span="md:col-span-1"
+              value={formatMoney(summary.annualProjection)}
             />
             <StatTile
               hint={
@@ -207,13 +207,13 @@ export default async function DashboardPage() {
               }
               icon={PiggyBank}
               label="Ahorro potencial"
-              span="sm:col-span-1 xl:col-span-4"
+              span="md:col-span-2"
               tone={summary.pausedCount > 0 ? "positive" : "muted"}
               value={formatMoney(summary.potentialAnnualSavings)}
             />
           </section>
 
-          <div className="grid gap-6 xl:grid-cols-5">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <SectionCard
               accent
               action={
@@ -224,7 +224,7 @@ export default async function DashboardPage() {
                   Ver todas
                 </Link>
               }
-              className="xl:col-span-3"
+              className="md:col-span-2"
               icon={CalendarDays}
               subtitle="Ordenados por fecha, los que ya estan a la vuelta de la esquina."
               title="Proximos 30 dias"
@@ -301,7 +301,7 @@ export default async function DashboardPage() {
             </SectionCard>
 
             <SectionCard
-              className="xl:col-span-2"
+              className="md:col-span-1"
               icon={Tag}
               subtitle="Gasto mensual de tus activas, de mayor a menor."
               title="Gasto por categoria"
@@ -324,8 +324,9 @@ export default async function DashboardPage() {
             <ProjectionChart data={projection} />
           </SectionCard>
 
-          <div className="grid gap-6 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <SectionCard
+              className="md:col-span-2"
               icon={Trophy}
               subtitle="Normalizadas a costo mensual, para comparar peras con peras."
               title="Las mas caras"
@@ -377,6 +378,7 @@ export default async function DashboardPage() {
             </SectionCard>
 
             <SectionCard
+              className="md:col-span-1"
               icon={AlertTriangle}
               subtitle="Plata dormida y cobros grandes que se vienen."
               title="Para revisar"

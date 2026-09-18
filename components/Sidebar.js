@@ -25,10 +25,10 @@ function NavItem({ href, label, icon: Icon, pathname, onClick }) {
 
   return (
     <Link
-      className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition ${
+      className={`flex items-center gap-3 rounded-lg border-l-2 px-3.5 py-2.5 font-sans text-sm font-medium transition-all duration-200 ease-in-out ${
         active
-          ? "border-l-2 border-primary bg-primary/10 pl-3 text-primary"
-          : "border-l-2 border-transparent text-muted hover:bg-line hover:text-ink"
+          ? "border-[#6366F1] bg-indigo-500/10 pl-3 text-[#6366F1]"
+          : "border-transparent text-[#9CA3AF] hover:bg-white/5 hover:text-[#F3F4F6]"
       }`}
       href={href}
       onClick={onClick}
@@ -104,7 +104,7 @@ export default function Sidebar({ profile, user }) {
       </div>
       <form action={logout}>
         <button
-          className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-muted transition hover:bg-line hover:text-ink"
+          className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-left font-sans text-sm font-medium text-[#9CA3AF] transition-all duration-200 ease-in-out hover:bg-white/5 hover:text-[#F3F4F6]"
           type="submit"
         >
           <LogOut size={18} strokeWidth={2} />
@@ -116,7 +116,7 @@ export default function Sidebar({ profile, user }) {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-base p-5 md:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-white/5 bg-[#0F1115] p-5 md:flex">
         <Link className="mb-8 block" href="/">
           <Wordmark rule />
         </Link>
@@ -126,7 +126,7 @@ export default function Sidebar({ profile, user }) {
         </nav>
       </aside>
 
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-base px-4 py-3 md:hidden">
+      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#0F1115] px-4 py-3 md:hidden">
         <Link href="/">
           <Wordmark size="sm" />
         </Link>
@@ -142,7 +142,7 @@ export default function Sidebar({ profile, user }) {
       </div>
 
       {isOpen ? (
-        <div className="border-b border-line bg-base px-4 pb-5 md:hidden">
+        <div className="border-b border-white/5 bg-[#0F1115] px-4 pb-5 md:hidden">
           <nav className="flex flex-col gap-4 pt-3">
             {navLinks}
             {accountBlock}
