@@ -17,6 +17,12 @@ import { logout } from "@/app/dashboard/actions";
 import Wordmark from "@/components/ui/Wordmark";
 
 function isActivePath(pathname, href) {
+  // "/dashboard" es estricta: si no, queda activa en cualquier subruta
+  // (ej. /dashboard/subscriptions) y tapa el link real de esa seccion.
+  if (href === "/dashboard") {
+    return pathname === href;
+  }
+
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

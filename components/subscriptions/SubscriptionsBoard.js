@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   CalendarClock,
+  CreditCard,
   FileSpreadsheet,
   Pencil,
   Plus,
@@ -227,11 +228,16 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                   </span>
                 </p>
 
-                <p className="mt-2 flex items-center gap-1.5 font-mono text-sm tabular-nums text-[#9CA3AF]">
-                  <CalendarClock size={14} />
-                  Proximo cobro: {formatChargeDate(resolveNextChargeDate(subscription))}
-                  {subscription.paymentMethod ? ` · ${subscription.paymentMethod}` : ""}
-                </p>
+                <div className="mt-2 flex items-center gap-2 font-mono text-sm tabular-nums text-[#9CA3AF]">
+                  <CalendarClock className="shrink-0 text-[#F3F4F6]" size={16} />
+                  <span>{formatChargeDate(resolveNextChargeDate(subscription))}</span>
+                </div>
+                {subscription.paymentMethod ? (
+                  <div className="mt-1 flex items-center gap-2 text-xs text-[#9CA3AF]">
+                    <CreditCard size={14} className="text-[#F3F4F6]" />
+                    {subscription.paymentMethod}
+                  </div>
+                ) : null}
 
                 {subscription.notes ? (
                   <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-[#9CA3AF]">
