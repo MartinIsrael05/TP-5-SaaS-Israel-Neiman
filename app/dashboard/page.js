@@ -201,15 +201,15 @@ export default async function DashboardPage() {
             />
             <StatTile
               hint={
-                summary.pausedCount > 0
-                  ? "Por año, si cancelas las pausadas"
-                  : "No tenes suscripciones pausadas"
+                summary.zombieCount > 0
+                  ? "Por mes, en suscripciones activas de poco uso"
+                  : "No tenes suscripciones de poco uso"
               }
               icon={PiggyBank}
               label="Ahorro potencial"
               span="md:col-span-2"
-              tone={summary.pausedCount > 0 ? "positive" : "muted"}
-              value={formatMoney(summary.potentialAnnualSavings)}
+              tone={summary.zombieCount > 0 ? "positive" : "muted"}
+              value={formatMoney(summary.potentialMonthlySavings)}
             />
           </section>
 

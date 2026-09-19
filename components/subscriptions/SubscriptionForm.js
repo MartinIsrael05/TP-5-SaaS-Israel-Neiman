@@ -161,6 +161,20 @@ export default function SubscriptionForm({
       </div>
 
       <label className={labelClass}>
+        <span>Nivel de uso</span>
+        <select
+          className={inputClass}
+          name="usageLevel"
+          defaultValue={subscription?.usageLevel || "Alto"}
+          disabled={loading}
+        >
+          <option value="Alto">Alto</option>
+          <option value="Medio">Medio</option>
+          <option value="Bajo">Bajo</option>
+        </select>
+      </label>
+
+      <label className={labelClass}>
         <span>Link de cancelacion</span>
         <input
           className={inputClass}

@@ -25,6 +25,7 @@ async function parseSubscriptionForm(userId, formData) {
     reminderDaysBefore: formData.get("reminderDaysBefore"),
     cancelUrl: formData.get("cancelUrl"),
     notes: formData.get("notes"),
+    usageLevel: formData.get("usageLevel"),
   });
 
   if (errors.length > 0) {

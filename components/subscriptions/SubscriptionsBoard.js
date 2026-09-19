@@ -196,6 +196,11 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
               className="group relative flex h-full min-w-0 flex-col gap-4 overflow-hidden rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-white/15"
               key={subscription.id}
             >
+              {subscription.usageLevel === "Bajo" ? (
+                <span className="absolute right-3 top-3 rounded-full border border-[#F87171] bg-red-500/10 px-2 py-0.5 text-xs font-semibold text-[#F87171]">
+                  Poco Uso
+                </span>
+              ) : null}
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
