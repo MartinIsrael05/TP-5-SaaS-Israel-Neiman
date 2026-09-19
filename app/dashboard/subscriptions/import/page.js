@@ -23,9 +23,9 @@ export default async function ImportPage() {
           Importar desde Excel
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-          Si ya llevabas la cuenta en una planilla, subila y carga todas tus
+          Si ya llevabas la cuenta en una planilla, subila y cargá todas tus
           suscripciones de una vez. Antes de guardar nada vas a poder revisar
-          fila por fila que se entendio bien.
+          fila por fila que se entendió bien.
         </p>
       </header>
 
@@ -42,7 +42,7 @@ export default async function ImportPage() {
             </h2>
             <p className="mt-1 text-sm leading-6 text-muted">
               La primera fila del archivo tiene que ser la de encabezados. No
-              importa el orden ni las mayusculas, y cada campo acepta varios
+              importa el orden ni las mayúsculas, y cada campo acepta varios
               nombres.
             </p>
           </div>
@@ -53,7 +53,7 @@ export default async function ImportPage() {
             <thead>
               <tr className="border-b border-line text-left font-mono text-xs uppercase tracking-[0.08em] text-muted">
                 <th className="py-2 pr-4 font-semibold">Campo</th>
-                <th className="py-2 pr-4 font-semibold">Tambien acepta</th>
+                <th className="py-2 pr-4 font-semibold">También acepta</th>
                 <th className="py-2 font-semibold">Si falta</th>
               </tr>
             </thead>
@@ -71,7 +71,7 @@ export default async function ImportPage() {
                       ? "Obligatoria"
                       : column.fallback
                         ? `Queda en "${column.fallback}"`
-                        : "Queda vacia"}
+                        : "Queda vacía"}
                   </td>
                 </tr>
               ))}

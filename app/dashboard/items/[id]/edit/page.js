@@ -21,10 +21,10 @@ export default async function EditItemPage({ params }) {
     <div className="mx-auto w-full max-w-2xl space-y-6">
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
-          Organizacion
+          Organización
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Editar categoria
+          Editar categoría
         </h1>
         <p className="mt-2 text-sm leading-6 text-muted">
           Esta pantalla valida que el documento pertenezca al usuario actual.
@@ -38,7 +38,7 @@ export default async function EditItemPage({ params }) {
       />
 
       <Link className={buttonClass("secondary", "w-full sm:w-auto")} href="/dashboard/items">
-        Volver a categorias
+        Volver a categorías
       </Link>
     </div>
   );

@@ -13,7 +13,7 @@ export default function Footer({ user }) {
       ]
     : [
         { href: "/", label: "Home" },
-        { href: "/login", label: "Iniciar sesion" },
+        { href: "/login", label: "Iniciar sesión" },
       ];
 
   return (
@@ -26,13 +26,13 @@ export default function Footer({ user }) {
           <div className="min-w-0">
             <Wordmark size="sm" />
             <p className="mt-3 leading-6">
-              Una forma mas humana de entender tus gastos recurrentes, sin
+              Una forma más humana de entender tus gastos recurrentes, sin
               planillas que se pierden ni cobros que aparecen por sorpresa.
             </p>
           </div>
         </div>
 
-        <nav aria-label="Navegacion corporativa" className="flex flex-col gap-2 text-sm text-[#9CA3AF]">
+        <nav aria-label="Navegación corporativa" className="flex flex-col gap-2 text-sm text-[#9CA3AF]">
           {links.map((link) => (
             <Link className="transition-colors hover:text-[#F3F4F6]" href={link.href} key={link.href}>
               {link.label}

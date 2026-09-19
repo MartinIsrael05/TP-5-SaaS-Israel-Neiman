@@ -38,11 +38,11 @@ function parseUserForm(formData, { requirePassword = false } = {}) {
   }
 
   if (requirePassword && password.length < 6) {
-    throw new Error("La contrasena debe tener al menos 6 caracteres.");
+    throw new Error("La contraseña debe tener al menos 6 caracteres.");
   }
 
   if (!USER_TYPES.includes(userType)) {
-    throw new Error("Tipo de usuario invalido.");
+    throw new Error("Tipo de usuario inválido.");
   }
 
   return {

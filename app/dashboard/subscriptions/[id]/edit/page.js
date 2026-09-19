@@ -28,7 +28,7 @@ export default async function EditSubscriptionPage({ params }) {
           Gastos recurrentes
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Editar suscripcion
+          Editar suscripción
         </h1>
         <p className="mt-2 text-sm leading-6 text-muted">
           Esta pantalla valida que el documento pertenezca al usuario actual.

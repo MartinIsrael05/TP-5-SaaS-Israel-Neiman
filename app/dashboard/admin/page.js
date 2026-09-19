@@ -46,20 +46,20 @@ export default async function AdminPage() {
       <header>
         <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em] text-muted">
           <ShieldCheck size={14} />
-          Administracion
+          Administración
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Estado de la plataforma
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-          Metricas agregadas de todas las cuentas. Es la unica pantalla que mira
+          Métricas agregadas de todas las cuentas. Es la única pantalla que mira
           datos de otros usuarios, y solo la ve un administrador.
         </p>
       </header>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatTile
-          hint={`${stats.admins} ${stats.admins === 1 ? "administrador" : "administradores"} · ${stats.newUsers} en 30 dias`}
+          hint={`${stats.admins} ${stats.admins === 1 ? "administrador" : "administradores"} · ${stats.newUsers} en 30 días`}
           icon={Users}
           label="Usuarios registrados"
           value={stats.totalUsers}
@@ -73,7 +73,7 @@ export default async function AdminPage() {
         <StatTile
           hint={`${stats.activatedUsers} de ${stats.totalUsers} cargaron al menos una`}
           icon={BarChart3}
-          label="Activacion"
+          label="Activación"
           value={`${Math.round(stats.activationRate * 100)}%`}
         />
         <StatTile
@@ -104,7 +104,7 @@ export default async function AdminPage() {
             <div className="mt-4 flex flex-col items-center gap-3 rounded-lg bg-inset py-8 text-center">
               <Inbox className="text-ink/10" size={34} />
               <p className="text-sm leading-6 text-muted">
-                Todavia no hay suscripciones en la plataforma.
+                Todavía no hay suscripciones en la plataforma.
               </p>
             </div>
           ) : (
@@ -138,10 +138,10 @@ export default async function AdminPage() {
             </span>
             <div>
               <h2 className="font-sans text-lg font-semibold text-ink">
-                Servicios mas cargados
+                Servicios más cargados
               </h2>
               <p className="mt-1 text-sm leading-6 text-muted">
-                Que contratan los usuarios de la plataforma.
+                Qué contratan los usuarios de la plataforma.
               </p>
             </div>
           </div>
@@ -150,7 +150,7 @@ export default async function AdminPage() {
             <div className="mt-4 flex flex-col items-center gap-3 rounded-lg bg-inset py-8 text-center">
               <Inbox className="text-ink/10" size={34} />
               <p className="text-sm leading-6 text-muted">
-                Todavia no hay datos suficientes.
+                Todavía no hay datos suficientes.
               </p>
             </div>
           ) : (
@@ -182,7 +182,7 @@ export default async function AdminPage() {
       <section className={`${cardClass} flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between`}>
         <div>
           <h2 className="text-lg font-semibold text-ink">
-            Gestion de usuarios
+            Gestión de usuarios
           </h2>
           <p className="mt-1 max-w-xl text-sm leading-6 text-muted">
             Crear cuentas, cambiar roles y dar de baja perfiles.
@@ -196,11 +196,11 @@ export default async function AdminPage() {
       <section className={`${cardClass} flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between`}>
         <div>
           <h2 className="text-lg font-semibold text-ink">
-            Categorias creadas
+            Categorías creadas
           </h2>
           <p className="mt-1 max-w-xl text-sm leading-6 text-muted">
-            Los grupos que armaron los usuarios. Los nombres son privados: aca
-            solo se cuenta cuantos hay.
+            Los grupos que armaron los usuarios. Los nombres son privados: acá
+            solo se cuenta cuántos hay.
           </p>
         </div>
         <strong className="font-mono text-3xl font-semibold tabular-nums tracking-tight text-ink">

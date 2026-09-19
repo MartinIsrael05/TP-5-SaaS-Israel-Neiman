@@ -42,7 +42,7 @@ async function persistSession(user) {
   });
 
   if (!response.ok) {
-    throw new Error("No se pudo crear la sesion en el servidor.");
+    throw new Error("No se pudo crear la sesión en el servidor.");
   }
 }
 
@@ -58,7 +58,7 @@ export default function LoginForm() {
   const [loadingMessage, setLoadingMessage] = useState("");
 
   async function finishLogin(userCredential) {
-    setLoadingMessage("Creando sesion segura...");
+    setLoadingMessage("Creando sesión segura...");
     await persistSession(userCredential.user);
     setLoadingMessage("Redirigiendo al dashboard...");
     router.push(nextUrl);
@@ -69,7 +69,7 @@ export default function LoginForm() {
     event.preventDefault();
     setLoading(true);
     setLoadingMessage(
-      mode === "signup" ? "Creando cuenta..." : "Iniciando sesion...",
+      mode === "signup" ? "Creando cuenta..." : "Iniciando sesión...",
     );
     setError("");
 
@@ -81,7 +81,7 @@ export default function LoginForm() {
 
       await finishLogin(await action(getClientAuth(), email, password));
     } catch (err) {
-      setError(err.message || "No se pudo iniciar sesion.");
+      setError(err.message || "No se pudo iniciar sesión.");
       setLoading(false);
       setLoadingMessage("");
     }
@@ -95,7 +95,7 @@ export default function LoginForm() {
     try {
       await finishLogin(await signInWithPopup(getClientAuth(), getGoogleProvider()));
     } catch (err) {
-      setError(err.message || "No se pudo iniciar sesion con Google.");
+      setError(err.message || "No se pudo iniciar sesión con Google.");
       setLoading(false);
       setLoadingMessage("");
     }
@@ -108,7 +108,7 @@ export default function LoginForm() {
     >
       <div
         className="mb-7 grid grid-cols-2 gap-1 rounded-lg border border-white/10 bg-[#0F1115] p-1"
-        aria-label="Modo de autenticacion"
+        aria-label="Modo de autenticación"
       >
         <button
           type="button"
@@ -140,10 +140,10 @@ export default function LoginForm() {
         id="login-title"
         className="text-center font-sans text-2xl font-bold text-[#F3F4F6]"
       >
-        {mode === "signup" ? "Crear cuenta" : "Iniciar sesion"}
+        {mode === "signup" ? "Crear cuenta" : "Iniciar sesión"}
       </h1>
       <p className="mt-3 text-center text-sm leading-6 text-[#9CA3AF]">
-        Entra para llevar el control de tus suscripciones y gastos recurrentes.
+        Entrá para llevar el control de tus suscripciones y gastos recurrentes.
       </p>
 
       <form onSubmit={handleEmailSubmit} className="mt-7 grid gap-4">
@@ -183,7 +183,7 @@ export default function LoginForm() {
 
       <div className="my-6 flex items-center gap-3 text-xs text-[#9CA3AF]">
         <span className="h-px flex-1 bg-white/10" />
-        <span>o continua con</span>
+        <span>o continuá con</span>
         <span className="h-px flex-1 bg-white/10" />
       </div>
 
@@ -212,10 +212,10 @@ export default function LoginForm() {
           <div className="w-full max-w-sm rounded-2xl border border-white/5 bg-[#1A1D24] p-8 text-center shadow-2xl">
             <div className="mx-auto h-10 w-10 animate-spin rounded-full border border-white/10 border-t-[#6366F1]" />
             <p className="mt-5 text-sm font-semibold text-[#F3F4F6]">
-              {loadingMessage || "Procesando autenticacion..."}
+              {loadingMessage || "Procesando autenticación..."}
             </p>
             <p className="mt-2 text-sm leading-6 text-[#9CA3AF]">
-              Validando identidad y preparando la sesion.
+              Validando identidad y preparando la sesión.
             </p>
           </div>
         </div>

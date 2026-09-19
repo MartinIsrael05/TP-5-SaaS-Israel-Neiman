@@ -36,7 +36,7 @@ export async function importSubscriptions(rows) {
 
   if (rows.length > MAX_ROWS) {
     throw new Error(
-      `No se pueden importar mas de ${MAX_ROWS} filas por vez.`,
+      `No se pueden importar más de ${MAX_ROWS} filas por vez.`,
     );
   }
 

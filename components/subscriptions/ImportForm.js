@@ -175,11 +175,11 @@ export default function ImportForm({ action, categories = [] }) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
             <h2 className="text-lg font-semibold text-ink">
-              1. Elegi el archivo
+              1. Elegí el archivo
             </h2>
             <p className="mt-1 text-sm leading-6 text-muted">
               Acepta .xlsx, .xls y .csv. Se lee en tu navegador: el archivo no
-              se sube a ningun servidor.
+              se sube a ningún servidor.
             </p>
           </div>
           <button
@@ -231,8 +231,8 @@ export default function ImportForm({ action, categories = [] }) {
             Faltan columnas obligatorias
           </p>
           <p className="mt-2 text-sm leading-6 text-muted">
-            No encontramos {missing.join(", ")}. Revisa que la primera fila del
-            archivo tenga los encabezados, o descarga la plantilla para ver el
+            No encontramos {missing.join(", ")}. Revisá que la primera fila del
+            archivo tenga los encabezados, o descargá la plantilla para ver el
             formato esperado.
           </p>
         </div>
@@ -248,13 +248,13 @@ export default function ImportForm({ action, categories = [] }) {
         <div className={`${cardClass} bg-positive/10`}>
           <p className="flex items-center gap-2 text-sm font-semibold text-positive">
             <CheckCircle2 size={16} />
-            Importacion terminada
+            Importación terminada
           </p>
           <p className="mt-2 text-sm leading-6 text-muted">
             Se cargaron {result.imported}{" "}
-            {result.imported === 1 ? "suscripcion" : "suscripciones"}.
+            {result.imported === 1 ? "suscripción" : "suscripciones"}.
             {result.createdCategories.length > 0
-              ? ` Se crearon ${result.createdCategories.length === 1 ? "la categoria" : "las categorias"} ${result.createdCategories.join(", ")}.`
+              ? ` Se crearon ${result.createdCategories.length === 1 ? "la categoría" : "las categorías"} ${result.createdCategories.join(", ")}.`
               : ""}
             {result.skipped.length > 0
               ? ` Se omitieron ${result.skipped.length} filas con errores.`
@@ -268,7 +268,7 @@ export default function ImportForm({ action, categories = [] }) {
           <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-ink">
-                2. Revisa que va a entrar
+                2. Revisá qué va a entrar
               </h2>
               <p className="mt-1 text-sm leading-6 text-muted">
                 {validRows.length}{" "}
@@ -277,7 +277,7 @@ export default function ImportForm({ action, categories = [] }) {
                   ? ` · ${invalidRows.length} con error, que se van a omitir`
                   : ""}
                 {newCategories.length > 0
-                  ? ` · se van a crear las categorias ${newCategories.join(", ")}`
+                  ? ` · se van a crear las categorías ${newCategories.join(", ")}`
                   : ""}
               </p>
             </div>
@@ -299,10 +299,10 @@ export default function ImportForm({ action, categories = [] }) {
                 <tr className="border-b border-line text-left text-xs uppercase tracking-[0.08em] text-muted">
                   <th className="py-2 pr-3 font-semibold">Fila</th>
                   <th className="py-2 pr-3 font-semibold">Nombre</th>
-                  <th className="py-2 pr-3 font-semibold">Categoria</th>
+                  <th className="py-2 pr-3 font-semibold">Categoría</th>
                   <th className="py-2 pr-3 text-right font-semibold">Monto</th>
                   <th className="py-2 pr-3 font-semibold">Ciclo</th>
-                  <th className="py-2 pr-3 font-semibold">Proximo cobro</th>
+                  <th className="py-2 pr-3 font-semibold">Próximo cobro</th>
                   <th className="py-2 font-semibold">Estado</th>
                 </tr>
               </thead>

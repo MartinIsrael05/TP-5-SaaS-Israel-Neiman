@@ -28,7 +28,7 @@ export default function ItemForm({ action, item, submitLabel = "Guardar" }) {
         form.reset();
       }
     } catch (err) {
-      setError(err.message || "No se pudo guardar la categoria.");
+      setError(err.message || "No se pudo guardar la categoría.");
     } finally {
       setLoading(false);
     }
@@ -49,16 +49,16 @@ export default function ItemForm({ action, item, submitLabel = "Guardar" }) {
       </label>
 
       <label className={labelClass}>
-        <span>Descripcion</span>
+        <span>Descripción</span>
         <textarea
           className={textareaClass}
           name="description"
           defaultValue={item?.description || ""}
           disabled={loading}
-          placeholder="Peliculas, series y musica."
+          placeholder="Películas, series y música."
         />
         <span className="text-sm font-normal leading-6 text-muted">
-          Opcional. Sirve para acordarte que entra en esta categoria.
+          Opcional. Sirve para acordarte que entra en esta categoría.
         </span>
       </label>
 

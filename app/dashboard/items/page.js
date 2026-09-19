@@ -45,13 +45,13 @@ export default async function ItemsPage() {
     <div className="space-y-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
-          Organizacion
+          Organización
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Categorias
+          Categorías
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-          Los grupos con los que ordenas tus suscripciones. Son privadas: solo
+          Los grupos con los que ordenás tus suscripciones. Son privadas: solo
           las ves vos.
         </p>
       </header>
@@ -59,15 +59,15 @@ export default async function ItemsPage() {
       <section className="grid gap-6 xl:grid-cols-[minmax(280px,360px)_1fr]">
         <div>
           <h2 className="mb-3 text-lg font-semibold text-ink">
-            Nueva categoria
+            Nueva categoría
           </h2>
-          <ItemForm action={createItem} submitLabel="Crear categoria" />
+          <ItemForm action={createItem} submitLabel="Crear categoría" />
         </div>
 
         <div>
           <div className="mb-3 flex items-center justify-between gap-3">
             <h2 className="text-lg font-semibold text-ink">
-              Mis categorias
+              Mis categorías
             </h2>
             <span className="text-sm text-muted">{items.length} total</span>
           </div>
@@ -79,10 +79,10 @@ export default async function ItemsPage() {
               </span>
               <div className="max-w-sm space-y-1.5">
                 <h3 className="font-sans text-lg font-semibold text-ink">
-                  Tus categorias empiezan aca
+                  Tus categorías empiezan acá
                 </h3>
                 <p className="text-sm leading-6 text-muted">
-                  Crea la primera para empezar a agrupar tus suscripciones.
+                  Creá la primera para empezar a agrupar tus suscripciones.
                 </p>
               </div>
             </div>
@@ -106,7 +106,7 @@ export default async function ItemsPage() {
                         </h3>
                         <span className={badgeClass(stats.count > 0 ? "accent" : "neutral")}>
                           {stats.count === 1
-                            ? "1 suscripcion"
+                            ? "1 suscripción"
                             : `${stats.count} suscripciones`}
                         </span>
                       </div>
@@ -147,9 +147,9 @@ export default async function ItemsPage() {
 
           {uncategorized > 0 ? (
             <p className="mt-4 text-sm leading-6 text-muted">
-              Tenes {uncategorized}{" "}
-              {uncategorized === 1 ? "suscripcion" : "suscripciones"} sin
-              categoria.{" "}
+              Tenés {uncategorized}{" "}
+              {uncategorized === 1 ? "suscripción" : "suscripciones"} sin
+              categoría.{" "}
               <Link
                 className="text-primary underline-offset-4 hover:underline"
                 href="/dashboard/subscriptions"

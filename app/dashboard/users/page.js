@@ -34,13 +34,13 @@ export default async function UsersPage() {
     <div className="space-y-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
-          Administracion
+          Administración
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Usuarios
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-          Gestion de perfiles almacenados en Firestore.
+          Gestión de perfiles almacenados en Firestore.
         </p>
       </header>
 
@@ -97,7 +97,7 @@ export default async function UsersPage() {
                       {managedUser.uid}
                     </p>
                     <p className="mt-2 text-xs text-muted">
-                      Ultimo acceso: {formatDate(managedUser.lastLoginAt)}
+                      Último acceso: {formatDate(managedUser.lastLoginAt)}
                     </p>
                   </div>
 

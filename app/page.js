@@ -32,27 +32,27 @@ const MOCK_SUBSCRIPTIONS = [
 const FEATURES = [
   {
     icon: Bell,
-    title: "Alertas de renovacion",
+    title: "Alertas de renovación",
     description:
-      "Los cobros de los proximos 30 dias ordenados por fecha, con aviso de los que caen esta semana.",
+      "Los cobros de los próximos 30 días ordenados por fecha, con aviso de los que caen esta semana.",
   },
   {
     icon: PiggyBank,
-    title: "Graficos claros",
+    title: "Gráficos claros",
     description:
-      "Total mensual con las anuales prorrateadas, proyeccion a 12 meses y cuanto ahorrarias cancelando lo que tenes pausado.",
+      "Total mensual con las anuales prorrateadas, proyección a 12 meses y cuánto ahorrarías cancelando lo que tenés pausado.",
   },
   {
     icon: FileSpreadsheet,
-    title: "Importa tu Excel",
+    title: "Importá tu Excel",
     description:
-      "Si ya llevabas la cuenta en una planilla, la subis y se cargan todas juntas. Te mostramos que va a entrar antes de confirmar.",
+      "Si ya llevabas la cuenta en una planilla, la subís y se cargan todas juntas. Te mostramos qué va a entrar antes de confirmar.",
   },
   {
     icon: Tags,
     title: "Ordenado a tu manera",
     description:
-      "Categorias propias y privadas, para ver en que se te va la plata y no solo cuanto.",
+      "Categorías propias y privadas, para ver en qué se te va la plata y no solo cuánto.",
   },
 ];
 
@@ -68,11 +68,11 @@ function LandingHome() {
             Control de gastos recurrentes
           </p>
           <h1 className="mt-4 max-w-3xl font-sans text-4xl font-bold leading-tight tracking-tight text-[#F3F4F6] sm:text-5xl lg:text-6xl lg:leading-[1.05]">
-            Toma el control absoluto de tus suscripciones.
+            Tomá el control absoluto de tus suscripciones.
           </h1>
           <p className="mt-5 max-w-2xl leading-7 text-[#9CA3AF]">
-            Centraliza tus gastos, recibe alertas antes de cada cobro y
-            descubre a donde se va tu dinero mes a mes.
+            Centralizá tus gastos, recibí alertas antes de cada cobro y
+            descubrí adónde se va tu dinero mes a mes.
           </p>
           <div className="mt-8 grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:justify-center">
             <Link
@@ -86,7 +86,7 @@ function LandingHome() {
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-6 text-sm font-semibold text-[#F3F4F6] transition-colors hover:bg-white/10 sm:w-auto"
               href="#features"
             >
-              Ver caracteristicas
+              Ver características
             </a>
           </div>
 
@@ -126,11 +126,11 @@ function LandingHome() {
         id="features"
       >
         <h2 className="text-center font-sans text-2xl font-bold text-[#F3F4F6] sm:text-3xl">
-          Disenado para tu paz mental
+          Diseñado para tu paz mental
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-6 text-[#9CA3AF]">
           Cada detalle de TECA existe para que dejes de perseguir cobros y
-          empieces a decidir con numeros reales.
+          empieces a decidir con números reales.
         </p>
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature, index) => (
@@ -160,7 +160,7 @@ function LandingHome() {
         <div className="flex flex-col items-center gap-5 rounded-2xl border border-white/5 bg-[#1A1D24] p-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
             <h2 className="font-sans text-xl font-bold text-[#F3F4F6]">
-              Empeza por la que ni te acordabas que pagabas
+              Empezá por la que ni te acordabas que pagabas
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[#9CA3AF]">
               Crear la cuenta lleva menos de un minuto y no hace falta tarjeta.
@@ -205,8 +205,8 @@ async function MemberHome({ user }) {
       {subscriptions.length === 0 ? (
         <>
           <p className="mt-3 max-w-2xl leading-7 text-muted">
-            Tu cuenta esta lista, pero todavia no cargaste ninguna suscripcion.
-            Podes cargarlas de a una o importar la planilla que ya tengas.
+            Tu cuenta está lista, pero todavía no cargaste ninguna suscripción.
+            Podés cargarlas de a una o importar la planilla que ya tengas.
           </p>
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
             <Link
@@ -245,9 +245,9 @@ async function MemberHome({ user }) {
               hint={
                 nextCharge
                   ? `${nextCharge.name} · ${formatMoneyShort(nextCharge.amount, nextCharge.currency)}`
-                  : "No hay cobros proximos"
+                  : "No hay cobros próximos"
               }
-              label="Proximo cobro"
+              label="Próximo cobro"
               value={nextCharge ? formatShortDate(nextCharge.chargeDate) : "—"}
             />
             <StatTile
@@ -271,7 +271,7 @@ async function MemberHome({ user }) {
               href="/dashboard/subscriptions"
             >
               <Plus size={16} />
-              Cargar una suscripcion
+              Cargar una suscripción
             </Link>
             <Link
               className={buttonClass("secondary", "w-full sm:w-auto")}

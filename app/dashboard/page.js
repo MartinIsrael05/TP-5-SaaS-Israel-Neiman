@@ -153,8 +153,8 @@ export default async function DashboardPage() {
           Hola, {profile?.displayName || user.email}
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-          Todo lo que se te cobra automaticamente, con los numeros que importan:
-          cuanto se te va por mes, que se viene y donde hay plata dormida.
+          Todo lo que se te cobra automáticamente, con los números que importan:
+          cuánto se te va por mes, qué se viene y dónde hay plata dormida.
         </p>
       </header>
 
@@ -165,11 +165,11 @@ export default async function DashboardPage() {
           </span>
           <div className="max-w-sm space-y-1.5">
             <h2 className="font-sans text-lg font-semibold text-ink">
-              Tu panel esta vacio, por ahora
+              Tu panel está vacío, por ahora
             </h2>
             <p className="text-sm leading-6 text-muted">
-              Todavia no cargaste suscripciones, asi que no hay nada para
-              resumir. Carga la primera y el panel se arma solo.
+              Todavía no cargaste suscripciones, así que no hay nada para
+              resumir. Cargá la primera y el panel se arma solo.
             </p>
           </div>
           <Link
@@ -177,7 +177,7 @@ export default async function DashboardPage() {
             href="/dashboard/subscriptions"
           >
             <Sparkles size={16} />
-            Cargar mi primera suscripcion
+            Cargar mi primera suscripción
           </Link>
         </section>
       ) : (
@@ -205,7 +205,7 @@ export default async function DashboardPage() {
             <StatTile
               hint="Lo que vas a pagar en 12 meses"
               icon={Banknote}
-              label="Proyeccion anual"
+              label="Proyección anual"
               span="md:col-span-1"
               value={formatMoneyMulti(summary.annualProjectionARS, summary.annualProjectionUSD)}
             />
@@ -213,7 +213,7 @@ export default async function DashboardPage() {
               hint={
                 summary.zombieCount > 0
                   ? "Por mes, en suscripciones activas de poco uso"
-                  : "No tenes suscripciones de poco uso"
+                  : "No tenés suscripciones de poco uso"
               }
               icon={PiggyBank}
               label="Ahorro potencial"
@@ -236,12 +236,12 @@ export default async function DashboardPage() {
               }
               className="md:col-span-2"
               icon={CalendarDays}
-              subtitle="Ordenados por fecha, los que ya estan a la vuelta de la esquina."
-              title="Proximos 30 dias"
+              subtitle="Ordenados por fecha, los que ya están a la vuelta de la esquina."
+              title="Próximos 30 días"
             >
               {upcoming.length === 0 ? (
                 <p className="text-sm leading-6 text-muted">
-                  No hay cobros en los proximos 30 dias.
+                  No hay cobros en los próximos 30 días.
                 </p>
               ) : (
                 <ul className="divide-y divide-line">
@@ -314,7 +314,7 @@ export default async function DashboardPage() {
               className="md:col-span-1"
               icon={Tag}
               subtitle="Gasto mensual de tus activas, de mayor a menor."
-              title="Gasto por categoria"
+              title="Gasto por categoría"
             >
               <CategorySpendChart
                 dataByCurrency={{
@@ -327,8 +327,8 @@ export default async function DashboardPage() {
 
           <SectionCard
             icon={CalendarClock}
-            subtitle="Tu gasto no es parejo: las renovaciones anuales hacen que algunos meses duelan mas que otros."
-            title="Proyeccion de los proximos 6 meses"
+            subtitle="Tu gasto no es parejo: las renovaciones anuales hacen que algunos meses duelan más que otros."
+            title="Proyección de los próximos 6 meses"
           >
             <ProjectionChart dataByCurrency={projectionByCurrency} />
           </SectionCard>
@@ -338,7 +338,7 @@ export default async function DashboardPage() {
               className="md:col-span-2"
               icon={Trophy}
               subtitle="Normalizadas a costo mensual, para comparar peras con peras."
-              title="Las mas caras"
+              title="Las más caras"
             >
               {rankedSubscriptions.length === 0 ? (
                 <p className="text-sm leading-6 text-muted">

@@ -35,7 +35,7 @@ export default function Navbar({ actions, user }) {
                 </Link>
                 <form action={logout}>
                   <button
-                    aria-label="Cerrar sesion"
+                    aria-label="Cerrar sesión"
                     className={buttonClass("secondary")}
                     type="submit"
                   >
@@ -57,7 +57,7 @@ export default function Navbar({ actions, user }) {
             onClick={() => setIsOpen((value) => !value)}
             type="button"
           >
-            <span className="sr-only">Abrir menu</span>
+            <span className="sr-only">Abrir menú</span>
             {isOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
@@ -86,7 +86,7 @@ export default function Navbar({ actions, user }) {
                   </Link>
                   <form action={logout}>
                     <button className={buttonClass("secondary", "w-full")} type="submit">
-                      Cerrar sesion
+                      Cerrar sesión
                     </button>
                   </form>
                 </>

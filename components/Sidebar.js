@@ -78,7 +78,7 @@ export default function Sidebar({ profile, user }) {
         <div className="pt-6">
           <p className="flex items-center gap-2 px-3.5 pb-2 text-xs font-medium uppercase tracking-[0.12em] text-muted">
             <ShieldCheck size={12} />
-            Administracion
+            Administración
           </p>
           <div className="space-y-1">
             {adminLinks.map((link) => (
@@ -114,7 +114,7 @@ export default function Sidebar({ profile, user }) {
           type="submit"
         >
           <LogOut size={18} strokeWidth={2} />
-          Cerrar sesion
+          Cerrar sesión
         </button>
       </form>
     </div>
@@ -142,7 +142,7 @@ export default function Sidebar({ profile, user }) {
           onClick={() => setIsOpen((value) => !value)}
           type="button"
         >
-          <span className="sr-only">Abrir menu</span>
+          <span className="sr-only">Abrir menú</span>
           {isOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>

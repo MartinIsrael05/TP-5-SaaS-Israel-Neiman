@@ -33,7 +33,7 @@ export default function SubscriptionForm({
       }
       onSuccess?.();
     } catch (err) {
-      setError(err.message || "No se pudo guardar la suscripcion.");
+      setError(err.message || "No se pudo guardar la suscripción.");
     } finally {
       setLoading(false);
     }
@@ -54,14 +54,14 @@ export default function SubscriptionForm({
       </label>
 
       <label className={labelClass}>
-        <span>Categoria</span>
+        <span>Categoría</span>
         <select
           className={inputClass}
           name="categoryItemId"
           defaultValue={subscription?.categoryItemId || ""}
           disabled={loading}
         >
-          <option value="">Sin categoria</option>
+          <option value="">Sin categoría</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.title}
@@ -70,8 +70,8 @@ export default function SubscriptionForm({
         </select>
         {categories.length === 0 ? (
           <span className="text-sm font-normal leading-6 text-muted">
-            Todavia no tenes categorias. Podes cargar la suscripcion igual y
-            asignarsela mas adelante.
+            Todavía no tenés categorías. Podés cargar la suscripción igual y
+            asignársela más adelante.
           </span>
         ) : null}
       </label>
@@ -121,7 +121,7 @@ export default function SubscriptionForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className={labelClass}>
-          <span>Proximo cobro</span>
+          <span>Próximo cobro</span>
           <input
             className={inputClass}
             name="nextChargeDate"
@@ -160,7 +160,7 @@ export default function SubscriptionForm({
         </label>
 
         <label className={labelClass}>
-          <span>Dias de aviso previo</span>
+          <span>Días de aviso previo</span>
           <input
             className={inputClass}
             name="reminderDaysBefore"

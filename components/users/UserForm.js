@@ -32,7 +32,7 @@ export default function UserForm({
 
       {showCredentials ? (
         <label className={labelClass}>
-          <span>Contrasena</span>
+          <span>Contraseña</span>
           <input
             className={inputClass}
             name="password"

@@ -35,7 +35,7 @@ async function parseSubscriptionForm(userId, formData) {
 
   // La categoria llega del cliente, asi que confirmamos que sea del usuario.
   if (categoryItemId && !(await getUserItem(userId, categoryItemId))) {
-    throw new Error("La categoria seleccionada no existe.");
+    throw new Error("La categoría seleccionada no existe.");
   }
 
   return { ...data, categoryItemId };

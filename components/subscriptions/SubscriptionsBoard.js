@@ -101,8 +101,8 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
             Suscripciones
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-            Todo lo que se te cobra automaticamente, en un solo lugar: cuanto
-            sale, cada cuanto y cuando se renueva.
+            Todo lo que se te cobra automáticamente, en un solo lugar: cuánto
+            sale, cada cuánto y cuándo se renueva.
           </p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-3">
@@ -116,7 +116,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
             type="button"
           >
             <Plus size={16} />
-            Nueva Suscripcion
+            Nueva Suscripción
           </button>
         </div>
       </header>
@@ -130,7 +130,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
           <input
             className={`${filterFieldClass} w-full pl-10`}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Buscar suscripcion..."
+            placeholder="Buscar suscripción..."
             type="text"
             value={search}
           />
@@ -169,24 +169,24 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
           <Wallet className="text-white/5" size={112} strokeWidth={1.5} />
           <div className="max-w-sm space-y-1.5">
             <h3 className="font-sans text-lg font-semibold text-[#9CA3AF]">
-              Todavia no hay suscripciones
+              Todavía no hay suscripciones
             </h3>
             <p className="text-sm leading-6 text-muted">
-              Empeza por la que mas te preocupa: seguro hay una que ni
-              recordabas que seguias pagando.
+              Empezá por la que más te preocupa: seguro hay una que ni
+              recordabas que seguías pagando.
             </p>
           </div>
           <button className={buttonClass("primary")} onClick={() => setModalOpen(true)} type="button">
-            Crear suscripcion
+            Crear suscripción
           </button>
         </div>
       ) : filteredSubscriptions.length === 0 ? (
         <div className={`${cardClass} flex flex-col items-center justify-center gap-2 py-16 text-center`}>
           <p className="font-sans font-semibold text-[#9CA3AF]">
-            Ninguna suscripcion coincide con los filtros
+            Ninguna suscripción coincide con los filtros
           </p>
           <p className="text-sm leading-6 text-muted">
-            Proba con otro termino de busqueda o cambia los filtros.
+            Probá con otro término de búsqueda o cambiá los filtros.
           </p>
         </div>
       ) : (
@@ -290,7 +290,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm">
           <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/5 bg-[#1A1D24] shadow-xl">
             <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/5 bg-[#1A1D24] px-6 py-4">
-              <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripcion</h2>
+              <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripción</h2>
               <button
                 aria-label="Cerrar"
                 className="flex size-8 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] transition hover:bg-white/5 hover:text-[#F3F4F6]"
@@ -305,7 +305,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                 action={createSubscription}
                 categories={categories}
                 onSuccess={() => setModalOpen(false)}
-                submitLabel="Agregar suscripcion"
+                submitLabel="Agregar suscripción"
               />
             </div>
           </div>

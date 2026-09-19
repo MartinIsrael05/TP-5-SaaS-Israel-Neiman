@@ -27,7 +27,7 @@ export default async function EditUserPage({ params }) {
     <div className="mx-auto w-full max-w-2xl space-y-6">
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
-          Administracion
+          Administración
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Editar usuario
