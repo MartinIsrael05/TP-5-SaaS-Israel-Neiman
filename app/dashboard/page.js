@@ -30,8 +30,9 @@ import {
 import CategorySpendChart from "@/components/dashboard/CategorySpendChart";
 import ProjectionChart from "@/components/dashboard/ProjectionChart";
 import StatTile from "@/components/dashboard/StatTile";
+import TopExpenses from "@/components/dashboard/TopExpenses";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
-import { formatMoney, formatShortDate } from "@/lib/format";
+import { formatMoneyMulti, formatMoneyShort, formatShortDate } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
@@ -128,8 +129,17 @@ export default async function DashboardPage() {
   const summary = summarize(subscriptions);
   const byCategory = spendByCategory(subscriptions, categories);
   const upcoming = upcomingCharges(subscriptions, { days: 30 });
-  const projection = monthlyProjection(subscriptions, { months: 6 });
-  const mostExpensive = topSubscriptions(subscriptions, 5);
+  const projectionByCurrency = {
+    ARS: monthlyProjection(
+      subscriptions.filter((subscription) => subscription.currency !== "USD"),
+      { months: 6 },
+    ),
+    USD: monthlyProjection(
+      subscriptions.filter((subscription) => subscription.currency === "USD"),
+      { months: 6 },
+    ),
+  };
+  const rankedSubscriptions = topSubscriptions(subscriptions, subscriptions.length);
   const suggestions = reviewSuggestions(subscriptions);
   const categoryTitles = new Map(categories.map((item) => [item.id, item.title]));
 
@@ -183,7 +193,7 @@ export default async function DashboardPage() {
               icon={Wallet}
               label="Gasto mensual"
               span="md:col-span-2"
-              value={formatMoney(summary.monthlyTotal)}
+              value={formatMoneyMulti(summary.monthlyTotalARS, summary.monthlyTotalUSD)}
             />
             <StatTile
               hint={`${summary.pausedCount} pausadas · ${summary.cancelledCount} canceladas`}
@@ -197,7 +207,7 @@ export default async function DashboardPage() {
               icon={Banknote}
               label="Proyeccion anual"
               span="md:col-span-1"
-              value={formatMoney(summary.annualProjection)}
+              value={formatMoneyMulti(summary.annualProjectionARS, summary.annualProjectionUSD)}
             />
             <StatTile
               hint={
@@ -209,7 +219,7 @@ export default async function DashboardPage() {
               label="Ahorro potencial"
               span="md:col-span-2"
               tone={summary.zombieCount > 0 ? "positive" : "muted"}
-              value={formatMoney(summary.potentialMonthlySavings)}
+              value={formatMoneyMulti(summary.potentialSavingsARS, summary.potentialSavingsUSD)}
             />
           </section>
 
@@ -283,7 +293,7 @@ export default async function DashboardPage() {
                               isCritical ? "text-alert" : "text-ink"
                             }`}
                           >
-                            {formatMoney(charge.amount)}
+                            {formatMoneyShort(charge.amount, charge.currency)}
                           </span>
                           <Link
                             aria-label={`Editar ${charge.name}`}
@@ -306,13 +316,12 @@ export default async function DashboardPage() {
               subtitle="Gasto mensual de tus activas, de mayor a menor."
               title="Gasto por categoria"
             >
-              {byCategory.length === 0 ? (
-                <p className="text-sm leading-6 text-muted">
-                  No hay suscripciones activas para agrupar.
-                </p>
-              ) : (
-                <CategorySpendChart data={byCategory} />
-              )}
+              <CategorySpendChart
+                dataByCurrency={{
+                  ARS: byCategory.categoryBreakdownARS,
+                  USD: byCategory.categoryBreakdownUSD,
+                }}
+              />
             </SectionCard>
           </div>
 
@@ -321,7 +330,7 @@ export default async function DashboardPage() {
             subtitle="Tu gasto no es parejo: las renovaciones anuales hacen que algunos meses duelan mas que otros."
             title="Proyeccion de los proximos 6 meses"
           >
-            <ProjectionChart data={projection} />
+            <ProjectionChart dataByCurrency={projectionByCurrency} />
           </SectionCard>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -331,49 +340,12 @@ export default async function DashboardPage() {
               subtitle="Normalizadas a costo mensual, para comparar peras con peras."
               title="Las mas caras"
             >
-              {mostExpensive.length === 0 ? (
+              {rankedSubscriptions.length === 0 ? (
                 <p className="text-sm leading-6 text-muted">
                   No hay suscripciones activas.
                 </p>
               ) : (
-                <ol className="divide-y divide-line">
-                  {mostExpensive.map((subscription, index) => (
-                    <li
-                      className="group -mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition-all duration-300 ease-in-out first:pt-3 last:pb-3 hover:bg-inset"
-                      key={subscription.id}
-                    >
-                      <div className="flex min-w-0 items-center gap-3">
-                        <span
-                          className={`flex size-7 shrink-0 items-center justify-center rounded-md font-mono text-xs tabular-nums transition-colors duration-300 ease-in-out ${
-                            index === 0
-                              ? "bg-primary/10 text-primary"
-                              : "bg-inset text-muted"
-                          }`}
-                        >
-                          {index === 0 ? <Trophy size={13} /> : index + 1}
-                        </span>
-                        <span className="truncate text-sm font-medium text-ink">
-                          {subscription.name}
-                        </span>
-                        {subscription.billingCycle === "annual" ? (
-                          <span className={badgeClass("neutral")}>anual</span>
-                        ) : null}
-                      </div>
-                      <div className="flex shrink-0 items-center gap-3">
-                        <span className="font-mono text-sm font-semibold tabular-nums text-ink">
-                          {formatMoney(subscription.monthly)}
-                        </span>
-                        <Link
-                          aria-label={`Editar ${subscription.name}`}
-                          className="flex size-7 items-center justify-center rounded-md text-muted opacity-0 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink group-hover:opacity-100"
-                          href={`/dashboard/subscriptions/${subscription.id}/edit`}
-                        >
-                          <Pencil size={13} />
-                        </Link>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
+                <TopExpenses subscriptions={rankedSubscriptions} />
               )}
             </SectionCard>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -11,14 +12,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatMoney, formatMoneyCompact } from "@/lib/format";
+import { formatMoneyShort } from "@/lib/format";
 import { CHART, SERIES_LABELS } from "./chartTheme";
 
 // Dos series apiladas: la base que se repite todos los meses y las
 // renovaciones anuales, que caen en un mes puntual. Separarlas es todo el
 // punto del grafico: muestra por que un mes cuesta mucho mas que el anterior.
 
-function ChartTooltip({ active, payload }) {
+const CURRENCIES = ["ARS", "USD"];
+
+function ChartTooltip({ active, currency, payload }) {
   if (!active || !payload?.length) {
     return null;
   }
@@ -28,7 +31,7 @@ function ChartTooltip({ active, payload }) {
   return (
     <div className="rounded-lg border border-white/5 bg-[#1A1D24] px-3 py-2 shadow-xl">
       <p className="font-sans text-sm font-semibold text-[#F3F4F6]">
-        {row.label} · <span className="tabular-nums">{formatMoney(row.total)}</span>
+        {row.label} · <span className="tabular-nums">{formatMoneyShort(row.total, currency)}</span>
       </p>
       <p className="mt-1 flex items-center gap-2 text-sm text-[#9CA3AF]">
         <span
@@ -36,7 +39,7 @@ function ChartTooltip({ active, payload }) {
           style={{ backgroundColor: CHART.series1 }}
         />
         {SERIES_LABELS.monthly}:{" "}
-        <span className="tabular-nums">{formatMoney(row.monthly)}</span>
+        <span className="tabular-nums">{formatMoneyShort(row.monthly, currency)}</span>
       </p>
       {row.annual > 0 ? (
         <p className="mt-0.5 flex items-center gap-2 text-sm text-[#9CA3AF]">
@@ -45,7 +48,7 @@ function ChartTooltip({ active, payload }) {
             style={{ backgroundColor: CHART.series2 }}
           />
           {SERIES_LABELS.annual}:{" "}
-          <span className="tabular-nums">{formatMoney(row.annual)}</span>
+          <span className="tabular-nums">{formatMoneyShort(row.annual, currency)}</span>
         </p>
       ) : null}
       {row.renewalNames.length > 0 ? (
@@ -69,12 +72,39 @@ function LegendSwatch({ color, label }) {
   );
 }
 
-export default function ProjectionChart({ data }) {
+function CurrencyToggle({ currencyMode, onChange }) {
+  return (
+    <div className="inline-flex shrink-0 gap-1 rounded-lg bg-[#0F1115] p-1">
+      {CURRENCIES.map((code) => (
+        <button
+          className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
+            currencyMode === code
+              ? "bg-[#1A1D24] text-[#F3F4F6]"
+              : "text-[#9CA3AF]"
+          }`}
+          key={code}
+          onClick={() => onChange(code)}
+          type="button"
+        >
+          {code}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export default function ProjectionChart({ dataByCurrency }) {
+  const [currencyMode, setCurrencyMode] = useState("ARS");
+  const data = dataByCurrency?.[currencyMode] || [];
+
   return (
     <div>
-      <div className="mb-4 flex flex-wrap gap-x-5 gap-y-2">
-        <LegendSwatch color={CHART.series1} label={SERIES_LABELS.monthly} />
-        <LegendSwatch color={CHART.series2} label={SERIES_LABELS.annual} />
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          <LegendSwatch color={CHART.series1} label={SERIES_LABELS.monthly} />
+          <LegendSwatch color={CHART.series2} label={SERIES_LABELS.annual} />
+        </div>
+        <CurrencyToggle currencyMode={currencyMode} onChange={setCurrencyMode} />
       </div>
 
       <div style={{ height: 260 }}>
@@ -90,11 +120,11 @@ export default function ProjectionChart({ data }) {
             <YAxis
               axisLine={false}
               tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
-              tickFormatter={formatMoneyCompact}
+              tickFormatter={(value) => formatMoneyShort(value, currencyMode)}
               tickLine={false}
-              width={56}
+              width={64}
             />
-            <Tooltip content={<ChartTooltip />} cursor={{ fill: "#262A33" }} />
+            <Tooltip content={<ChartTooltip currency={currencyMode} />} cursor={{ fill: "#262A33" }} />
             <Bar
               dataKey="monthly"
               fill={CHART.series1}
@@ -127,7 +157,7 @@ export default function ProjectionChart({ data }) {
                       x={x + width / 2}
                       y={y - row.annual * pixelsPerUnit - 8}
                     >
-                      {formatMoneyCompact(row.total)}
+                      {formatMoneyShort(row.total, currencyMode)}
                     </text>
                   );
                 }}
@@ -151,3 +181,4 @@ export default function ProjectionChart({ data }) {
     </div>
   );
 }
+

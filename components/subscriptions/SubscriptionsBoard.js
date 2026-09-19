@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
-import { formatDate, formatMoney, parseDateOnly } from "@/lib/format";
+import { formatDate, formatMoneyByCurrency, parseDateOnly } from "@/lib/format";
 import { CATEGORIES_FALLBACK_LABEL } from "@/lib/subscriptions/constants";
 import { resolveNextChargeDate } from "@/lib/subscriptions/dates";
 import {
@@ -227,7 +227,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                 </div>
 
                 <p className="mt-3 font-mono text-lg font-semibold tabular-nums text-[#F3F4F6]">
-                  {formatMoney(subscription.amount)}
+                  {formatMoneyByCurrency(subscription.amount, subscription.currency)}
                   <span className="ml-2 font-sans text-sm font-medium text-[#9CA3AF]">
                     {CYCLE_LABELS[subscription.billingCycle]}
                   </span>

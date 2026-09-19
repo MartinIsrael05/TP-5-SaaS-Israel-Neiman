@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import StatTile from "@/components/dashboard/StatTile";
 import { buttonClass, cardClass } from "@/components/ui/styles";
-import { formatMoney, formatShortDate } from "@/lib/format";
+import { formatMoneyMulti, formatMoneyShort, formatShortDate } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
 import { summarize, upcomingCharges } from "@/lib/subscriptions/metrics";
@@ -24,9 +24,9 @@ import { getCurrentUserProfile } from "@/lib/users/users";
 export const dynamic = "force-dynamic";
 
 const MOCK_SUBSCRIPTIONS = [
-  { name: "Netflix", icon: Clapperboard, amount: "$4.999" },
-  { name: "Spotify", icon: Music, amount: "$1.999" },
-  { name: "iCloud+", icon: Cloud, amount: "$990" },
+  { name: "Netflix", icon: Clapperboard, amount: "$34.999" },
+  { name: "Spotify", icon: Music, amount: "$15.900" },
+  { name: "iCloud+", icon: Cloud, amount: "$9.00 USD" },
 ];
 
 const FEATURES = [
@@ -239,12 +239,12 @@ async function MemberHome({ user }) {
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <StatTile
               label="Gasto mensual"
-              value={formatMoney(summary.monthlyTotal)}
+              value={formatMoneyMulti(summary.monthlyTotalARS, summary.monthlyTotalUSD)}
             />
             <StatTile
               hint={
                 nextCharge
-                  ? `${nextCharge.name} · ${formatMoney(nextCharge.amount)}`
+                  ? `${nextCharge.name} · ${formatMoneyShort(nextCharge.amount, nextCharge.currency)}`
                   : "No hay cobros proximos"
               }
               label="Proximo cobro"

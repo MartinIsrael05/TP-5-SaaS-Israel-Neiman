@@ -18,6 +18,7 @@ async function parseSubscriptionForm(userId, formData) {
   const { data, errors } = validateSubscription({
     name: formData.get("name"),
     amount: formData.get("amount"),
+    currency: formData.get("currency"),
     billingCycle: formData.get("billingCycle"),
     nextChargeDate: formData.get("nextChargeDate"),
     paymentMethod: formData.get("paymentMethod"),
