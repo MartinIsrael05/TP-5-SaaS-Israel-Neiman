@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { AlertTriangle, CheckCircle2, Download, FileSpreadsheet } from "lucide-react";
+import { useRef, useState } from "react";
+import { AlertTriangle, CheckCircle2, Download, FileSpreadsheet, X } from "lucide-react";
 import {
   badgeClass,
   buttonClass,
@@ -33,6 +33,7 @@ async function loadXlsx() {
 }
 
 export default function ImportForm({ action, categories = [] }) {
+  const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState("");
   const [rows, setRows] = useState([]);
   const [missing, setMissing] = useState([]);
@@ -61,6 +62,14 @@ export default function ImportForm({ action, categories = [] }) {
     setMissing([]);
     setError("");
     setResult(null);
+  }
+
+  function handleClearFile() {
+    reset();
+    setFileName("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   }
 
   async function handleFile(event) {
@@ -140,6 +149,9 @@ export default function ImportForm({ action, categories = [] }) {
       setResult(await action(payload));
       setRows([]);
       setFileName("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (err) {
       setError(err.message || "No se pudo importar el archivo.");
     } finally {
@@ -185,14 +197,26 @@ export default function ImportForm({ action, categories = [] }) {
           className={fileInputClass}
           disabled={parsing || importing}
           onChange={handleFile}
+          ref={fileInputRef}
           type="file"
         />
 
         {fileName ? (
-          <p className="flex items-center gap-2 text-sm text-muted">
-            <FileSpreadsheet size={16} />
-            {fileName}
-          </p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="flex items-center gap-2 text-sm text-muted">
+              <FileSpreadsheet size={16} />
+              {fileName}
+            </p>
+            <button
+              className={buttonClass("secondary")}
+              disabled={parsing || importing}
+              onClick={handleClearFile}
+              type="button"
+            >
+              <X size={16} />
+              Quitar archivo
+            </button>
+          </div>
         ) : null}
 
         {parsing ? (

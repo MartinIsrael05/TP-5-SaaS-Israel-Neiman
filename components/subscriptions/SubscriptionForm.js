@@ -76,31 +76,33 @@ export default function SubscriptionForm({
         ) : null}
       </label>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className={labelClass}>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <label className={`${labelClass} sm:col-span-1`}>
           <span>Monto</span>
-          <div className="flex gap-2">
-            <input
-              className={`${inputClass} flex-1`}
-              name="amount"
-              type="number"
-              min="0"
-              step="0.01"
-              defaultValue={subscription?.amount || ""}
-              disabled={loading}
-              placeholder="7999"
-              required
-            />
-            <select
-              className={`${inputClass} w-28 shrink-0`}
-              name="currency"
-              defaultValue={subscription?.currency || "ARS"}
-              disabled={loading}
-            >
-              <option value="ARS">ARS</option>
-              <option value="USD">USD</option>
-            </select>
-          </div>
+          <input
+            className={inputClass}
+            name="amount"
+            type="number"
+            min="0"
+            step="0.01"
+            defaultValue={subscription?.amount || ""}
+            disabled={loading}
+            placeholder="7999"
+            required
+          />
+        </label>
+
+        <label className={labelClass}>
+          <span>Moneda</span>
+          <select
+            className={inputClass}
+            name="currency"
+            defaultValue={subscription?.currency || "ARS"}
+            disabled={loading}
+          >
+            <option value="ARS">ARS</option>
+            <option value="USD">USD</option>
+          </select>
         </label>
 
         <label className={labelClass}>

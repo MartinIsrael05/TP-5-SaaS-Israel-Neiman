@@ -288,7 +288,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
 
       {isModalOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/5 bg-[#1A1D24] shadow-xl">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/5 bg-[#1A1D24] shadow-xl">
             <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/5 bg-[#1A1D24] px-6 py-4">
               <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripcion</h2>
               <button
