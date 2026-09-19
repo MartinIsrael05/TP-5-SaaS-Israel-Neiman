@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import {
   buttonClass,
   cardClass,
@@ -33,6 +34,11 @@ export default function SubscriptionForm({
       }
       onSuccess?.();
     } catch (err) {
+      // redirect() del server action se propaga como excepcion: no es un error real.
+      if (isRedirectError(err)) {
+        throw err;
+      }
+
       setError(err.message || "No se pudo guardar la suscripción.");
     } finally {
       setLoading(false);
