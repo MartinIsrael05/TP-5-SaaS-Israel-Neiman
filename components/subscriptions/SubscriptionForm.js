@@ -10,6 +10,9 @@ import {
   textareaClass,
 } from "@/components/ui/styles";
 
+const DUPLICATE_SUBSCRIPTION_NAME_ERROR =
+  "Ya tenés una suscripción registrada con este nombre.";
+
 export default function SubscriptionForm({
   action,
   categories = [],
@@ -39,7 +42,11 @@ export default function SubscriptionForm({
         throw err;
       }
 
-      setError(err.message || "No se pudo guardar la suscripción.");
+      setError(
+        err?.message === DUPLICATE_SUBSCRIPTION_NAME_ERROR
+          ? DUPLICATE_SUBSCRIPTION_NAME_ERROR
+          : err?.message || "No se pudo guardar la suscripción.",
+      );
     } finally {
       setLoading(false);
     }
