@@ -32,25 +32,25 @@ const MOCK_SUBSCRIPTIONS = [
 const FEATURES = [
   {
     icon: Bell,
-    title: "Alertas de renovación",
+    title: "Anticipate a los cobros",
     description:
-      "Los cobros de los próximos 30 días ordenados por fecha, con aviso de los que caen esta semana.",
+      "Los cobros de los próximos 30 días ordenados por fecha, con aviso de los que caen esta semana. Nunca más un débito que te agarre de sorpresa.",
   },
   {
     icon: PiggyBank,
-    title: "Gráficos claros",
+    title: "Vas a ver tu plata con claridad",
     description:
-      "Total mensual con las anuales prorrateadas, proyección a 12 meses y cuánto ahorrarías cancelando lo que tenés pausado.",
+      "Total mensual con las anuales prorrateadas, proyección a 12 meses y cuánto te ahorrás cancelando lo que tenés pausado.",
   },
   {
     icon: FileSpreadsheet,
-    title: "Importá tu Excel",
+    title: "Importá tu Excel en segundos",
     description:
       "Si ya llevabas la cuenta en una planilla, la subís y se cargan todas juntas. Te mostramos qué va a entrar antes de confirmar.",
   },
   {
     icon: Tags,
-    title: "Ordenado a tu manera",
+    title: "Ordenalo a tu manera",
     description:
       "Categorías propias y privadas, para ver en qué se te va la plata y no solo cuánto.",
   },
@@ -68,18 +68,18 @@ function LandingHome() {
             Control de gastos recurrentes
           </p>
           <h1 className="mt-4 max-w-3xl font-sans text-4xl font-bold leading-tight tracking-tight text-[#F3F4F6] sm:text-5xl lg:text-6xl lg:leading-[1.05]">
-            Tomá el control absoluto de tus suscripciones.
+            Dejá de adivinar a dónde se va tu plata.
           </h1>
           <p className="mt-5 max-w-2xl leading-7 text-[#9CA3AF]">
-            Centralizá tus gastos, recibí alertas antes de cada cobro y
-            descubrí adónde se va tu dinero mes a mes.
+            Recuperá el control de tus suscripciones y decidí con números
+            reales: cuánto pagás, cuándo se renueva y qué te conviene cortar.
           </p>
           <div className="mt-8 grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:justify-center">
             <Link
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
               href="/login"
             >
-              Comenzar gratis
+              Empezá gratis
               <ArrowRight size={16} />
             </Link>
             <a
@@ -126,7 +126,7 @@ function LandingHome() {
         id="features"
       >
         <h2 className="text-center font-sans text-2xl font-bold text-[#F3F4F6] sm:text-3xl">
-          Diseñado para tu paz mental
+          Diseñado para tu tranquilidad financiera
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-6 text-[#9CA3AF]">
           Cada detalle de TECA existe para que dejes de perseguir cobros y
@@ -170,7 +170,7 @@ function LandingHome() {
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
             href="/login"
           >
-            Comenzar gratis
+            Tomá el control hoy
             <ArrowRight size={16} />
           </Link>
         </div>
@@ -205,8 +205,8 @@ async function MemberHome({ user }) {
       {subscriptions.length === 0 ? (
         <>
           <p className="mt-3 max-w-2xl leading-7 text-muted">
-            Tu cuenta está lista, pero todavía no cargaste ninguna suscripción.
-            Podés cargarlas de a una o importar la planilla que ya tengas.
+            Todavía no cargaste ninguna suscripción. Empezá por esa que pagás
+            todos los meses y ni usás.
           </p>
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
             <Link

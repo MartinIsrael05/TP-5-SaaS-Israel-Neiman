@@ -172,8 +172,8 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
               Todavía no hay suscripciones
             </h3>
             <p className="text-sm leading-6 text-muted">
-              Empezá por la que más te preocupa: seguro hay una que ni
-              recordabas que seguías pagando.
+              Todavía no cargaste ninguna suscripción. Empezá por esa que
+              pagás todos los meses y ni usás.
             </p>
           </div>
           <button className={buttonClass("primary")} onClick={() => setModalOpen(true)} type="button">
