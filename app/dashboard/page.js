@@ -194,7 +194,8 @@ export default async function DashboardPage() {
                 }
                 icon={Wallet}
                 label="Gasto mensual"
-                numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+                formatType="currency"
+                currency="ARS"
                 numberValue={summary.monthlyTotalARS}
                 valueSuffix={
                   summary.monthlyTotalUSD > 0
@@ -208,7 +209,6 @@ export default async function DashboardPage() {
                 hint={`${summary.pausedCount} pausadas · ${summary.cancelledCount} canceladas`}
                 icon={Repeat}
                 label="Suscripciones activas"
-                numberFormat={(v) => Math.round(v)}
                 numberValue={summary.activeCount}
               />
             </StaggeredItem>
@@ -217,7 +217,8 @@ export default async function DashboardPage() {
                 hint="Lo que vas a pagar en 12 meses"
                 icon={Banknote}
                 label="Proyección anual"
-                numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+                formatType="currency"
+                currency="ARS"
                 numberValue={summary.annualProjectionARS}
                 valueSuffix={
                   summary.annualProjectionUSD > 0
@@ -235,7 +236,8 @@ export default async function DashboardPage() {
                 }
                 icon={PiggyBank}
                 label="Ahorro potencial"
-                numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+                formatType="currency"
+                currency="ARS"
                 numberValue={summary.potentialSavingsARS}
                 tone={summary.zombieCount > 0 ? "positive" : "muted"}
                 valueSuffix={

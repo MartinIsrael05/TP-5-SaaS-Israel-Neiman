@@ -2,13 +2,26 @@
 
 import { useEffect, useRef } from "react";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
+import { formatMoneyByCurrency } from "@/lib/format";
 
 /*
-  Anima un numero puro de 0 al valor final; el formateo (moneda, sufijos)
-  queda a cargo de quien lo use via la prop `format`, para no reinventar el
-  sistema de moneda del proyecto.
+  Anima un numero puro de 0 al valor final. El tipo de formato llega como
+  datos serializables desde Server Components y se resuelve en el cliente.
 */
-export default function NumberTicker({ className = "", format = (n) => Math.round(n), value = 0 }) {
+function formatValue(value, formatType, currency) {
+  if (formatType === "currency") {
+    return formatMoneyByCurrency(value, currency);
+  }
+
+  return Math.round(value).toString();
+}
+
+export default function NumberTicker({
+  className = "",
+  currency = "ARS",
+  formatType,
+  value = 0,
+}) {
   const ref = useRef(null);
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, { damping: 30, stiffness: 100, duration: 1.5 });
@@ -23,10 +36,10 @@ export default function NumberTicker({ className = "", format = (n) => Math.roun
   useEffect(() => {
     return springValue.on("change", (latest) => {
       if (ref.current) {
-        ref.current.textContent = format(latest);
+        ref.current.textContent = formatValue(latest, formatType, currency);
       }
     });
-  }, [springValue, format]);
+  }, [springValue, formatType, currency]);
 
-  return <span className={className} ref={ref}>{format(0)}</span>;
+  return <span className={className} ref={ref}>{formatValue(0, formatType, currency)}</span>;
 }

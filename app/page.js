@@ -242,7 +242,8 @@ async function MemberHome({ user }) {
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <StatTile
               label="Gasto mensual"
-              numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+              formatType="currency"
+              currency="ARS"
               numberValue={summary.monthlyTotalARS}
               valueSuffix={
                 summary.monthlyTotalUSD > 0
@@ -266,7 +267,6 @@ async function MemberHome({ user }) {
                   : "Todas en curso"
               }
               label="Suscripciones activas"
-              numberFormat={(v) => Math.round(v)}
               numberValue={summary.activeCount}
             />
           </div>

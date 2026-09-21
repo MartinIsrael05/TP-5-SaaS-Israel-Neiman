@@ -30,7 +30,8 @@ export default function StatTile({
   hint,
   icon: Icon,
   label,
-  numberFormat,
+  formatType,
+  currency,
   numberValue,
   span = "",
   tone = "muted",
@@ -58,7 +59,11 @@ export default function StatTile({
       <strong className="font-mono text-3xl font-bold tabular-nums tracking-tight text-[#F3F4F6]">
         {typeof numberValue === "number" ? (
           <>
-            <NumberTicker format={numberFormat} value={numberValue} />
+            <NumberTicker
+              currency={currency}
+              formatType={formatType}
+              value={numberValue}
+            />
             {valueSuffix}
           </>
         ) : (
