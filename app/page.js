@@ -15,7 +15,8 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import StatTile from "@/components/dashboard/StatTile";
 import { buttonClass, cardClass } from "@/components/ui/styles";
-import { formatMoneyMulti, formatMoneyShort, formatShortDate } from "@/lib/format";
+import { StaggeredGrid, StaggeredItem } from "@/components/ui/StaggeredGrid";
+import { formatMoneyByCurrency, formatMoneyShort, formatShortDate } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
 import { summarize, upcomingCharges } from "@/lib/subscriptions/metrics";
@@ -132,28 +133,30 @@ function LandingHome() {
           Cada detalle de TECA existe para que dejes de perseguir cobros y
           empieces a decidir con números reales.
         </p>
-        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <StaggeredGrid className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature, index) => (
-            <div
-              className={`group rounded-2xl border border-white/5 bg-[#1A1D24] p-6 transition-all duration-300 ease-in-out hover:border-white/15 ${
+            <StaggeredItem
+              className={
                 index === 0 || index === FEATURES.length - 1
                   ? "md:col-span-2 lg:col-span-2"
                   : ""
-              }`}
+              }
               key={feature.title}
             >
-              <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-[#6366F1] transition-transform duration-300 ease-in-out group-hover:scale-110">
-                <feature.icon size={18} />
-              </span>
-              <h3 className="mt-4 font-sans font-semibold text-[#F3F4F6]">
-                {feature.title}
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-[#9CA3AF]">
-                {feature.description}
-              </p>
-            </div>
+              <div className="group h-full rounded-2xl border border-white/5 bg-[#1A1D24] p-6 transition-all duration-300 ease-in-out hover:border-white/15">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-[#6366F1] transition-transform duration-300 ease-in-out group-hover:scale-110">
+                  <feature.icon size={18} />
+                </span>
+                <h3 className="mt-4 font-sans font-semibold text-[#F3F4F6]">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-[#9CA3AF]">
+                  {feature.description}
+                </p>
+              </div>
+            </StaggeredItem>
           ))}
-        </div>
+        </StaggeredGrid>
       </section>
 
       <section className="mx-auto w-full max-w-6xl border-t border-white/5 px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
@@ -239,7 +242,13 @@ async function MemberHome({ user }) {
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <StatTile
               label="Gasto mensual"
-              value={formatMoneyMulti(summary.monthlyTotalARS, summary.monthlyTotalUSD)}
+              numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+              numberValue={summary.monthlyTotalARS}
+              valueSuffix={
+                summary.monthlyTotalUSD > 0
+                  ? ` + ${formatMoneyByCurrency(summary.monthlyTotalUSD, "USD")}`
+                  : ""
+              }
             />
             <StatTile
               hint={
@@ -257,7 +266,8 @@ async function MemberHome({ user }) {
                   : "Todas en curso"
               }
               label="Suscripciones activas"
-              value={summary.activeCount}
+              numberFormat={(v) => Math.round(v)}
+              numberValue={summary.activeCount}
             />
           </div>
 

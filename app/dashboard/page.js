@@ -32,7 +32,8 @@ import ProjectionChart from "@/components/dashboard/ProjectionChart";
 import StatTile from "@/components/dashboard/StatTile";
 import TopExpenses from "@/components/dashboard/TopExpenses";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
-import { formatMoneyMulti, formatMoneyShort, formatShortDate } from "@/lib/format";
+import { StaggeredGrid, StaggeredItem } from "@/components/ui/StaggeredGrid";
+import { formatMoneyByCurrency, formatMoneyShort, formatShortDate } from "@/lib/format";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
@@ -182,46 +183,69 @@ export default async function DashboardPage() {
         </section>
       ) : (
         <>
-          <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <StatTile
-              accent
-              hint={
-                summary.annualCount > 0
-                  ? `Incluye ${summary.annualCount} anuales prorrateadas`
-                  : "Suma de todas tus activas"
-              }
-              icon={Wallet}
-              label="Gasto mensual"
-              span="md:col-span-2"
-              value={formatMoneyMulti(summary.monthlyTotalARS, summary.monthlyTotalUSD)}
-            />
-            <StatTile
-              hint={`${summary.pausedCount} pausadas · ${summary.cancelledCount} canceladas`}
-              icon={Repeat}
-              label="Suscripciones activas"
-              span="md:col-span-1"
-              value={summary.activeCount}
-            />
-            <StatTile
-              hint="Lo que vas a pagar en 12 meses"
-              icon={Banknote}
-              label="Proyección anual"
-              span="md:col-span-1"
-              value={formatMoneyMulti(summary.annualProjectionARS, summary.annualProjectionUSD)}
-            />
-            <StatTile
-              hint={
-                summary.zombieCount > 0
-                  ? "Por mes, en suscripciones activas de poco uso"
-                  : "No tenés suscripciones de poco uso"
-              }
-              icon={PiggyBank}
-              label="Ahorro potencial"
-              span="md:col-span-2"
-              tone={summary.zombieCount > 0 ? "positive" : "muted"}
-              value={formatMoneyMulti(summary.potentialSavingsARS, summary.potentialSavingsUSD)}
-            />
-          </section>
+          <StaggeredGrid className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <StaggeredItem className="md:col-span-2">
+              <StatTile
+                accent
+                hint={
+                  summary.annualCount > 0
+                    ? `Incluye ${summary.annualCount} anuales prorrateadas`
+                    : "Suma de todas tus activas"
+                }
+                icon={Wallet}
+                label="Gasto mensual"
+                numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+                numberValue={summary.monthlyTotalARS}
+                valueSuffix={
+                  summary.monthlyTotalUSD > 0
+                    ? ` + ${formatMoneyByCurrency(summary.monthlyTotalUSD, "USD")}`
+                    : ""
+                }
+              />
+            </StaggeredItem>
+            <StaggeredItem className="md:col-span-1">
+              <StatTile
+                hint={`${summary.pausedCount} pausadas · ${summary.cancelledCount} canceladas`}
+                icon={Repeat}
+                label="Suscripciones activas"
+                numberFormat={(v) => Math.round(v)}
+                numberValue={summary.activeCount}
+              />
+            </StaggeredItem>
+            <StaggeredItem className="md:col-span-1">
+              <StatTile
+                hint="Lo que vas a pagar en 12 meses"
+                icon={Banknote}
+                label="Proyección anual"
+                numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+                numberValue={summary.annualProjectionARS}
+                valueSuffix={
+                  summary.annualProjectionUSD > 0
+                    ? ` + ${formatMoneyByCurrency(summary.annualProjectionUSD, "USD")}`
+                    : ""
+                }
+              />
+            </StaggeredItem>
+            <StaggeredItem className="md:col-span-2">
+              <StatTile
+                hint={
+                  summary.zombieCount > 0
+                    ? "Por mes, en suscripciones activas de poco uso"
+                    : "No tenés suscripciones de poco uso"
+                }
+                icon={PiggyBank}
+                label="Ahorro potencial"
+                numberFormat={(v) => formatMoneyByCurrency(v, "ARS")}
+                numberValue={summary.potentialSavingsARS}
+                tone={summary.zombieCount > 0 ? "positive" : "muted"}
+                valueSuffix={
+                  summary.potentialSavingsUSD > 0
+                    ? ` + ${formatMoneyByCurrency(summary.potentialSavingsUSD, "USD")}`
+                    : ""
+                }
+              />
+            </StaggeredItem>
+          </StaggeredGrid>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <SectionCard

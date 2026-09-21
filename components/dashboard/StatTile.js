@@ -1,3 +1,4 @@
+import NumberTicker from "@/components/ui/NumberTicker";
 import { cardClass, eyebrowClass } from "@/components/ui/styles";
 
 /*
@@ -29,9 +30,12 @@ export default function StatTile({
   hint,
   icon: Icon,
   label,
+  numberFormat,
+  numberValue,
   span = "",
   tone = "muted",
   value,
+  valueSuffix,
 }) {
   return (
     <div
@@ -52,7 +56,14 @@ export default function StatTile({
         ) : null}
       </div>
       <strong className="font-mono text-3xl font-bold tabular-nums tracking-tight text-[#F3F4F6]">
-        {value}
+        {typeof numberValue === "number" ? (
+          <>
+            <NumberTicker format={numberFormat} value={numberValue} />
+            {valueSuffix}
+          </>
+        ) : (
+          value
+        )}
       </strong>
       {hint ? (
         <span className={`text-sm leading-6 ${toneClasses[tone] || toneClasses.muted}`}>
