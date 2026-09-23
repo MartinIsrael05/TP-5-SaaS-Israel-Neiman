@@ -104,7 +104,6 @@ export default function Sidebar({ profile, user }) {
         href="/dashboard/cuenta"
         icon={UserRound}
         label="Mi cuenta"
-        onClick={close}
         pathname={pathname}
       />
 
