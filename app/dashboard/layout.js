@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
+import BottomNav from "@/components/ui/BottomNav";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getCurrentUserProfile } from "@/lib/users/users";
 
@@ -18,10 +19,11 @@ export default async function DashboardLayout({ children }) {
     <div className="min-h-screen bg-base text-ink">
       <Sidebar profile={profile} user={user} />
       <main className="md:ml-64">
-        <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <div className="mx-auto w-full max-w-6xl px-4 pb-24 pt-6 md:px-6 md:py-8 md:pb-8 lg:px-8">
           {children}
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 }
