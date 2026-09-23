@@ -8,6 +8,7 @@ import {
   LogOut,
   ShieldCheck,
   Tags,
+  UserRound,
   Users as UsersIcon,
 } from "lucide-react";
 import { logout } from "@/app/dashboard/actions";
@@ -98,6 +99,14 @@ export default function Sidebar({ profile, user }) {
           </span>
         ) : null}
       </div>
+
+      <NavItem
+        href="/dashboard/cuenta"
+        icon={UserRound}
+        label="Mi cuenta"
+        pathname={pathname}
+      />
+
       <form action={logout}>
         <button
           className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-left font-sans text-sm font-medium text-[#9CA3AF] transition-all duration-200 ease-in-out hover:bg-white/5 hover:text-[#F3F4F6]"

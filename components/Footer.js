@@ -33,14 +33,15 @@ export default function Footer({ user }) {
         </div>
 
         <nav aria-label="Navegación corporativa" className="flex flex-col gap-2 text-sm text-[#9CA3AF]">
-          {links.map((link) => (
+          {[
+            ...links,
+            { href: "/terminos", label: "Términos" },
+            { href: "/privacidad", label: "Privacidad" },
+          ].map((link) => (
             <Link className="transition-colors hover:text-[#F3F4F6]" href={link.href} key={link.href}>
               {link.label}
             </Link>
           ))}
-          <Link className="transition-colors hover:text-[#F3F4F6]" href="#">
-            Privacidad
-          </Link>
         </nav>
       </div>
     </footer>

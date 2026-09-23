@@ -20,7 +20,7 @@ import { formatMoneyByCurrency, formatMoneyShort, formatShortDate } from "@/lib/
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
 import { summarize, upcomingCharges } from "@/lib/subscriptions/metrics";
-import { getCurrentUserProfile } from "@/lib/users/users";
+import { getCurrentUserProfile, resolveGreetingName } from "@/lib/users/users";
 
 export const dynamic = "force-dynamic";
 
@@ -194,7 +194,7 @@ async function MemberHome({ user }) {
 
   const summary = summarize(subscriptions);
   const [nextCharge] = upcomingCharges(subscriptions, { days: 60 });
-  const firstName = (profile?.displayName || user.email || "").split(" ")[0];
+  const firstName = resolveGreetingName(profile, user);
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">

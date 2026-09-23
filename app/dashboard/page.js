@@ -45,7 +45,11 @@ import {
   topSubscriptions,
   upcomingCharges,
 } from "@/lib/subscriptions/metrics";
-import { getCurrentUserProfile, listUserProfiles } from "@/lib/users/users";
+import {
+  getCurrentUserProfile,
+  listUserProfiles,
+  resolveGreetingName,
+} from "@/lib/users/users";
 
 export const dynamic = "force-dynamic";
 
@@ -151,7 +155,7 @@ export default async function DashboardPage() {
           Tu panel
         </p>
         <h1 className="mt-2 font-sans text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Hola, {profile?.displayName || user.email}
+          Hola, {resolveGreetingName(profile, user)}
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
           Todo lo que se te cobra automáticamente, con los números que importan:
