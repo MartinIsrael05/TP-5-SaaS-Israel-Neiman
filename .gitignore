@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Lockfiles: este proyecto usa yarn. package-lock.json genera conflictos
+# con yarn.lock y hace que Vercel pueda instalar distinto que en local.
+package-lock.json
