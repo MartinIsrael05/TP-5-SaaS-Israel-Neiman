@@ -1,4 +1,5 @@
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import CookieBanner from "@/components/ui/CookieBanner";
 import "./globals.css";
 
 // Jakarta sostiene la jerarquia (titulos, secciones, botones).
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-base text-ink antialiased">
         {children}
+        <CookieBanner />
       </body>
     </html>
   );
