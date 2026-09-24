@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  CalendarDays,
   CreditCard,
   LayoutDashboard,
   LogOut,
@@ -49,6 +50,7 @@ export default function Sidebar({ profile, user }) {
   const links = [
     { href: "/dashboard", label: "Panel", icon: LayoutDashboard },
     { href: "/dashboard/subscriptions", label: "Suscripciones", icon: CreditCard },
+    { href: "/dashboard/calendar", label: "Calendario", icon: CalendarDays },
     { href: "/dashboard/items", label: "Categorias", icon: Tags },
   ];
 

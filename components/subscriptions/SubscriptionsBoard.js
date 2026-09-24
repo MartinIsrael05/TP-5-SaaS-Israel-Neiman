@@ -15,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { formatDate, formatMoneyByCurrency, parseDateOnly } from "@/lib/format";
 import { CATEGORIES_FALLBACK_LABEL } from "@/lib/subscriptions/constants";
@@ -64,6 +65,8 @@ function formatChargeDate(value) {
 
 export default function SubscriptionsBoard({ categories, subscriptions }) {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [porEliminar, setPorEliminar] = useState(null);
+  const [eliminando, setEliminando] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [cycleFilter, setCycleFilter] = useState("all");
@@ -252,16 +255,6 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
               </div>
 
               <div className="mt-auto flex flex-col gap-2">
-                {subscription.cancelUrl ? (
-                  <a
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-4 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
-                    href={subscription.cancelUrl}
-                    rel="noreferrer noopener"
-                    target="_blank"
-                  >
-                    Cancelar
-                  </a>
-                ) : null}
                 <div className="grid grid-cols-2 gap-3">
                   <Link
                     className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
@@ -270,15 +263,15 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
                     <Pencil size={15} />
                     Editar
                   </Link>
-                  <form action={deleteSubscription.bind(null, subscription.id)}>
-                    <button
-                      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-alert"
-                      type="submit"
-                    >
-                      <Trash2 size={15} />
-                      Eliminar
-                    </button>
-                  </form>
+                  {/* Antes borraba de una: un toque sin querer y no habia vuelta. */}
+                  <button
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-alert"
+                    onClick={() => setPorEliminar(subscription)}
+                    type="button"
+                  >
+                    <Trash2 size={15} />
+                    Eliminar
+                  </button>
                 </div>
               </div>
             </article>
@@ -311,6 +304,28 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
           </div>
         </div>
       ) : null}
+
+      <ConfirmDialog
+        description={
+          porEliminar
+            ? `Se borra "${porEliminar.name}" de tu lista y deja de contar en tus totales. No se puede deshacer.`
+            : ""
+        }
+        loading={eliminando}
+        onCancel={() => !eliminando && setPorEliminar(null)}
+        onConfirm={async () => {
+          setEliminando(true);
+
+          try {
+            await deleteSubscription(porEliminar.id);
+            setPorEliminar(null);
+          } finally {
+            setEliminando(false);
+          }
+        }}
+        open={Boolean(porEliminar)}
+        title={porEliminar ? `¿Eliminar ${porEliminar.name}?` : ""}
+      />
     </div>
   );
 }
