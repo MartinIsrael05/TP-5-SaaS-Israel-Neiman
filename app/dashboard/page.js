@@ -253,11 +253,13 @@ export default async function DashboardPage() {
             <SectionCard
               accent
               action={
+                // La lista responde "que sigue"; el calendario, "como se
+                // reparten en el mes". Se enlazan en vez de duplicarse.
                 <Link
                   className={buttonClass("ghost", "h-auto px-0")}
-                  href="/dashboard/subscriptions"
+                  href="/dashboard/calendar"
                 >
-                  Ver todas
+                  Ver en el calendario
                 </Link>
               }
               className="md:col-span-2"

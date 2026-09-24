@@ -89,4 +89,45 @@
   .overflow-wrap-anywhere {
     overflow-wrap: anywhere;
   }
+
+  /* Entrada suave de elementos flotantes, como el aviso de cookies. */
+  @keyframes teca-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: teca-slide-up 300ms ease-out both;
+  }
+
+  .animate-slide-down {
+    animation: teca-slide-up 200ms ease-in both reverse;
+  }
+
+  @keyframes teca-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: teca-fade-in 200ms ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-slide-up,
+    .animate-slide-down,
+    .animate-fade-in {
+      animation: none;
+    }
+  }
 }

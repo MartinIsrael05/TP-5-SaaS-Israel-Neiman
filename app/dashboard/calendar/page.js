@@ -1,12 +1,16 @@
 import CalendarBoard from "@/components/calendar/CalendarBoard";
 import { getCurrentUser } from "@/lib/firebase/session";
+import { listUserItems } from "@/lib/items/items";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
 
 export const dynamic = "force-dynamic";
 
 export default async function CalendarPage() {
   const user = await getCurrentUser();
-  const subscriptions = await listUserSubscriptions(user.uid);
+  const [subscriptions, categories] = await Promise.all([
+    listUserSubscriptions(user.uid),
+    listUserItems(user.uid),
+  ]);
 
   return (
     <div className="space-y-8 p-6 sm:p-8">
@@ -23,7 +27,7 @@ export default async function CalendarPage() {
         </p>
       </header>
 
-      <CalendarBoard subscriptions={subscriptions} />
+      <CalendarBoard categories={categories} subscriptions={subscriptions} />
     </div>
   );
 }
