@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import DeleteSubscriptionButton from "@/components/subscriptions/DeleteSubscriptionButton";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
-import { buttonClass } from "@/components/ui/styles";
+import { buttonClass, cardClass } from "@/components/ui/styles";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { getUserSubscription } from "@/lib/subscriptions/subscriptions";
@@ -42,10 +44,26 @@ export default async function EditSubscriptionPage({ params }) {
         subscription={subscription}
       />
 
+      <section className={`${cardClass} border-alert/20`}>
+        <h2 className="font-sans text-lg font-semibold text-ink">
+          Dar de baja
+        </h2>
+        <p className="mt-1 max-w-xl text-sm leading-6 text-muted">
+          Si ya no la pagás más, eliminala de tu lista. Si sólo la pausaste por
+          un tiempo, mejor cambiale el estado arriba y no la borres: así
+          conservás el historial.
+        </p>
+
+        <div className="mt-4">
+          <DeleteSubscriptionButton subscription={subscription} />
+        </div>
+      </section>
+
       <Link
         className={buttonClass("secondary", "w-full sm:w-auto")}
         href="/dashboard/subscriptions"
       >
+        <ArrowLeft size={16} />
         Volver a suscripciones
       </Link>
     </div>
