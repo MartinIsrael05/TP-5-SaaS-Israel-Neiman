@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { formatMoneyShort } from "@/lib/format";
+import DayDetail from "@/components/calendar/DayDetail";
 import { resolveNextChargeDate } from "@/lib/subscriptions/dates";
 
 const WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -64,8 +64,12 @@ function occurrenceDay(subscription, anchorISO, year, month) {
   return Math.min(anchor.getDate(), diasDelMes);
 }
 
-export default function CalendarBoard({ subscriptions = [] }) {
+export default function CalendarBoard({ categories = [], subscriptions = [] }) {
   const hoy = new Date();
+  const titulosDeCategoria = useMemo(
+    () => new Map(categories.map((item) => [item.id, item.title])),
+    [categories],
+  );
   const [vista, setVista] = useState({
     year: hoy.getFullYear(),
     month: hoy.getMonth(),
@@ -202,8 +206,6 @@ export default function CalendarBoard({ subscriptions = [] }) {
                 } ${abierto ? "border-primary/50 bg-primary/10" : ""}`}
                 disabled={cobros.length === 0}
                 onClick={() => setDiaAbierto(abierto ? null : key)}
-                onMouseEnter={() => cobros.length > 0 && setDiaAbierto(key)}
-                onMouseLeave={() => setDiaAbierto((actual) => (actual === key ? null : actual))}
                 type="button"
               >
                 <span
@@ -237,47 +239,19 @@ export default function CalendarBoard({ subscriptions = [] }) {
                 ) : null}
               </button>
 
-              {abierto && cobros.length > 0 ? (
-                <div
-                  className={`absolute z-20 w-56 rounded-xl border border-white/10 bg-[#0F1115] p-3 shadow-2xl ${
-                    // Cerca del borde derecho se ancla al otro lado para no
-                    // salirse de la pantalla.
-                    indice % 7 >= 5 ? "right-0" : "left-0"
-                  } ${indice < 7 ? "top-full mt-1" : "bottom-full mb-1"}`}
-                  role="dialog"
-                >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
-                    {dia} de {MONTHS[vista.month]}
-                  </p>
-
-                  <ul className="mt-2 space-y-2">
-                    {cobros.map((subscription) => (
-                      <li
-                        className="flex items-center justify-between gap-3"
-                        key={subscription.id}
-                      >
-                        <span className="flex min-w-0 items-center gap-2">
-                          <span
-                            className={`size-1.5 shrink-0 rounded-full ${
-                              isZombie(subscription) ? "bg-[#F87171]" : "bg-[#6366F1]"
-                            }`}
-                          />
-                          <span className="truncate text-sm text-ink">
-                            {subscription.name}
-                          </span>
-                        </span>
-                        <span className="shrink-0 font-mono text-sm tabular-nums text-muted">
-                          {formatMoneyShort(subscription.amount, subscription.currency)}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
             </div>
           );
         })}
       </div>
+
+      {diaAbierto && cobrosPorDia.get(diaAbierto)?.length ? (
+        <DayDetail
+          categoryTitles={titulosDeCategoria}
+          charges={cobrosPorDia.get(diaAbierto)}
+          onClose={() => setDiaAbierto(null)}
+          title={`${Number(diaAbierto.slice(-2))} de ${MONTHS[vista.month]}`}
+        />
+      ) : null}
 
       <footer className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/5 pt-4">
         <span className="flex items-center gap-2 text-sm text-muted">
