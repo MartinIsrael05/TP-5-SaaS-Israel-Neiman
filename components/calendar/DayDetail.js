@@ -145,7 +145,7 @@ export default function DayDetail({ categoryTitles, charges, onClose, title }) {
                 href={`/dashboard/subscriptions/${subscription.id}/edit`}
               >
                 <Pencil size={15} />
-                Ver y dar de baja
+                Ver y/o dar de baja
               </Link>
             </li>
           ))}
