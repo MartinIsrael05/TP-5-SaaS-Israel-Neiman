@@ -4,83 +4,119 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  CalendarDays,
   CreditCard,
   LayoutDashboard,
-  ShieldCheck,
-  Tags,
-  Users as UsersIcon,
+  UserRound,
 } from "lucide-react";
 
-function buildLinks(isAdmin) {
-  const links = [
-    { href: "/dashboard", label: "Panel", icon: LayoutDashboard },
-    { href: "/dashboard/subscriptions", label: "Suscripciones", icon: CreditCard },
-    { href: "/dashboard/items", label: "Categorías", icon: Tags },
-  ];
+/*
+  Barra inferior de mobile: una isla flotante despegada del borde, no una
+  franja con linea divisoria. El contenido pasa por detras y se ve difuminado,
+  que es de donde sale la identidad de la barra.
 
-  if (isAdmin) {
-    links.push(
-      { href: "/dashboard/admin", label: "Plataforma", icon: ShieldCheck },
-      { href: "/dashboard/users", label: "Usuarios", icon: UsersIcon },
-    );
-  }
+  Cuatro destinos fijos. Solo el activo muestra su texto, asi que los anchos
+  cambian en cada navegacion: por eso el fondo del item activo es un unico
+  elemento con `layoutId`, que Framer Motion desliza de una posicion a la otra
+  en vez de apagarlo y prenderlo en otro lado.
+*/
+const LINKS = [
+  { href: "/dashboard/subscriptions", label: "Suscripciones", icon: CreditCard },
+  { href: "/dashboard", label: "Mi panel", icon: LayoutDashboard, featured: true },
+  { href: "/dashboard/calendar", label: "Calendario", icon: CalendarDays },
+  { href: "/dashboard/cuenta", label: "Mi cuenta", icon: UserRound },
+];
 
-  return links;
-}
+const SPRING = { type: "spring", stiffness: 380, damping: 32, mass: 0.7 };
 
 function isActivePath(pathname, href) {
+  // "/dashboard" es estricta: si no, queda activa en cualquier subruta
+  // (ej. /dashboard/cuenta) y tapa el link real de esa seccion.
   return href === "/dashboard"
     ? pathname === href
     : pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export default function BottomNav({ profile }) {
+export default function BottomNav() {
   const pathname = usePathname();
-  const isAdmin = profile?.user_type === "admin";
-  const links = buildLinks(isAdmin);
 
   return (
     <nav
       aria-label="Navegación principal"
-      className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around gap-1 border-t border-white/5 bg-[#0F1115]/80 px-2 pb-safe pt-2 backdrop-blur-lg md:hidden"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-50 md:hidden"
     >
-      {links.map(({ href, icon: Icon, label }) => {
-        const active = isActivePath(pathname, href);
+      {/* Funde el contenido que sube en vez de cortarlo seco contra la isla. */}
+      <div
+        aria-hidden="true"
+        className="h-14 bg-gradient-to-t from-base to-transparent"
+      />
 
-        return (
-          <Link
-            aria-current={active ? "page" : undefined}
-            aria-label={label}
-            className="flex min-h-11 flex-1 items-center justify-center"
-            href={href}
-            key={href}
-          >
-            <motion.span
-              className={`flex h-11 items-center justify-center gap-1.5 rounded-full px-3 transition-colors ${
-                active ? "bg-white/10 text-[#F3F4F6]" : "text-[#9CA3AF]"
-              }`}
-              layout
-              transition={{ type: "spring", stiffness: 420, damping: 34 }}
-              whileTap={{ scale: 0.92 }}
-            >
-              <Icon aria-hidden="true" size={22} strokeWidth={active ? 2.5 : 2} />
-              <AnimatePresence initial={false}>
+      <div className="px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <div className="pointer-events-auto relative mx-auto flex max-w-sm items-center justify-between gap-0.5 rounded-[26px] border border-white/10 bg-surface/92 p-1.5 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.95),inset_0_1px_0_0_rgba(255,255,255,0.07)] backdrop-blur-2xl backdrop-saturate-150">
+          {LINKS.map(({ featured, href, icon: Icon, label }) => {
+            const active = isActivePath(pathname, href);
+
+            return (
+              <Link
+                aria-current={active ? "page" : undefined}
+                aria-label={label}
+                className="relative flex min-h-12 shrink-0 items-center justify-center rounded-[20px] px-2.5"
+                href={href}
+                key={href}
+              >
                 {active ? (
                   <motion.span
-                    animate={{ width: "auto", opacity: 1 }}
-                    className="overflow-hidden whitespace-nowrap text-sm font-medium"
-                    exit={{ width: 0, opacity: 0 }}
-                    initial={{ width: 0, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    {label}
-                  </motion.span>
+                    aria-hidden="true"
+                    className="absolute inset-0 rounded-[20px] bg-white/[0.07] ring-1 ring-inset ring-white/10"
+                    layoutId="bottomnav-activo"
+                    transition={SPRING}
+                  />
                 ) : null}
-              </AnimatePresence>
-            </motion.span>
-          </Link>
-        );
-      })}
+
+                <motion.span
+                  className="relative flex items-center gap-1.5"
+                  transition={SPRING}
+                  whileTap={{ scale: 0.86 }}
+                >
+                  {/* "Mi panel" es el destino principal: va en pastilla indigo
+                      siempre, activo o no, para que se lea distinto al resto. */}
+                  <motion.span
+                    animate={{ scale: active ? 1 : 0.94 }}
+                    className={
+                      featured
+                        ? "flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-700 text-white shadow-[0_6px_18px_-4px_rgba(99,102,241,0.8)]"
+                        : active
+                          ? "text-ink"
+                          : "text-muted"
+                    }
+                    transition={SPRING}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      size={featured ? 19 : 20}
+                      strokeWidth={active ? 2.4 : 1.9}
+                    />
+                  </motion.span>
+
+                  <AnimatePresence initial={false}>
+                    {active ? (
+                      <motion.span
+                        animate={{ width: "auto", opacity: 1 }}
+                        className="overflow-hidden whitespace-nowrap pr-0.5 font-sans text-xs font-semibold tracking-tight text-ink"
+                        exit={{ width: 0, opacity: 0 }}
+                        initial={{ width: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                      >
+                        {label}
+                      </motion.span>
+                    ) : null}
+                  </AnimatePresence>
+                </motion.span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     </nav>
   );
 }

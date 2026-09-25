@@ -23,7 +23,7 @@ export default async function DashboardLayout({ children }) {
           {children}
         </div>
       </main>
-      <BottomNav profile={profile} />
+      <BottomNav />
     </div>
   );
 }
