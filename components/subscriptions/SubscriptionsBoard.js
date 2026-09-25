@@ -56,13 +56,21 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
             sale, cada cuánto y cuándo se renueva.
           </p>
         </div>
-        <div className="flex shrink-0 flex-wrap gap-3">
-          <Link className={buttonClass("secondary")} href="/dashboard/subscriptions/import">
+        {/*
+          En mobile los dos botones juntos no entran (piden 383px) y `shrink-0`
+          impedia que `flex-wrap` los bajara, asi que se iban de pantalla: van
+          apilados y a lo ancho. De `sm` para arriba queda igual que siempre.
+        */}
+        <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+          <Link
+            className={buttonClass("secondary", "w-full sm:w-auto")}
+            href="/dashboard/subscriptions/import"
+          >
             <FileSpreadsheet size={16} />
             Importar Excel
           </Link>
           <button
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-5 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-[#4F46E5]"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-5 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-[#4F46E5] sm:w-auto"
             onClick={() => setModalOpen(true)}
             type="button"
           >

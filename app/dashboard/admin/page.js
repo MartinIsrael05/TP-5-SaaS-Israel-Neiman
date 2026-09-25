@@ -85,7 +85,12 @@ export default async function AdminPage() {
       </section>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <section className={`${cardClass} transition-all duration-300 ease-in-out hover:bg-[#20242d]`}>
+        {/*
+          `min-w-0`: un item de grid nace con `min-width: auto` y no baja de su
+          ancho minimo de contenido, asi que en pantallas angostas se salia de
+          la pista y empujaba scroll horizontal a toda la pagina.
+        */}
+        <section className={`${cardClass} min-w-0 transition-all duration-300 ease-in-out hover:bg-[#20242d]`}>
           <div className="mb-4 flex items-start gap-3">
             <span className="flex size-9 items-center justify-center rounded-lg bg-inset text-muted">
               <BarChart3 size={16} />
@@ -131,7 +136,7 @@ export default async function AdminPage() {
           )}
         </section>
 
-        <section className={`${cardClass} transition-all duration-300 ease-in-out hover:bg-[#20242d]`}>
+        <section className={`${cardClass} min-w-0 transition-all duration-300 ease-in-out hover:bg-[#20242d]`}>
           <div className="mb-4 flex items-start gap-3">
             <span className="flex size-9 items-center justify-center rounded-lg bg-inset text-muted">
               <Tags size={16} />
