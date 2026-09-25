@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
-import { Pencil, X } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 import { badgeClass, buttonClass } from "@/components/ui/styles";
 import { formatMoneyShort } from "@/lib/format";
 
@@ -135,18 +134,17 @@ export default function DayDetail({ categoryTitles, charges, onClose, title }) {
                 </p>
               ) : null}
 
-              {/*
-                Lleva a la suscripcion dentro de la app, no a la web del
-                proveedor: desde ahi se edita o se elimina, sin sacar al
-                usuario del sitio.
-              */}
-              <Link
-                className={buttonClass("secondary", "mt-3")}
-                href={`/dashboard/subscriptions/${subscription.id}/edit`}
-              >
-                <Pencil size={15} />
-                Ver y/o dar de baja
-              </Link>
+              {subscription.cancelUrl ? (
+                <a
+                  className={buttonClass("secondary", "mt-3")}
+                  href={subscription.cancelUrl}
+                  rel="noreferrer noopener"
+                  target="_blank"
+                >
+                  <ExternalLink size={15} />
+                  Dar de baja
+                </a>
+              ) : null}
             </li>
           ))}
         </ul>

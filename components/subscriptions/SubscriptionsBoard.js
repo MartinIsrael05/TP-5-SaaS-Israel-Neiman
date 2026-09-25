@@ -2,71 +2,19 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  CalendarClock,
-  CreditCard,
-  FileSpreadsheet,
-  Pencil,
-  Plus,
-  Search,
-  Tag,
-  Trash2,
-  Wallet,
-  X,
-} from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { FileSpreadsheet, Plus, Search, Tags, Wallet, X } from "lucide-react";
+import SubscriptionCard from "@/components/subscriptions/SubscriptionCard";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
-import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
-import { formatDate, formatMoneyByCurrency, parseDateOnly } from "@/lib/format";
+import { buttonClass, cardClass } from "@/components/ui/styles";
 import { CATEGORIES_FALLBACK_LABEL } from "@/lib/subscriptions/constants";
-import { resolveNextChargeDate } from "@/lib/subscriptions/dates";
-import {
-  createSubscription,
-  deleteSubscription,
-} from "@/app/dashboard/subscriptions/actions";
-
-const STATUS_LABELS = {
-  active: "Activa",
-  paused: "Pausada",
-  cancelled: "Cancelada",
-};
-
-/*
-  Verde para lo que esta al dia, como en el ejemplo de listado del manual.
-  Pausada y cancelada van en neutro y no en coral: el manual prohibe verde y
-  coral simultaneos en un mismo componente, y esta lista es justamente uno.
-*/
-const STATUS_TONES = {
-  active: "positive",
-  paused: "neutral",
-  cancelled: "neutral",
-};
-
-const CYCLE_LABELS = {
-  monthly: "Mensual",
-  annual: "Anual",
-};
-
-// Puntito de estado: verde activo, gris cualquier otro (pausada o cancelada).
-const STATUS_DOT_COLORS = {
-  active: "bg-[#34D399]",
-  paused: "bg-[#9CA3AF]",
-  cancelled: "bg-[#9CA3AF]",
-};
+import { createSubscription } from "@/app/dashboard/subscriptions/actions";
 
 const filterFieldClass =
   "h-11 rounded-lg border border-white/5 bg-[#1A1D24] px-3.5 text-sm text-ink outline-none transition focus:ring-2 focus:ring-primary";
 
-function formatChargeDate(value) {
-  const date = parseDateOnly(value);
-
-  return date ? formatDate(date) : "Sin fecha";
-}
-
 export default function SubscriptionsBoard({ categories, subscriptions }) {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [porEliminar, setPorEliminar] = useState(null);
-  const [eliminando, setEliminando] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [cycleFilter, setCycleFilter] = useState("all");
@@ -108,19 +56,39 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
             sale, cada cuánto y cuándo se renueva.
           </p>
         </div>
-        <div className="flex shrink-0 flex-wrap gap-3">
-          <Link className={buttonClass("secondary")} href="/dashboard/subscriptions/import">
+        {/*
+          En mobile los dos botones juntos no entran (piden 383px) y `shrink-0`
+          impedia que `flex-wrap` los bajara, asi que se iban de pantalla: van
+          apilados y a lo ancho. De `sm` para arriba queda igual que siempre.
+        */}
+        <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+          <Link
+            className={buttonClass("secondary", "w-full sm:w-auto")}
+            href="/dashboard/subscriptions/import"
+          >
             <FileSpreadsheet size={16} />
             Importar Excel
           </Link>
           <button
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-5 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-[#4F46E5]"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-5 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-[#4F46E5] sm:w-auto"
             onClick={() => setModalOpen(true)}
             type="button"
           >
             <Plus size={16} />
             Nueva Suscripción
           </button>
+          {/*
+            Categorias no esta en el menu inferior de mobile y la barra lateral
+            recien aparece en `md`, asi que hasta ahi se entra por aca. Va con
+            menos peso visual que las otras dos: es gestion, no accion del dia.
+          */}
+          <Link
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/10 px-5 font-sans text-sm font-semibold text-muted transition hover:bg-white/5 hover:text-ink sm:w-auto md:hidden"
+            href="/dashboard/items"
+          >
+            <Tags size={16} />
+            Gestionar categorías
+          </Link>
         </div>
       </header>
 
@@ -195,137 +163,59 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredSubscriptions.map((subscription) => (
-            <article
-              className="group relative flex h-full min-w-0 flex-col gap-4 overflow-hidden rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-white/15"
+            <SubscriptionCard
+              categoryTitle={
+                categoryTitles.get(subscription.categoryItemId) ||
+                CATEGORIES_FALLBACK_LABEL
+              }
               key={subscription.id}
-            >
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
-                    <Tag size={15} />
-                  </span>
-                  <h3 className="line-clamp-1 min-w-0 flex-1 break-words font-sans font-semibold text-[#F3F4F6]">
-                    {subscription.name}
-                  </h3>
-                  <span
-                    aria-label={STATUS_LABELS[subscription.status]}
-                    className={`size-2 shrink-0 rounded-full ${STATUS_DOT_COLORS[subscription.status]}`}
-                    title={STATUS_LABELS[subscription.status]}
-                  />
-                </div>
-
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className={badgeClass(STATUS_TONES[subscription.status])}>
-                    {STATUS_LABELS[subscription.status]}
-                  </span>
-                  <span className={badgeClass("neutral")}>
-                    {categoryTitles.get(subscription.categoryItemId) ||
-                      CATEGORIES_FALLBACK_LABEL}
-                  </span>
-                  {subscription.usageLevel === "Bajo" ? (
-                    <span className="rounded-full border border-[#F87171] bg-red-500/10 px-2 py-0.5 text-xs font-semibold text-[#F87171]">
-                      Poco Uso
-                    </span>
-                  ) : null}
-                </div>
-
-                <p className="mt-3 font-mono text-lg font-semibold tabular-nums text-[#F3F4F6]">
-                  {formatMoneyByCurrency(subscription.amount, subscription.currency)}
-                  <span className="ml-2 font-sans text-sm font-medium text-[#9CA3AF]">
-                    {CYCLE_LABELS[subscription.billingCycle]}
-                  </span>
-                </p>
-
-                <div className="mt-2 flex items-center gap-2 font-mono text-sm tabular-nums text-[#9CA3AF]">
-                  <CalendarClock className="shrink-0 text-[#F3F4F6]" size={16} />
-                  <span>{formatChargeDate(resolveNextChargeDate(subscription))}</span>
-                </div>
-                {subscription.paymentMethod ? (
-                  <div className="mt-1 flex items-center gap-2 text-xs text-[#9CA3AF]">
-                    <CreditCard size={14} className="text-[#F3F4F6]" />
-                    {subscription.paymentMethod}
-                  </div>
-                ) : null}
-
-                {subscription.notes ? (
-                  <p className="mt-3 overflow-wrap-anywhere text-sm leading-6 text-[#9CA3AF]">
-                    {subscription.notes}
-                  </p>
-                ) : null}
-              </div>
-
-              <div className="mt-auto flex flex-col gap-2">
-                <div className="grid grid-cols-2 gap-3">
-                  <Link
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
-                    href={`/dashboard/subscriptions/${subscription.id}/edit`}
-                  >
-                    <Pencil size={15} />
-                    Editar
-                  </Link>
-                  {/* Antes borraba de una: un toque sin querer y no habia vuelta. */}
-                  <button
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-alert"
-                    onClick={() => setPorEliminar(subscription)}
-                    type="button"
-                  >
-                    <Trash2 size={15} />
-                    Eliminar
-                  </button>
-                </div>
-              </div>
-            </article>
+              subscription={subscription}
+            />
           ))}
         </div>
       )}
 
-      {isModalOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/5 bg-[#1A1D24] shadow-xl">
-            <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/5 bg-[#1A1D24] px-6 py-4">
-              <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripción</h2>
-              <button
-                aria-label="Cerrar"
-                className="flex size-8 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] transition hover:bg-white/5 hover:text-[#F3F4F6]"
-                onClick={() => setModalOpen(false)}
-                type="button"
-              >
-                <X size={18} />
-              </button>
-            </div>
-            <div className="p-6 pt-4">
-              <SubscriptionForm
-                action={createSubscription}
-                categories={categories}
-                onSuccess={() => setModalOpen(false)}
-                submitLabel="Agregar suscripción"
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      <ConfirmDialog
-        description={
-          porEliminar
-            ? `Se borra "${porEliminar.name}" de tu lista y deja de contar en tus totales. No se puede deshacer.`
-            : ""
-        }
-        loading={eliminando}
-        onCancel={() => !eliminando && setPorEliminar(null)}
-        onConfirm={async () => {
-          setEliminando(true);
-
-          try {
-            await deleteSubscription(porEliminar.id);
-            setPorEliminar(null);
-          } finally {
-            setEliminando(false);
-          }
-        }}
-        open={Boolean(porEliminar)}
-        title={porEliminar ? `¿Eliminar ${porEliminar.name}?` : ""}
-      />
+      <AnimatePresence>
+        {isModalOpen ? (
+          <motion.div
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-black/60 backdrop-blur-sm md:items-center md:p-4"
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            onClick={() => setModalOpen(false)}
+          >
+            <motion.div
+              animate={{ y: 0, opacity: 1 }}
+              className="relative flex max-h-[90vh] w-full flex-col overflow-y-auto rounded-t-3xl border-t border-white/5 bg-[#1A1D24] shadow-xl md:max-w-2xl md:rounded-2xl md:border"
+              exit={{ y: "100%", opacity: 0 }}
+              initial={{ y: "100%", opacity: 0 }}
+              onClick={(event) => event.stopPropagation()}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            >
+              <div className="mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-white/20 md:hidden" />
+              <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/5 bg-[#1A1D24] px-6 py-4">
+                <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripción</h2>
+                <button
+                  aria-label="Cerrar"
+                  className="flex size-11 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] transition hover:bg-white/5 hover:text-[#F3F4F6]"
+                  onClick={() => setModalOpen(false)}
+                  type="button"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="p-6 pt-4">
+                <SubscriptionForm
+                  action={createSubscription}
+                  categories={categories}
+                  onSuccess={() => setModalOpen(false)}
+                  submitLabel="Agregar suscripción"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
