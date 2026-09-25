@@ -1,11 +1,11 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Inbox, Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
+import { Inbox } from "lucide-react";
+import UserCard from "@/components/users/UserCard";
 import UserForm from "@/components/users/UserForm";
-import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
+import { cardClass } from "@/components/ui/styles";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getCurrentUserProfile, listUserProfiles } from "@/lib/users/users";
-import { createUser, deleteUser } from "./actions";
+import { createUser } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -72,53 +72,12 @@ export default async function UsersPage() {
           ) : (
             <div className="grid gap-4">
               {users.map((managedUser) => (
-                <article
-                  className={`${cardClass} group grid min-w-0 gap-4 transition-all duration-300 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
+                <UserCard
+                  esPropio={managedUser.uid === user.uid}
                   key={managedUser.uid}
-                >
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
-                        {managedUser.user_type === "admin" ? <ShieldCheck size={15} /> : <UserRound size={15} />}
-                      </span>
-                      <h3 className="overflow-wrap-anywhere font-semibold text-ink">
-                        {managedUser.email || managedUser.uid}
-                      </h3>
-                      <span className={badgeClass(managedUser.user_type === "admin" ? "accent" : "neutral")}>
-                        {managedUser.user_type}
-                      </span>
-                    </div>
-                    {managedUser.displayName ? (
-                      <p className="mt-3 text-sm leading-6 text-muted">
-                        {managedUser.displayName}
-                      </p>
-                    ) : null}
-                    <p className="mt-3 overflow-wrap-anywhere font-mono text-xs text-muted">
-                      {managedUser.uid}
-                    </p>
-                    <p className="mt-2 text-xs text-muted">
-                      Último acceso: {formatDate(managedUser.lastLoginAt)}
-                    </p>
-                  </div>
-
-                  <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-start lg:justify-end">
-                    <Link
-                      className={buttonClass("secondary")}
-                      href={`/dashboard/users/${managedUser.uid}/edit`}
-                    >
-                      <Pencil size={15} />
-                      Editar
-                    </Link>
-                    {managedUser.uid !== user.uid ? (
-                      <form action={deleteUser.bind(null, managedUser.uid)}>
-                        <button className={buttonClass("danger", "w-full sm:w-auto")} type="submit">
-                          <Trash2 size={15} />
-                          Eliminar
-                        </button>
-                      </form>
-                    ) : null}
-                  </div>
-                </article>
+                  managedUser={managedUser}
+                  ultimoAcceso={formatDate(managedUser.lastLoginAt)}
+                />
               ))}
             </div>
           )}
