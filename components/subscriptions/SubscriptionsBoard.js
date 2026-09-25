@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { FileSpreadsheet, Plus, Search, Wallet, X } from "lucide-react";
+import { FileSpreadsheet, Plus, Search, Tags, Wallet, X } from "lucide-react";
 import SubscriptionCard from "@/components/subscriptions/SubscriptionCard";
 import SubscriptionForm from "@/components/subscriptions/SubscriptionForm";
 import { buttonClass, cardClass } from "@/components/ui/styles";
@@ -77,6 +77,18 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
             <Plus size={16} />
             Nueva Suscripción
           </button>
+          {/*
+            Categorias no esta en el menu inferior de mobile y la barra lateral
+            recien aparece en `md`, asi que hasta ahi se entra por aca. Va con
+            menos peso visual que las otras dos: es gestion, no accion del dia.
+          */}
+          <Link
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/10 px-5 font-sans text-sm font-semibold text-muted transition hover:bg-white/5 hover:text-ink sm:w-auto md:hidden"
+            href="/dashboard/items"
+          >
+            <Tags size={16} />
+            Gestionar categorías
+          </Link>
         </div>
       </header>
 

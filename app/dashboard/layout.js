@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
+import AdminFAB from "@/components/ui/AdminFAB";
 import BottomNav from "@/components/ui/BottomNav";
 import { getCurrentUser } from "@/lib/firebase/session";
 import { getCurrentUserProfile } from "@/lib/users/users";
@@ -24,6 +25,7 @@ export default async function DashboardLayout({ children }) {
         </div>
       </main>
       <BottomNav />
+      <AdminFAB profile={profile} />
     </div>
   );
 }
