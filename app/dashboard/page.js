@@ -95,8 +95,8 @@ function SectionCard({ accent = false, action, children, className = "", icon: I
         accent ? "border-t-2 border-t-primary" : ""
       } ${className}`}
     >
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <div className="flex min-w-0 flex-1 items-start gap-3">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="flex min-w-0 items-start gap-3 sm:flex-1">
           {Icon ? (
             <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover/section:text-primary">
               <Icon size={16} />
@@ -109,7 +109,7 @@ function SectionCard({ accent = false, action, children, className = "", icon: I
             ) : null}
           </div>
         </div>
-        {action ? <div className="shrink-0">{action}</div> : null}
+        {action ? <div className="shrink-0 pl-12 sm:pl-0">{action}</div> : null}
       </div>
       {children}
     </section>
