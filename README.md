@@ -475,36 +475,14 @@ Que la IA escribe código que compila, pero **no garantiza que funcione**. Casi
 todos los bugs reales aparecieron al abrir la aplicación y usarla, no al
 compilarla. Revisar y probar sigue siendo trabajo nuestro.
 
-### [COMPLETAR — Luciano]
 
-> Luciano: agregá acá qué herramientas de IA usaste en tus commits (31 de los
-> 64), para qué, y cómo verificaste el resultado. Si usaste otro modelo o no
-> usaste ninguno en alguna parte, aclaralo también.
-
----
-
-## Estado actual y pendientes
+## Estado actual
 
 **Funcionando:** autenticación con email verificado y con Google, ABM completo
 de suscripciones y categorías, importación y exportación de Excel, panel con
 métricas, calendario, pantalla de cuenta, rol de administrador, responsive con
 menú inferior en mobile.
 
-**Pendientes conocidos:**
-
-- **Historial de cobros.** Hoy la app no guarda qué se cobró efectivamente, así
-  que no se puede comparar contra el mes anterior. Requiere una colección
-  `charges` con los cobros materializados.
-- **Conversión de USD.** Los totales se muestran separados por moneda. Falta
-  definir de dónde sale la cotización.
-- **`lib/firebase/storage.js` quedó sin uso** desde que las categorías dejaron
-  de tener imagen. Se mantiene por si se retoma la integración con Cloud
-  Storage.
-- **Envío de correo con dominio propio.** Se usa Gmail, que funciona para
-  cualquier destinatario pero puede caer en spam. Con un dominio verificado se
-  podría volver a Resend.
-
----
 
 ## Flujo de trabajo con Git
 
