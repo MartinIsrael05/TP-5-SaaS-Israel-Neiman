@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Footer from "@/components/Footer";
+import { getCurrentUser } from "@/lib/firebase/session";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Términos de Servicio · TECA",
@@ -41,47 +45,52 @@ const SECTIONS = [
   },
 ];
 
-export default function TerminosPage() {
+export default async function TerminosPage() {
+  const user = await getCurrentUser();
+
   return (
-    <main className="flex min-h-screen justify-center bg-base px-4 py-20">
-      <div className="w-full max-w-3xl font-sans">
-        <Link
-          className="inline-flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-ink"
-          href="/"
-        >
-          <ArrowLeft size={15} />
-          Volver al inicio
-        </Link>
+    <>
+      <main className="flex min-h-screen justify-center bg-base px-4 py-20">
+        <div className="w-full max-w-3xl font-sans">
+          <Link
+            className="inline-flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-ink"
+            href="/"
+          >
+            <ArrowLeft size={15} />
+            Volver al inicio
+          </Link>
 
-        <h1 className="mt-8 text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-          Términos de Servicio
-        </h1>
+          <h1 className="mt-8 text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+            Términos de Servicio
+          </h1>
 
-        <p className="mt-4 font-mono text-sm text-muted">
-          Última actualización: 22 de septiembre de 2026
-        </p>
-
-        <div className="mt-6 h-px w-full bg-line" />
-
-        {SECTIONS.map((section) => (
-          <section key={section.title}>
-            <h2 className="mt-14 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-              {section.title}
-            </h2>
-            {section.paragraphs.map((paragraph) => (
-              <p className="mt-4 leading-relaxed text-muted" key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
-          </section>
-        ))}
-
-        <div className="mt-16 border-t border-line pt-6">
-          <p className="font-mono text-sm leading-relaxed text-muted">
-            ¿Dudas sobre estas condiciones? Escribinos y te respondemos.
+          <p className="mt-4 font-mono text-sm text-muted">
+            Última actualización: 22 de septiembre de 2026
           </p>
+
+          <div className="mt-6 h-px w-full bg-line" />
+
+          {SECTIONS.map((section) => (
+            <section key={section.title}>
+              <h2 className="mt-14 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
+                {section.title}
+              </h2>
+              {section.paragraphs.map((paragraph) => (
+                <p className="mt-4 leading-relaxed text-muted" key={paragraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </section>
+          ))}
+
+          <div className="mt-16 border-t border-line pt-6">
+            <p className="font-mono text-sm leading-relaxed text-muted">
+              ¿Dudas sobre estas condiciones? Escribinos y te respondemos.
+            </p>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <Footer user={user} />
+    </>
   );
 }
