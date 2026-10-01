@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
-import SwipeableCard, { SwipeHint } from "@/components/ui/SwipeableCard";
+import SwipeableCard from "@/components/ui/SwipeableCard";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { deleteUser } from "@/app/dashboard/users/actions";
 
@@ -51,12 +51,11 @@ export default function UserCard({ esPropio, managedUser, ultimoAcceso }) {
 
       <div className="grid gap-2 lg:justify-end">
         {/*
-          En mobile manda el gesto, asi que los botones aparecen recien en `md`.
-          El `hidden` va en este contenedor y no en cada boton: `buttonClass` ya
-          trae `inline-flex`, y entre dos utilidades de display gana la que
-          Tailwind emite ultima en la hoja, no la ultima del string de clases.
+          Visibles tambien en mobile: el gesto de deslizar no es accesible
+          para lectores de pantalla ni descubrible sin indicacion, asi que
+          estos botones son el camino confiable y el swipe queda como atajo.
         */}
-        <div className="hidden gap-2 md:flex md:flex-wrap md:items-start lg:justify-end">
+        <div className="flex flex-wrap items-start gap-2 lg:justify-end">
           <Link className={buttonClass("secondary")} href={editHref}>
             <Pencil size={15} />
             Editar
@@ -70,7 +69,6 @@ export default function UserCard({ esPropio, managedUser, ultimoAcceso }) {
             </form>
           )}
         </div>
-        <SwipeHint conEliminacion={!esPropio} />
       </div>
     </SwipeableCard>
   );

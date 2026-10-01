@@ -1,5 +1,6 @@
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import CookieBanner from "@/components/ui/CookieBanner";
+import MotionProvider from "@/components/ui/MotionProvider";
 import "./globals.css";
 
 /*
@@ -34,7 +35,7 @@ export default function RootLayout({ children }) {
       className={`${jakarta.variable} ${jetbrainsMono.variable} dark`}
     >
       <body className="min-h-screen bg-base text-ink antialiased">
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <CookieBanner />
       </body>
     </html>

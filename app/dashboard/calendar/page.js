@@ -13,7 +13,7 @@ export default async function CalendarPage() {
   ]);
 
   return (
-    <div className="space-y-8 p-6 sm:p-8">
+    <div className="space-y-8 md:p-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Gastos recurrentes

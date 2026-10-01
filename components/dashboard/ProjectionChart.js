@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
@@ -12,7 +14,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatMoneyShort } from "@/lib/format";
+import { formatMoneyCompact, formatMoneyShort } from "@/lib/format";
 import { CHART, SERIES_LABELS } from "./chartTheme";
 
 // Dos series apiladas: la base que se repite todos los meses y las
@@ -93,8 +95,28 @@ function CurrencyToggle({ currencyMode, onChange }) {
   );
 }
 
+// Seis barras apiladas lado a lado aprietan mucho en una pantalla angosta.
+// El area apilada cuenta la misma historia (base + pico anual) con una curva
+// continua, que lee mejor en poco ancho. De `md` para arriba siguen las
+// barras de siempre: ahi el espacio no es el problema.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)");
+    const sync = () => setIsMobile(query.matches);
+
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  return isMobile;
+}
+
 export default function ProjectionChart({ dataByCurrency }) {
   const [currencyMode, setCurrencyMode] = useState("ARS");
+  const isMobile = useIsMobile();
   const data = dataByCurrency?.[currencyMode] || [];
 
   return (
@@ -109,73 +131,124 @@ export default function ProjectionChart({ dataByCurrency }) {
 
       <div style={{ height: 260 }}>
         <ResponsiveContainer height="100%" width="100%">
-          <BarChart data={data} margin={{ top: 24, right: 8, bottom: 4, left: 4 }}>
-            <CartesianGrid stroke={CHART.grid} strokeWidth={1} vertical={false} />
-            <XAxis
-              axisLine={false}
-              dataKey="label"
-              tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
-              tickLine={false}
-            />
-            <YAxis
-              axisLine={false}
-              tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
-              tickFormatter={(value) => formatMoneyShort(value, currencyMode)}
-              tickLine={false}
-              width={64}
-            />
-            <Tooltip content={<ChartTooltip currency={currencyMode} />} cursor={{ fill: "#262A33" }} />
-            <Bar
-              dataKey="monthly"
-              fill={CHART.series1}
-              maxBarSize={48}
-              stackId="spend"
-            >
-              {/*
-                La etiqueta del total va sobre la base y no sobre el segmento
-                anual, porque Recharts no dibuja los segmentos de valor cero:
-                colgada del anual, los meses sin renovacion quedaban sin numero.
-                Con el alto y el valor de la base sacamos la escala en pixeles y
-                subimos la etiqueta hasta arriba de la pila.
-              */}
-              <LabelList
-                content={({ height, index, width, x, y }) => {
-                  const row = data[index];
-
-                  if (!row) {
-                    return null;
-                  }
-
-                  const pixelsPerUnit = row.monthly > 0 ? height / row.monthly : 0;
-
-                  return (
-                    <text
-                      fill={CHART.ink}
-                      fontFamily={CHART.fontFamily}
-                      fontSize={12}
-                      textAnchor="middle"
-                      x={x + width / 2}
-                      y={y - row.annual * pixelsPerUnit - 8}
-                    >
-                      {formatMoneyShort(row.total, currencyMode)}
-                    </text>
-                  );
-                }}
+          {isMobile ? (
+            <AreaChart data={data} margin={{ top: 24, right: 8, bottom: 4, left: 4 }}>
+              <CartesianGrid stroke={CHART.grid} strokeWidth={1} vertical={false} />
+              <XAxis
+                axisLine={false}
+                dataKey="label"
+                tick={{ fill: CHART.axis, fontSize: 11, fontFamily: CHART.fontFamily }}
+                tickLine={false}
               />
-            </Bar>
-            <Bar dataKey="annual" maxBarSize={48} radius={[4, 4, 0, 0]} stackId="spend">
-              {data.map((row) => (
-                <Cell
-                  fill={CHART.series2}
-                  key={row.key}
-                  // El borde del color del fondo abre el hueco de 2px entre los
-                  // dos segmentos, en vez de dibujar un contorno.
-                  stroke={row.annual > 0 ? CHART.surface : "transparent"}
-                  strokeWidth={2}
+              <YAxis
+                axisLine={false}
+                tick={{ fill: CHART.axis, fontSize: 11, fontFamily: CHART.fontFamily }}
+                tickCount={5}
+                tickFormatter={(value) => formatMoneyCompact(value, currencyMode)}
+                tickLine={false}
+                width={48}
+              />
+              <Tooltip
+                content={<ChartTooltip currency={currencyMode} />}
+                cursor={{ stroke: CHART.grid, strokeWidth: 1 }}
+              />
+              {/*
+                Mismo orden y mismos colores que las barras de escritorio: la
+                base apilada primero, el pico anual encima. El relleno va
+                translucido para que se note el limite entre las dos capas
+                sin depender del hueco de 2px que usan las barras solidas.
+              */}
+              <Area
+                activeDot={{ r: 4, strokeWidth: 0 }}
+                dataKey="monthly"
+                fill={CHART.series1}
+                fillOpacity={0.35}
+                stackId="spend"
+                stroke={CHART.series1}
+                strokeWidth={2}
+                type="monotone"
+              />
+              <Area
+                activeDot={{ r: 4, strokeWidth: 0 }}
+                dataKey="annual"
+                fill={CHART.series2}
+                fillOpacity={0.45}
+                stackId="spend"
+                stroke={CHART.series2}
+                strokeWidth={2}
+                type="monotone"
+              />
+            </AreaChart>
+          ) : (
+            <BarChart data={data} margin={{ top: 24, right: 8, bottom: 4, left: 4 }}>
+              <CartesianGrid stroke={CHART.grid} strokeWidth={1} vertical={false} />
+              <XAxis
+                axisLine={false}
+                dataKey="label"
+                tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
+                tickLine={false}
+              />
+              <YAxis
+                axisLine={false}
+                tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
+                tickCount={5}
+                tickFormatter={(value) => formatMoneyCompact(value, currencyMode)}
+                tickLine={false}
+                width={56}
+              />
+              <Tooltip content={<ChartTooltip currency={currencyMode} />} cursor={{ fill: "#262A33" }} />
+              <Bar
+                dataKey="monthly"
+                fill={CHART.series1}
+                maxBarSize={48}
+                stackId="spend"
+              >
+                {/*
+                  La etiqueta del total va sobre la base y no sobre el segmento
+                  anual, porque Recharts no dibuja los segmentos de valor cero:
+                  colgada del anual, los meses sin renovacion quedaban sin numero.
+                  Con el alto y el valor de la base sacamos la escala en pixeles y
+                  subimos la etiqueta hasta arriba de la pila.
+                */}
+                <LabelList
+                  content={({ height, index, width, x, y }) => {
+                    const row = data[index];
+
+                    if (!row) {
+                      return null;
+                    }
+
+                    const pixelsPerUnit = row.monthly > 0 ? height / row.monthly : 0;
+
+                    return (
+                      <text
+                        fill={CHART.ink}
+                        fontFamily={CHART.fontFamily}
+                        fontSize={12}
+                        textAnchor="middle"
+                        x={x + width / 2}
+                        y={y - row.annual * pixelsPerUnit - 8}
+                      >
+                        {formatMoneyShort(row.total, currencyMode)}
+                      </text>
+                    );
+                  }}
                 />
-              ))}
-            </Bar>
-          </BarChart>
+              </Bar>
+              <Bar dataKey="annual" maxBarSize={48} radius={[4, 4, 0, 0]} stackId="spend">
+                {data.map((row) => (
+                  <Cell
+                    fill={CHART.series2}
+                    key={row.key}
+                    // El borde del color del fondo abre el hueco de 2px entre los
+                    // dos segmentos, en vez de dibujar un contorno.
+                    stroke={row.annual > 0 ? CHART.surface : "transparent"}
+                    strokeWidth={2}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          )}
         </ResponsiveContainer>
       </div>
     </div>

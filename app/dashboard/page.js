@@ -99,8 +99,8 @@ function SectionCard({ accent = false, action, children, className = "", icon: I
         accent ? "border-t-2 border-t-primary" : ""
       } ${className}`}
     >
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <div className="flex min-w-0 flex-1 items-start gap-3">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="flex min-w-0 items-start gap-3 sm:flex-1">
           {Icon ? (
             <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover/section:text-primary">
               <Icon size={16} />
@@ -113,7 +113,7 @@ function SectionCard({ accent = false, action, children, className = "", icon: I
             ) : null}
           </div>
         </div>
-        {action ? <div className="shrink-0">{action}</div> : null}
+        {action ? <div className="shrink-0 pl-12 sm:pl-0">{action}</div> : null}
       </div>
       {children}
     </section>
@@ -149,7 +149,7 @@ export default async function DashboardPage() {
   const categoryTitles = new Map(categories.map((item) => [item.id, item.title]));
 
   return (
-    <div className="space-y-8 p-6 sm:p-8">
+    <div className="space-y-8 md:p-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Tu panel
@@ -329,10 +329,10 @@ export default async function DashboardPage() {
                           </span>
                           <Link
                             aria-label={`Editar ${charge.name}`}
-                            className="flex size-7 items-center justify-center rounded-md text-muted opacity-0 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink group-hover:opacity-100"
+                            className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
                             href={`/dashboard/subscriptions/${charge.id}/edit`}
                           >
-                            <Pencil size={13} />
+                            <Pencil size={14} />
                           </Link>
                         </div>
                       </li>

@@ -11,8 +11,19 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatMoneyShort } from "@/lib/format";
+import { formatMoneyCompact, formatMoneyShort } from "@/lib/format";
 import { CHART } from "./chartTheme";
+
+// Recharts dibuja el eje de categorias en SVG, sin el truncate/ellipsis de
+// CSS: un nombre largo de categoria desborda la columna de 96px y se mete
+// sobre las barras. Se corta a mano antes de que llegue al eje.
+const MAX_LABEL_LENGTH = 14;
+
+function truncateLabel(label = "") {
+  return label.length > MAX_LABEL_LENGTH
+    ? `${label.slice(0, MAX_LABEL_LENGTH - 1)}…`
+    : label;
+}
 
 // Una sola medida (gasto mensual) comparada entre categorias: barras en un
 // unico tono. Pintarlas de distinto color por tamano seria codificar dos veces
@@ -63,8 +74,9 @@ export default function CategorySpendChart({ dataByCurrency }) {
   const data = dataByCurrency?.[currencyMode] || [];
 
   // Alto suficiente para las filas mas la banda del eje, asi la tarjeta no
-  // termina con un scroll interno.
-  const height = Math.max(data.length * 54 + 44, 180);
+  // termina con un scroll interno. Piso de 200px para que el grafico nunca
+  // quede mas achatado que eso en mobile.
+  const height = Math.max(data.length * 54 + 44, 200);
 
   return (
     <div>
@@ -89,7 +101,8 @@ export default function CategorySpendChart({ dataByCurrency }) {
               <XAxis
                 axisLine={false}
                 tick={{ fill: CHART.axis, fontSize: 12, fontFamily: CHART.fontFamily }}
-                tickFormatter={(value) => formatMoneyShort(value, currencyMode)}
+                tickCount={5}
+                tickFormatter={(value) => formatMoneyCompact(value, currencyMode)}
                 tickLine={false}
                 type="number"
               />
@@ -97,6 +110,7 @@ export default function CategorySpendChart({ dataByCurrency }) {
                 axisLine={false}
                 dataKey="label"
                 tick={{ fill: CHART.ink, fontSize: 12, fontFamily: CHART.fontFamily }}
+                tickFormatter={truncateLabel}
                 tickLine={false}
                 type="category"
                 width={96}
