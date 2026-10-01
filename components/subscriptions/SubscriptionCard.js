@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CalendarClock, CreditCard, Pencil, Tag, Trash2 } from "lucide-react";
-import SwipeableCard, { SwipeHint } from "@/components/ui/SwipeableCard";
+import SwipeableCard from "@/components/ui/SwipeableCard";
 import { badgeClass } from "@/components/ui/styles";
 import { formatDate, formatMoneyByCurrency, parseDateOnly } from "@/lib/format";
 import { resolveNextChargeDate } from "@/lib/subscriptions/dates";
@@ -117,7 +117,12 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
             Cancelar
           </a>
         ) : null}
-        <div className="hidden grid-cols-2 gap-3 md:grid">
+        {/*
+          Visibles tambien en mobile: el gesto de deslizar no es accesible
+          para lectores de pantalla ni descubrible sin indicacion, asi que
+          estos botones son el camino confiable y el swipe queda como atajo.
+        */}
+        <div className="grid grid-cols-2 gap-3">
           <Link
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
             href={editHref}
@@ -135,7 +140,6 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
             </button>
           </form>
         </div>
-        <SwipeHint />
       </div>
     </SwipeableCard>
   );

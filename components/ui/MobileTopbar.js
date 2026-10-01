@@ -17,11 +17,11 @@ const ENLACES = [
 ];
 
 const enlaceClass =
-  "inline-flex h-8 items-center gap-1.5 rounded-md px-2 font-sans text-[11px] font-semibold text-muted transition hover:bg-white/5 hover:text-ink";
+  "inline-flex h-11 items-center gap-1.5 rounded-md px-2 font-sans text-[11px] font-semibold text-muted transition hover:bg-white/5 hover:text-ink";
 
 export default function MobileTopbar() {
   return (
-    <header className="sticky top-0 z-40 flex h-10 items-center justify-between gap-2 border-b border-white/5 bg-base/85 px-4 backdrop-blur-xl md:hidden">
+    <header className="sticky top-0 z-40 flex h-12 items-center justify-between gap-2 border-b border-white/5 bg-base/85 px-4 backdrop-blur-xl md:hidden">
       <Link aria-label="Ir al panel" href="/dashboard">
         <Wordmark size="sm" />
       </Link>
@@ -37,7 +37,7 @@ export default function MobileTopbar() {
         <form action={logout}>
           <button
             aria-label="Cerrar sesión"
-            className="inline-flex size-8 items-center justify-center rounded-md text-muted transition hover:bg-white/5 hover:text-ink"
+            className="inline-flex size-11 items-center justify-center rounded-md text-muted transition hover:bg-white/5 hover:text-ink"
             type="submit"
           >
             <LogOut aria-hidden="true" size={15} />

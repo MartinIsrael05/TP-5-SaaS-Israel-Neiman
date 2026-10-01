@@ -145,7 +145,7 @@ export default async function DashboardPage() {
   const categoryTitles = new Map(categories.map((item) => [item.id, item.title]));
 
   return (
-    <div className="space-y-8 p-6 sm:p-8">
+    <div className="space-y-8 md:p-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Tu panel
@@ -325,10 +325,10 @@ export default async function DashboardPage() {
                           </span>
                           <Link
                             aria-label={`Editar ${charge.name}`}
-                            className="flex size-7 items-center justify-center rounded-md text-muted opacity-0 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink group-hover:opacity-100"
+                            className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
                             href={`/dashboard/subscriptions/${charge.id}/edit`}
                           >
-                            <Pencil size={13} />
+                            <Pencil size={14} />
                           </Link>
                         </div>
                       </li>

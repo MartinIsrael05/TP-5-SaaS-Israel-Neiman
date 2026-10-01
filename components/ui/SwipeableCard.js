@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
-import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 /*
   Cascara de gesto compartida por las tarjetas de la app.
 
   Deslizar a la derecha edita, a la izquierda elimina, y si no se llega al
-  umbral la tarjeta vuelve sola al centro. Solo en mobile: de `md` para arriba
-  el trabajo lo hacen los botones visibles de cada tarjeta.
+  umbral la tarjeta vuelve sola al centro. Es un atajo encima de los botones
+  visibles de cada tarjeta, nunca el unico camino: el gesto no es accesible
+  para lectores de pantalla.
 
   Cada accion es opcional. Si una tarjeta no se puede eliminar (por ejemplo la
   del propio administrador), no se pasa `onDelete` y ese lado del gesto queda
@@ -18,30 +19,6 @@ import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
 const DRAG_LIMIT = 132;
 const COMMIT_DISTANCE = 92;
 const COMMIT_VELOCITY = 520;
-
-// Pista de que la tarjeta se desliza. Se dibuja dentro del contenido.
-export function SwipeHint({ conEdicion = true, conEliminacion = true }) {
-  return (
-    <p className="flex items-center justify-between text-sm text-muted/70 md:hidden">
-      <span className="inline-flex items-center gap-1">
-        {conEliminacion ? (
-          <>
-            <ChevronLeft size={14} />
-            Eliminar
-          </>
-        ) : null}
-      </span>
-      <span className="inline-flex items-center gap-1">
-        {conEdicion ? (
-          <>
-            Editar
-            <ChevronRight size={14} />
-          </>
-        ) : null}
-      </span>
-    </p>
-  );
-}
 
 export default function SwipeableCard({ children, className = "", onDelete, onEdit }) {
   const puedeEliminar = typeof onDelete === "function";

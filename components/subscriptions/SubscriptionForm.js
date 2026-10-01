@@ -96,6 +96,7 @@ export default function SubscriptionForm({
             className={inputClass}
             name="amount"
             type="number"
+            inputMode="decimal"
             min="0"
             step="0.01"
             defaultValue={subscription?.amount || ""}
@@ -178,6 +179,7 @@ export default function SubscriptionForm({
             className={inputClass}
             name="reminderDaysBefore"
             type="number"
+            inputMode="numeric"
             min="0"
             step="1"
             defaultValue={subscription?.reminderDaysBefore ?? 0}
