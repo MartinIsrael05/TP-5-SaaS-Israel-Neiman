@@ -71,7 +71,7 @@ const badgeTones = {
 
 export function badgeClass(tone = "neutral") {
   const base =
-    "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium uppercase tracking-[0.08em]";
+    "inline-flex shrink-0 items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium uppercase tracking-[0.08em]";
 
   return `${base} ${badgeTones[tone] || badgeTones.neutral}`;
 }
