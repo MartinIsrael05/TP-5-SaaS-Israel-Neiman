@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FolderOpen, Inbox, Pencil, Tag, Trash2 } from "lucide-react";
+import { FolderOpen, Inbox, Pencil, Tag } from "lucide-react";
+import DeleteItemButton from "@/components/items/DeleteItemButton";
 import ItemForm from "@/components/items/ItemForm";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { formatMoney } from "@/lib/format";
@@ -7,7 +8,7 @@ import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
 import { monthlyAmount } from "@/lib/subscriptions/metrics";
-import { createItem, deleteItem } from "./actions";
+import { createItem } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -132,12 +133,7 @@ export default async function ItemsPage() {
                         <Pencil size={15} />
                         Editar
                       </Link>
-                      <form action={deleteItem.bind(null, item.id)}>
-                        <button className={buttonClass("danger", "w-full sm:w-auto")} type="submit">
-                          <Trash2 size={15} />
-                          Eliminar
-                        </button>
-                      </form>
+                      <DeleteItemButton item={item} />
                     </div>
                   </article>
                 );

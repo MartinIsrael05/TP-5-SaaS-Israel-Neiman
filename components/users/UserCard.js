@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import SwipeableCard from "@/components/ui/SwipeableCard";
 import { badgeClass, buttonClass, cardClass } from "@/components/ui/styles";
 import { deleteUser } from "@/app/dashboard/users/actions";
@@ -20,10 +22,28 @@ export default function UserCard({ esPropio, managedUser, ultimoAcceso }) {
   const editHref = `/dashboard/users/${managedUser.uid}/edit`;
   const esAdmin = managedUser.user_type === "admin";
 
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
+  const [error, setError] = useState("");
+
+  async function confirmarEliminar() {
+    setEliminando(true);
+    setError("");
+
+    try {
+      await deleteUser(managedUser.uid);
+    } catch (err) {
+      setError(err.message || "No se pudo eliminar el usuario.");
+      setEliminando(false);
+      setConfirmOpen(false);
+    }
+  }
+
   return (
+    <>
     <SwipeableCard
       className={`${cardClass} group grid min-w-0 gap-4 transition-colors duration-200 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
-      onDelete={esPropio ? undefined : () => deleteUser(managedUser.uid)}
+      onDelete={esPropio ? undefined : () => setConfirmOpen(true)}
       onEdit={() => router.push(editHref)}
     >
       <div className="min-w-0">
@@ -61,15 +81,33 @@ export default function UserCard({ esPropio, managedUser, ultimoAcceso }) {
             Editar
           </Link>
           {esPropio ? null : (
-            <form action={deleteUser.bind(null, managedUser.uid)}>
-              <button className={buttonClass("danger")} type="submit">
-                <Trash2 size={15} />
-                Eliminar
-              </button>
-            </form>
+            <button
+              className={buttonClass("danger")}
+              onClick={() => setConfirmOpen(true)}
+              type="button"
+            >
+              <Trash2 size={15} />
+              Eliminar
+            </button>
           )}
         </div>
+
+        {error ? (
+          <p className="mt-2 rounded-lg bg-alert/10 p-3 text-sm leading-6 text-alert">
+            {error}
+          </p>
+        ) : null}
       </div>
     </SwipeableCard>
+
+    <ConfirmDialog
+      description={`Se borra la cuenta de "${managedUser.email || managedUser.uid}" y pierde el acceso. No se puede deshacer.`}
+      loading={eliminando}
+      onCancel={() => !eliminando && setConfirmOpen(false)}
+      onConfirm={confirmarEliminar}
+      open={confirmOpen}
+      title={`¿Eliminar a ${managedUser.email || managedUser.uid}?`}
+    />
+    </>
   );
 }

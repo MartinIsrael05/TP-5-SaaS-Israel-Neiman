@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CalendarClock, CreditCard, Pencil, Tag, Trash2 } from "lucide-react";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import SwipeableCard from "@/components/ui/SwipeableCard";
 import { badgeClass } from "@/components/ui/styles";
 import { formatDate, formatMoneyByCurrency, parseDateOnly } from "@/lib/format";
@@ -48,10 +50,30 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
   const router = useRouter();
   const editHref = `/dashboard/subscriptions/${subscription.id}/edit`;
 
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
+  const [error, setError] = useState("");
+
+  async function confirmarEliminar() {
+    setEliminando(true);
+    setError("");
+
+    try {
+      await deleteSubscription(subscription.id);
+      // No hace falta cerrar nada: la lista se revalida y esta tarjeta
+      // desmonta sola apenas el server action termina.
+    } catch (err) {
+      setError(err.message || "No se pudo eliminar la suscripción.");
+      setEliminando(false);
+      setConfirmOpen(false);
+    }
+  }
+
   return (
+    <>
     <SwipeableCard
       className="group flex h-full min-w-0 flex-col gap-4 rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-colors duration-200 ease-in-out hover:border-white/15 md:hover:-translate-y-1"
-      onDelete={() => deleteSubscription(subscription.id)}
+      onDelete={() => setConfirmOpen(true)}
       onEdit={() => router.push(editHref)}
     >
       <div className="min-w-0">
@@ -130,17 +152,32 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
             <Pencil size={15} />
             Editar
           </Link>
-          <form action={deleteSubscription.bind(null, subscription.id)}>
-            <button
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-alert"
-              type="submit"
-            >
-              <Trash2 size={15} />
-              Eliminar
-            </button>
-          </form>
+          <button
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-3 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-alert"
+            onClick={() => setConfirmOpen(true)}
+            type="button"
+          >
+            <Trash2 size={15} />
+            Eliminar
+          </button>
         </div>
+
+        {error ? (
+          <p className="mt-2 rounded-lg bg-alert/10 p-3 text-sm leading-6 text-alert">
+            {error}
+          </p>
+        ) : null}
       </div>
     </SwipeableCard>
+
+    <ConfirmDialog
+      description={`Se borra "${subscription.name}" de tu lista y deja de contar en tus totales. No se puede deshacer.`}
+      loading={eliminando}
+      onCancel={() => !eliminando && setConfirmOpen(false)}
+      onConfirm={confirmarEliminar}
+      open={confirmOpen}
+      title={`¿Eliminar ${subscription.name}?`}
+    />
+    </>
   );
 }
