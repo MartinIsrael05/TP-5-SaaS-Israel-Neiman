@@ -17,11 +17,32 @@ const CYCLE_LABELS = { monthly: "Mensual", annual: "Anual" };
 */
 export default function DayDetail({ categoryTitles, charges, onClose, title }) {
   const closeRef = useRef(null);
+  const panelRef = useRef(null);
 
   useEffect(() => {
     function onKeyDown(event) {
       if (event.key === "Escape") {
         onClose();
+        return;
+      }
+
+      // Misma trampa de foco que ConfirmDialog: el panel tiene una lista
+      // variable de links "Dar de baja", asi que se recalculan los extremos
+      // en cada Tab en vez de asumir cuales son.
+      if (event.key === "Tab" && panelRef.current) {
+        const focusables = panelRef.current.querySelectorAll(
+          "button:not(:disabled), a[href]",
+        );
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
       }
     }
 
@@ -61,7 +82,8 @@ export default function DayDetail({ categoryTitles, charges, onClose, title }) {
       <div
         aria-labelledby="detalle-dia-titulo"
         aria-modal="true"
-        className="relative flex max-h-[85vh] w-full animate-slide-up flex-col rounded-t-2xl border border-white/10 bg-[#1A1D24] shadow-2xl sm:max-w-md sm:rounded-2xl"
+        className="relative flex max-h-[85vh] w-full animate-sheet-up flex-col rounded-t-2xl border border-white/10 bg-[#1A1D24] shadow-2xl sm:max-w-md sm:animate-modal-in sm:rounded-2xl"
+        ref={panelRef}
         role="dialog"
       >
         <header className="flex items-start justify-between gap-4 border-b border-white/5 p-5">

@@ -24,6 +24,32 @@
   --color-primary: #6366f1;
   --color-positive: #34d399;
   --color-alert: #f87171;
+
+  /*
+    Curvas de easing del manual. `--ease-in-out` pisa el token nativo de
+    Tailwind: cada `ease-in-out` ya escrito en el codigo (hovers de card,
+    Sidebar, Navbar) pasa a usar esta curva mas marcada sin tocar archivo por
+    archivo. Las otras tres son nuevas, para entradas, drawers y "pop".
+  */
+  --ease-out-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/*
+  Redefine la variante `hover` de Tailwind a nivel global: en touch, un tap
+  queda "pegado" en :hover hasta el siguiente tap en otro lado (no hay mouse
+  que se retire). Gatear hover detras de este media query hace que CADA
+  `hover:` ya escrito en el proyecto (cards, Sidebar, Navbar, botones) deje de
+  dispararse por toque, sin tener que tocar los ~20 componentes que lo usan.
+*/
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
 }
 
 @layer base {
@@ -123,10 +149,48 @@
     animation: teca-fade-in 200ms ease-out both;
   }
 
+  /*
+    Modal centrado: escala desde 0.95, nunca desde 0 (nada en el mundo real
+    aparece de la nada). Transform-origin queda en el centro por default,
+    que es lo correcto para un modal (no esta anclado a un trigger).
+  */
+  @keyframes teca-modal-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-modal-in {
+    animation: teca-modal-in 220ms var(--ease-out-smooth) both;
+  }
+
+  /* Hoja que sube desde abajo: DayDetail en mobile. */
+  @keyframes teca-sheet-up {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-sheet-up {
+    animation: teca-sheet-up 300ms var(--ease-drawer) both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-slide-up,
     .animate-slide-down,
-    .animate-fade-in {
+    .animate-fade-in,
+    .animate-modal-in,
+    .animate-sheet-up {
       animation: none;
     }
   }

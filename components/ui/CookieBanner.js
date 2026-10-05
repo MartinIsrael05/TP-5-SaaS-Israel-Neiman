@@ -2,6 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { Cookie } from "lucide-react";
 import { buttonClass } from "@/components/ui/styles";
 
 const STORAGE_KEY = "teca_cookies_accepted";
@@ -84,8 +85,9 @@ export default function CookieBanner() {
         cerrando ? "animate-slide-down" : "animate-slide-up"
       }`}
     >
-      <h2 className="font-sans text-sm font-semibold text-[#F3F4F6]">
-        🍪 Usamos cookies
+      <h2 className="flex items-center gap-2 font-sans text-sm font-semibold text-[#F3F4F6]">
+        <Cookie aria-hidden="true" size={16} />
+        Usamos cookies
       </h2>
 
       <p className="mt-2 text-sm leading-6 text-[#9CA3AF]">

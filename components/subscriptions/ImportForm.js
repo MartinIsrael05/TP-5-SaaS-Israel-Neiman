@@ -309,7 +309,7 @@ export default function ImportForm({ action, categories = [] }) {
               <tbody className="divide-y divide-line">
                 {rows.map((row) => (
                   <tr
-                    className={row.errors.length > 0 ? "bg-alert/5" : ""}
+                    className={`transition-colors duration-100 hover:bg-white/[0.03] ${row.errors.length > 0 ? "bg-alert/5" : ""}`}
                     key={row.number}
                   >
                     <td className="py-3 pr-3 align-top tabular-nums text-muted">

@@ -48,8 +48,12 @@ const buttonVariants = {
 };
 
 export function buttonClass(variant = "primary", extra = "") {
+  // scale(0.97) en :active es la unica señal que confirma "te escuche" antes
+  // de que la accion resuelva. 150ms + la curva fuerte del manual, no la
+  // ease-in-out del navegador. disabled:active:scale-100 evita que un boton
+  // bloqueado (ej. mientras carga) de feedback de press falso.
   const base =
-    "inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50";
+    "inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-semibold transition duration-150 ease-in-out active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100";
 
   return `${base} ${buttonVariants[variant] || buttonVariants.primary} ${extra}`.trim();
 }

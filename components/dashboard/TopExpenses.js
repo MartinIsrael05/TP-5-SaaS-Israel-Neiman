@@ -50,12 +50,12 @@ export default function TopExpenses({ limit = 5, subscriptions }) {
         <ol className="divide-y divide-line">
           {top.map((subscription, index) => (
             <li
-              className="group -mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition-all duration-300 ease-in-out first:pt-3 last:pb-3 hover:bg-inset"
+              className="group -mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition-colors duration-100 first:pt-3 last:pb-3 hover:bg-white/[0.03]"
               key={subscription.id}
             >
               <div className="flex min-w-0 items-center gap-3">
                 <span
-                  className={`flex size-7 shrink-0 items-center justify-center rounded-md font-mono text-xs tabular-nums transition-colors duration-300 ease-in-out ${
+                  className={`flex size-7 shrink-0 items-center justify-center rounded-md font-mono text-xs tabular-nums transition-colors duration-200 ease-in-out ${
                     index === 0
                       ? "bg-primary/10 text-primary"
                       : "bg-inset text-muted"
@@ -76,7 +76,7 @@ export default function TopExpenses({ limit = 5, subscriptions }) {
                 </span>
                 <Link
                   aria-label={`Editar ${subscription.name}`}
-                  className="flex size-7 items-center justify-center rounded-md text-muted opacity-0 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink group-hover:opacity-100"
+                  className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition-colors hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
                   href={`/dashboard/subscriptions/${subscription.id}/edit`}
                 >
                   <Pencil size={13} />

@@ -50,13 +50,13 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
 
   return (
     <SwipeableCard
-      className="group flex h-full min-w-0 flex-col gap-4 rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-colors duration-300 ease-in-out hover:border-white/15 md:hover:-translate-y-1"
+      className="group flex h-full min-w-0 flex-col gap-4 rounded-2xl border border-white/5 bg-[#1A1D24] p-5 transition-colors duration-200 ease-in-out hover:border-white/15 md:hover:-translate-y-1"
       onDelete={() => deleteSubscription(subscription.id)}
       onEdit={() => router.push(editHref)}
     >
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
+          <span className="mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-200 ease-in-out group-hover:text-primary">
             <Tag size={15} />
           </span>
           <h3 className="line-clamp-1 min-w-0 flex-1 break-words font-sans font-semibold text-[#F3F4F6]">

@@ -212,7 +212,7 @@ export default function LoginForm() {
       >
         <button
           type="button"
-          className={`h-10 rounded-md text-sm font-semibold transition-colors ${
+          className={`h-10 rounded-md text-sm font-semibold transition-colors duration-150 active:scale-[0.97] ${
             mode === "signin"
               ? "bg-white/10 text-[#F3F4F6]"
               : "text-[#9CA3AF] hover:text-[#F3F4F6]"
@@ -224,7 +224,7 @@ export default function LoginForm() {
         </button>
         <button
           type="button"
-          className={`h-10 rounded-md text-sm font-semibold transition-colors ${
+          className={`h-10 rounded-md text-sm font-semibold transition-colors duration-150 active:scale-[0.97] ${
             mode === "signup"
               ? "bg-white/10 text-[#F3F4F6]"
               : "text-[#9CA3AF] hover:text-[#F3F4F6]"
@@ -288,7 +288,7 @@ export default function LoginForm() {
           </label>
 
           <button
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] py-3 font-medium text-white transition-colors hover:bg-[#4F46E5] disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] py-3 font-medium text-white transition duration-150 hover:bg-[#4F46E5] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
             disabled={loading || code.length !== 6}
             type="submit"
           >
@@ -364,7 +364,7 @@ export default function LoginForm() {
           />
         </label>
         <button
-          className="mt-2 w-full rounded-lg bg-[#6366F1] py-3 font-medium text-white transition-colors hover:bg-[#4F46E5] disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 w-full rounded-lg bg-[#6366F1] py-3 font-medium text-white transition duration-150 hover:bg-[#4F46E5] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
           disabled={loading}
           type="submit"
         >
@@ -386,7 +386,7 @@ export default function LoginForm() {
           </div>
 
           <button
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white py-3 font-medium text-gray-900 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white py-3 font-medium text-gray-900 transition duration-150 hover:bg-gray-100 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
             onClick={handleGoogleLogin}
             disabled={loading}
             type="button"

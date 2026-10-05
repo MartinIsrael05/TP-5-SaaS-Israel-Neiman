@@ -75,6 +75,7 @@ export default function BottomNav() {
 
                 <motion.span
                   className="relative flex items-center gap-1.5"
+                  layout
                   transition={SPRING}
                   whileTap={{ scale: 0.86 }}
                 >
@@ -98,14 +99,21 @@ export default function BottomNav() {
                     />
                   </motion.span>
 
+                  {/*
+                    `layout` en vez de animar `width` a mano: Framer Motion
+                    mide el ancho real del label y lo anima por transform
+                    (tecnica FLIP), no por la propiedad CSS `width`, que
+                    fuerza layout en cada frame.
+                  */}
                   <AnimatePresence initial={false}>
                     {active ? (
                       <motion.span
-                        animate={{ width: "auto", opacity: 1 }}
+                        animate={{ opacity: 1 }}
                         className="overflow-hidden whitespace-nowrap pr-0.5 font-sans text-xs font-semibold tracking-tight text-ink"
-                        exit={{ width: 0, opacity: 0 }}
-                        initial={{ width: 0, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                        exit={{ opacity: 0 }}
+                        initial={{ opacity: 0 }}
+                        layout
+                        transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
                       >
                         {label}
                       </motion.span>

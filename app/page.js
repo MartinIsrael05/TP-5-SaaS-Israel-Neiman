@@ -143,8 +143,8 @@ function LandingHome() {
               }
               key={feature.title}
             >
-              <div className="group h-full rounded-2xl border border-white/5 bg-[#1A1D24] p-6 transition-all duration-300 ease-in-out hover:border-white/15">
-                <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-[#6366F1] transition-transform duration-300 ease-in-out group-hover:scale-110">
+              <div className="group h-full rounded-2xl border border-white/5 bg-[#1A1D24] p-6 transition duration-200 ease-in-out hover:border-white/15">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-[#6366F1] transition-transform duration-200 ease-in-out group-hover:scale-110">
                   <feature.icon size={18} />
                 </span>
                 <h3 className="mt-4 font-sans font-semibold text-[#F3F4F6]">

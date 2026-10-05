@@ -95,14 +95,14 @@ function getCategoryIcon(label = "") {
 function SectionCard({ accent = false, action, children, className = "", icon: Icon, subtitle, title }) {
   return (
     <section
-      className={`${cardClass} group/section relative overflow-hidden transition-all duration-300 ease-in-out hover:bg-[#1d212a] ${
+      className={`${cardClass} group/section relative overflow-hidden transition duration-200 ease-in-out hover:bg-[#1d212a] ${
         accent ? "border-t-2 border-t-primary" : ""
       } ${className}`}
     >
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div className="flex min-w-0 items-start gap-3 sm:flex-1">
           {Icon ? (
-            <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover/section:text-primary">
+            <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-200 ease-in-out group-hover/section:text-primary">
               <Icon size={16} />
             </span>
           ) : null}
@@ -285,12 +285,12 @@ export default async function DashboardPage() {
 
                     return (
                       <li
-                        className="group -mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition-all duration-300 ease-in-out first:pt-3 last:pb-3 hover:bg-inset"
+                        className="group -mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition duration-200 ease-in-out first:pt-3 last:pb-3 hover:bg-inset"
                         key={charge.id}
                       >
                         <div className="flex min-w-0 items-center gap-3">
                           <span
-                            className={`flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-300 ease-in-out ${
+                            className={`flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ease-in-out ${
                               isCritical
                                 ? "bg-alert/10 text-alert"
                                 : "bg-inset text-muted group-hover:text-primary"
@@ -329,7 +329,7 @@ export default async function DashboardPage() {
                           </span>
                           <Link
                             aria-label={`Editar ${charge.name}`}
-                            className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition-all duration-300 ease-in-out hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+                            className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition duration-200 ease-in-out hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
                             href={`/dashboard/subscriptions/${charge.id}/edit`}
                           >
                             <Pencil size={14} />

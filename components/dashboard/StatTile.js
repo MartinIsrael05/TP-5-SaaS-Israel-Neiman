@@ -40,7 +40,7 @@ export default function StatTile({
 }) {
   return (
     <div
-      className={`${cardClass} group relative flex flex-col gap-3 overflow-hidden transition-all duration-300 ease-in-out hover:bg-[#20242d] ${span} ${
+      className={`${cardClass} group relative flex flex-col gap-3 overflow-hidden transition duration-200 ease-in-out hover:bg-[#20242d] ${span} ${
         accent ? "border-t-2 border-t-primary" : ""
       }`}
     >
@@ -48,7 +48,7 @@ export default function StatTile({
         <span className={eyebrowClass}>{label}</span>
         {Icon ? (
           <span
-            className={`flex size-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ease-in-out group-hover:scale-110 ${
+            className={`flex size-8 shrink-0 items-center justify-center rounded-lg transition duration-200 ease-in-out group-hover:scale-110 ${
               iconBoxTones[tone] || iconBoxTones.muted
             }`}
           >

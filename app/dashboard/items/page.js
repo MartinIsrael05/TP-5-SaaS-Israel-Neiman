@@ -93,12 +93,12 @@ export default async function ItemsPage() {
 
                 return (
                   <article
-                    className={`${cardClass} group grid min-w-0 gap-4 transition-all duration-300 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
+                    className={`${cardClass} group grid min-w-0 gap-4 transition duration-200 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
                     key={item.id}
                   >
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
+                        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-200 ease-in-out group-hover:text-primary">
                           {stats.count > 0 ? <FolderOpen size={15} /> : <Tag size={15} />}
                         </span>
                         <h3 className="overflow-wrap-anywhere font-semibold text-ink">

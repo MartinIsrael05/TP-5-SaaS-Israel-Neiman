@@ -93,7 +93,11 @@ export default function SubscriptionForm({
         <label className={`${labelClass} sm:col-span-1`}>
           <span>Monto</span>
           <input
-            className={inputClass}
+            // user-valid/user-invalid (no valid/invalid a secas): esas
+            // disparan el borde en rojo apenas el campo esta vacio al
+            // montar. Las variantes "user-" solo reaccionan despues de que
+            // la persona interactuo con el campo.
+            className={`${inputClass} user-valid:border-positive/50 user-invalid:border-alert/60 user-valid:focus:ring-positive/40`}
             name="amount"
             type="number"
             inputMode="decimal"

@@ -22,13 +22,13 @@ export default function UserCard({ esPropio, managedUser, ultimoAcceso }) {
 
   return (
     <SwipeableCard
-      className={`${cardClass} group grid min-w-0 gap-4 transition-colors duration-300 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
+      className={`${cardClass} group grid min-w-0 gap-4 transition-colors duration-200 ease-in-out hover:bg-[#20242d] lg:grid-cols-[minmax(0,1fr)_auto]`}
       onDelete={esPropio ? undefined : () => deleteUser(managedUser.uid)}
       onEdit={() => router.push(editHref)}
     >
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-300 ease-in-out group-hover:text-primary">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-inset text-muted transition-colors duration-200 ease-in-out group-hover:text-primary">
             {esAdmin ? <ShieldCheck size={15} /> : <UserRound size={15} />}
           </span>
           <h3 className="overflow-wrap-anywhere font-semibold text-ink">

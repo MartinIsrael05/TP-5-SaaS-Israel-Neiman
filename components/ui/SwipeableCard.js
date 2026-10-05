@@ -43,14 +43,17 @@ export default function SwipeableCard({ children, className = "", onDelete, onEd
   function alSoltar(_evento, info) {
     const { offset, velocity } = info;
 
+    // easeOut, no easeIn: la tarjeta ya fue "soltada" por el usuario, así que
+    // tiene que salir rápido desde el primer frame. easeIn arranca lento y se
+    // siente trabada justo en el gesto que mas urgencia necesita.
     if (puedeEliminar && (offset.x <= -COMMIT_DISTANCE || velocity.x <= -COMMIT_VELOCITY)) {
-      animate(x, -DRAG_LIMIT * 3, { duration: 0.22, ease: "easeIn" });
+      animate(x, -DRAG_LIMIT * 3, { duration: 0.22, ease: "easeOut" });
       onDelete();
       return;
     }
 
     if (puedeEditar && (offset.x >= COMMIT_DISTANCE || velocity.x >= COMMIT_VELOCITY)) {
-      animate(x, DRAG_LIMIT * 3, { duration: 0.18, ease: "easeIn" });
+      animate(x, DRAG_LIMIT * 3, { duration: 0.18, ease: "easeOut" });
       onEdit();
       return;
     }

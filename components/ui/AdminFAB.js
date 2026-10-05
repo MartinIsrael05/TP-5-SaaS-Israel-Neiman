@@ -87,6 +87,9 @@ export default function AdminFAB({ profile }) {
                   }}
                   initial={{ opacity: 0, y: 12, scale: 0.85 }}
                   key={href}
+                  // Ancla el pop al FAB (abajo a la derecha), no al centro:
+                  // es de donde "sale" visualmente el menu.
+                  style={{ transformOrigin: "bottom right" }}
                   transition={{ ...SPRING, delay: indice * 0.05 }}
                 >
                   <Link
@@ -112,7 +115,9 @@ export default function AdminFAB({ profile }) {
           onClick={() => setAbierto((valor) => !valor)}
           transition={SPRING}
           type="button"
-          whileTap={{ scale: 0.88 }}
+          // 0.92 en 120ms puntuales: el tap tiene que resolver rapido aunque
+          // el resto del boton (abrir/cerrar, rotar el icono) vaya en spring.
+          whileTap={{ scale: 0.92, transition: { duration: 0.12, ease: [0.23, 1, 0.32, 1] } }}
         >
           <motion.span
             animate={{ rotate: abierto ? 90 : 0 }}

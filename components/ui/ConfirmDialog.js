@@ -21,6 +21,7 @@ export default function ConfirmDialog({
   title,
 }) {
   const cancelRef = useRef(null);
+  const panelRef = useRef(null);
 
   useEffect(() => {
     if (!open) {
@@ -30,6 +31,26 @@ export default function ConfirmDialog({
     function onKeyDown(event) {
       if (event.key === "Escape" && !loading) {
         onCancel();
+        return;
+      }
+
+      // Trampa de foco: con el dialogo abierto, Tab no debe poder escapar
+      // hacia la pagina de atras. Solo hay dos botones, asi que ciclar entre
+      // el primero y el ultimo foco visible alcanza.
+      if (event.key === "Tab" && panelRef.current) {
+        const focusables = panelRef.current.querySelectorAll(
+          "button:not(:disabled), a[href]",
+        );
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
       }
     }
 
@@ -66,7 +87,8 @@ export default function ConfirmDialog({
       <div
         aria-labelledby="confirmar-titulo"
         aria-modal="true"
-        className="relative w-full max-w-sm animate-slide-up rounded-2xl border border-white/10 bg-[#1A1D24] p-6 shadow-2xl"
+        className="relative w-full max-w-sm animate-modal-in rounded-2xl border border-white/10 bg-[#1A1D24] p-6 shadow-2xl"
+        ref={panelRef}
         role="alertdialog"
       >
         <span className="flex size-10 items-center justify-center rounded-lg bg-alert/10 text-alert">
