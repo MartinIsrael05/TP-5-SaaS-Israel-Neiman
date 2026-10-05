@@ -185,13 +185,73 @@
     animation: teca-sheet-up 300ms var(--ease-drawer) both;
   }
 
+  /*
+    Skeleton: anima solo `background-position` (GPU-safe), nunca
+    background-color ni nada de layout. 1500ms de loop, el valor exacto del
+    manual para shimmer.
+  */
+  @keyframes teca-shimmer {
+    from {
+      background-position: 150% 0;
+    }
+    to {
+      background-position: -50% 0;
+    }
+  }
+
+  .skeleton-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.04) 30%,
+      rgba(255, 255, 255, 0.09) 50%,
+      rgba(255, 255, 255, 0.04) 70%
+    );
+    background-size: 200% 100%;
+    animation: teca-shimmer 1.5s ease-in-out infinite;
+  }
+
+  /*
+    Tooltip: escala desde el trigger (`--tooltip-origin`, lo fija cada
+    instancia segun el lado), 125ms, igual que badge/chip en la tabla de
+    duraciones del manual.
+  */
+  @keyframes teca-tooltip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-tooltip-in {
+    animation: teca-tooltip-in 125ms var(--ease-out-smooth) both;
+    transform-origin: var(--tooltip-origin, center);
+  }
+
+  /* El tooltip siguiente de la misma racha no anima: solo aparece. */
+  .animate-tooltip-in[data-instant="true"] {
+    animation-duration: 1ms;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-slide-up,
     .animate-slide-down,
     .animate-fade-in,
     .animate-modal-in,
-    .animate-sheet-up {
+    .animate-sheet-up,
+    .animate-tooltip-in {
       animation: none;
+    }
+
+    /* La forma sigue comunicando "esto es un skeleton"; el shimmer no es
+       indispensable y es justo el tipo de movimiento continuo que
+       reduced-motion pide evitar. */
+    .skeleton-shimmer {
+      animation: none;
+      background-image: none;
     }
   }
 }

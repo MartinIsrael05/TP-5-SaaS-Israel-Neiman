@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import DayDetail from "@/components/calendar/DayDetail";
+import Tooltip from "@/components/ui/Tooltip";
 import { resolveNextChargeDate } from "@/lib/subscriptions/dates";
 
 const WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -135,14 +136,16 @@ export default function CalendarBoard({ categories = [], subscriptions = [] }) {
         </div>
 
         <div className="flex items-center gap-1">
-          <button
-            aria-label="Mes anterior"
-            className="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-white/5 hover:text-ink"
-            onClick={() => moverMes(-1)}
-            type="button"
-          >
-            <ChevronLeft size={18} />
-          </button>
+          <Tooltip label="Mes anterior" side="bottom">
+            <button
+              aria-label="Mes anterior"
+              className="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-white/5 hover:text-ink"
+              onClick={() => moverMes(-1)}
+              type="button"
+            >
+              <ChevronLeft size={18} />
+            </button>
+          </Tooltip>
           {!esMesActual ? (
             <button
               className="rounded-lg px-3 py-1.5 font-sans text-sm font-medium text-muted transition-colors hover:bg-white/5 hover:text-ink"
@@ -155,14 +158,16 @@ export default function CalendarBoard({ categories = [], subscriptions = [] }) {
               Hoy
             </button>
           ) : null}
-          <button
-            aria-label="Mes siguiente"
-            className="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-white/5 hover:text-ink"
-            onClick={() => moverMes(1)}
-            type="button"
-          >
-            <ChevronRight size={18} />
-          </button>
+          <Tooltip label="Mes siguiente" side="bottom">
+            <button
+              aria-label="Mes siguiente"
+              className="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-white/5 hover:text-ink"
+              onClick={() => moverMes(1)}
+              type="button"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </Tooltip>
         </div>
       </header>
 

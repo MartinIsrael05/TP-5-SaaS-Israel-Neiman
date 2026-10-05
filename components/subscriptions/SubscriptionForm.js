@@ -21,12 +21,16 @@ export default function SubscriptionForm({
   subscription,
 }) {
   const [error, setError] = useState("");
+  // Error que pertenece a un campo puntual (hoy solo "nombre duplicado"), se
+  // renderiza bajo ESE input en vez de al pie del form entero.
+  const [fieldError, setFieldError] = useState({ name: "" });
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
     const form = event.currentTarget;
     setError("");
+    setFieldError({ name: "" });
     setLoading(true);
 
     try {
@@ -42,11 +46,11 @@ export default function SubscriptionForm({
         throw err;
       }
 
-      setError(
-        err?.message === DUPLICATE_SUBSCRIPTION_NAME_ERROR
-          ? DUPLICATE_SUBSCRIPTION_NAME_ERROR
-          : err?.message || "No se pudo guardar la suscripción.",
-      );
+      if (err?.message === DUPLICATE_SUBSCRIPTION_NAME_ERROR) {
+        setFieldError({ name: DUPLICATE_SUBSCRIPTION_NAME_ERROR });
+      } else {
+        setError(err?.message || "No se pudo guardar la suscripción.");
+      }
     } finally {
       setLoading(false);
     }
@@ -57,13 +61,21 @@ export default function SubscriptionForm({
       <label className={labelClass}>
         <span>Nombre</span>
         <input
-          className={inputClass}
+          aria-describedby={fieldError.name ? "nombre-error" : undefined}
+          aria-invalid={fieldError.name ? "true" : undefined}
+          className={`${inputClass} ${fieldError.name ? "border-alert/60 focus:ring-alert/40" : ""}`}
           name="name"
           defaultValue={subscription?.name || ""}
           disabled={loading}
+          onChange={() => fieldError.name && setFieldError({ name: "" })}
           placeholder="Netflix"
           required
         />
+        {fieldError.name ? (
+          <span className="text-sm font-normal leading-6 text-alert" id="nombre-error">
+            {fieldError.name}
+          </span>
+        ) : null}
       </label>
 
       <label className={labelClass}>

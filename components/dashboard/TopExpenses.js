@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Pencil, Trophy } from "lucide-react";
 import { badgeClass } from "@/components/ui/styles";
+import Tooltip from "@/components/ui/Tooltip";
 import { formatMoneyShort } from "@/lib/format";
 
 const CURRENCIES = ["ARS", "USD"];
@@ -74,13 +75,15 @@ export default function TopExpenses({ limit = 5, subscriptions }) {
                 <span className="font-mono text-sm font-semibold tabular-nums text-ink">
                   {formatMoneyShort(subscription.monthly, subscription.currency)}
                 </span>
-                <Link
-                  aria-label={`Editar ${subscription.name}`}
-                  className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition-colors hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
-                  href={`/dashboard/subscriptions/${subscription.id}/edit`}
-                >
-                  <Pencil size={13} />
-                </Link>
+                <Tooltip label="Editar">
+                  <Link
+                    aria-label={`Editar ${subscription.name}`}
+                    className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition-colors hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+                    href={`/dashboard/subscriptions/${subscription.id}/edit`}
+                  >
+                    <Pencil size={13} />
+                  </Link>
+                </Tooltip>
               </div>
             </li>
           ))}

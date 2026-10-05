@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { ExternalLink, X } from "lucide-react";
 import { badgeClass, buttonClass } from "@/components/ui/styles";
+import Tooltip from "@/components/ui/Tooltip";
 import { formatMoneyShort } from "@/lib/format";
 
 const CYCLE_LABELS = { monthly: "Mensual", annual: "Anual" };
@@ -105,15 +106,17 @@ export default function DayDetail({ categoryTitles, charges, onClose, title }) {
             </p>
           </div>
 
-          <button
-            aria-label="Cerrar"
-            className="grid size-9 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-white/5 hover:text-ink"
-            onClick={onClose}
-            ref={closeRef}
-            type="button"
-          >
-            <X size={18} />
-          </button>
+          <Tooltip label="Cerrar" side="bottom">
+            <button
+              aria-label="Cerrar"
+              className="grid size-9 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-white/5 hover:text-ink"
+              onClick={onClose}
+              ref={closeRef}
+              type="button"
+            >
+              <X size={18} />
+            </button>
+          </Tooltip>
         </header>
 
         <ul className="min-h-0 flex-1 divide-y divide-white/5 overflow-y-auto">

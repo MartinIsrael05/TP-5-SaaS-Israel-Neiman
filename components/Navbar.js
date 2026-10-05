@@ -5,6 +5,7 @@ import { useState } from "react";
 import { LayoutDashboard, LogOut, Menu, X } from "lucide-react";
 import { logout } from "@/app/dashboard/actions";
 import { buttonClass } from "@/components/ui/styles";
+import Tooltip from "@/components/ui/Tooltip";
 import Wordmark from "@/components/ui/Wordmark";
 
 export default function Navbar({ actions, user }) {
@@ -33,15 +34,17 @@ export default function Navbar({ actions, user }) {
                   <LayoutDashboard size={16} />
                   Ir al panel
                 </Link>
-                <form action={logout}>
-                  <button
-                    aria-label="Cerrar sesión"
-                    className={buttonClass("secondary")}
-                    type="submit"
-                  >
-                    <LogOut size={16} />
-                  </button>
-                </form>
+                <Tooltip label="Cerrar sesión" side="bottom">
+                  <form action={logout}>
+                    <button
+                      aria-label="Cerrar sesión"
+                      className={buttonClass("secondary")}
+                      type="submit"
+                    >
+                      <LogOut size={16} />
+                    </button>
+                  </form>
+                </Tooltip>
               </>
             ) : (
               <Link className={buttonClass("secondary")} href="/login">
@@ -62,14 +65,19 @@ export default function Navbar({ actions, user }) {
           </button>
         </div>
 
+        {/*
+          El padding vive en el contenido interno (ya esta en overflow-hidden
+          a 0 de alto cuando el menu esta cerrado), no en este wrapper: asi
+          el wrapper solo anima `grid-template-rows`, nunca `padding`.
+        */}
         <div
-          className={`grid gap-3 overflow-hidden transition-[grid-template-rows,padding] duration-200 md:hidden ${
-            isOpen ? "grid-rows-[1fr] pb-4" : "grid-rows-[0fr] pb-0"
+          className={`grid overflow-hidden transition-[grid-template-rows] duration-200 md:hidden ${
+            isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           }`}
           id="mobile-menu"
         >
           <div className="min-h-0 overflow-hidden">
-            <div className="grid gap-3 border-t border-line pt-3">
+            <div className="grid gap-3 border-t border-line pb-4 pt-3">
               {actions}
               {user ? (
                 <>

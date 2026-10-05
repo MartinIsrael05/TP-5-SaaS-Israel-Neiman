@@ -18,7 +18,10 @@ import { Pencil, Trash2 } from "lucide-react";
 */
 const DRAG_LIMIT = 132;
 const COMMIT_DISTANCE = 92;
-const COMMIT_VELOCITY = 520;
+// 110px/s = 0.11px/ms, el umbral exacto del manual (Sonner usa el mismo
+// valor para swipe-to-dismiss). `info.velocity.x` de Framer Motion ya viene
+// en px/s, mismas unidades.
+const COMMIT_VELOCITY = 110;
 
 export default function SwipeableCard({ children, className = "", onDelete, onEdit }) {
   const puedeEliminar = typeof onDelete === "function";
