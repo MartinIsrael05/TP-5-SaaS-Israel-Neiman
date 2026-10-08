@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CalendarClock, CreditCard, Pencil, Tag, Trash2 } from "lucide-react";
+import { CalendarClock, CalendarPlus, CreditCard, Pencil, Tag, Trash2 } from "lucide-react";
+import { generateGoogleCalendarLink } from "@/lib/calendarSync";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import SwipeableCard from "@/components/ui/SwipeableCard";
 import { badgeClass } from "@/components/ui/styles";
@@ -53,6 +54,12 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState("");
+
+  // Se agenda la proxima fecha real, ya corrida si la guardada quedo vieja.
+  const agendaHref = generateGoogleCalendarLink(
+    subscription,
+    resolveNextChargeDate(subscription),
+  );
 
   async function confirmarEliminar() {
     setEliminando(true);
@@ -129,14 +136,15 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
       </div>
 
       <div className="mt-auto flex flex-col gap-2">
-        {subscription.cancelUrl ? (
+        {agendaHref ? (
           <a
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-4 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
-            href={subscription.cancelUrl}
-            rel="noreferrer noopener"
+            href={agendaHref}
+            rel="noopener noreferrer"
             target="_blank"
           >
-            Cancelar
+            <CalendarPlus size={15} />
+            Agendar este cobro
           </a>
         ) : null}
         {/*

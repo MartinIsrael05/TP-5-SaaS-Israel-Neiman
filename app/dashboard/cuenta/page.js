@@ -1,11 +1,14 @@
+import { headers } from "next/headers";
 import {
   CalendarDays,
+  CalendarPlus,
   Download,
   KeyRound,
   ShieldCheck,
   Trash2,
   UserRound,
 } from "lucide-react";
+import CalendarFeedCard from "@/components/account/CalendarFeedCard";
 import DeleteAccountForm from "@/components/account/DeleteAccountForm";
 import ExportButton from "@/components/account/ExportButton";
 import PasswordResetButton from "@/components/account/PasswordResetButton";
@@ -16,8 +19,8 @@ import { getCurrentUser } from "@/lib/firebase/session";
 import { listUserItems } from "@/lib/items/items";
 import { listUserSubscriptions } from "@/lib/subscriptions/subscriptions";
 import { summarize } from "@/lib/subscriptions/metrics";
-import { getCurrentUserProfile } from "@/lib/users/users";
-import { deleteMyAccount, updateMyName } from "./actions";
+import { ensureCalendarToken, getCurrentUserProfile } from "@/lib/users/users";
+import { deleteMyAccount, regenerateCalendarUrl, updateMyName } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -68,6 +71,14 @@ export default async function CuentaPage() {
     listUserSubscriptions(user.uid),
     listUserItems(user.uid),
   ]);
+
+  // La URL del feed se arma en el servidor: el host sale de las cabeceras,
+  // asi funciona igual en local y en Vercel.
+  const calendarToken = await ensureCalendarToken(user.uid);
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") || headerList.get("host");
+  const protocol = headerList.get("x-forwarded-proto") || "http";
+  const calendarUrl = `${protocol}://${host}/api/calendar/${calendarToken}`;
 
   const summary = summarize(subscriptions);
   const categoryTitles = new Map(categories.map((item) => [item.id, item.title]));
@@ -179,6 +190,17 @@ export default async function CuentaPage() {
       </Section>
 
       <div className="grid gap-6 xl:grid-cols-2">
+      <Section
+        description="Agregá tus cobros al Calendario del celular. Se crea un calendario propio llamado TECA que se actualiza solo, sin instalar nada."
+        icon={CalendarPlus}
+        title="Calendario en tu teléfono"
+      >
+        <CalendarFeedCard
+          initialUrl={calendarUrl}
+          onRegenerate={regenerateCalendarUrl}
+        />
+      </Section>
+
         <Section
           description="Bajate todo en un Excel. Sale con las mismas columnas que acepta el importador, así lo podés editar y volver a subir."
           icon={Download}
