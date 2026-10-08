@@ -190,16 +190,18 @@ export default async function CuentaPage() {
       </Section>
 
       <div className="grid gap-6 xl:grid-cols-2">
-      <Section
-        description="Agregá tus cobros al Calendario del celular. Se crea un calendario propio llamado TECA que se actualiza solo, sin instalar nada."
-        icon={CalendarPlus}
-        title="Calendario en tu teléfono"
-      >
-        <CalendarFeedCard
-          initialUrl={calendarUrl}
-          onRegenerate={regenerateCalendarUrl}
-        />
-      </Section>
+        <div className="xl:col-span-2">
+          <Section
+            description="Agregá tus cobros al Calendario del celular. Se crea un calendario propio llamado TECA que se actualiza solo, sin instalar nada."
+            icon={CalendarPlus}
+            title="Calendario en tu teléfono"
+          >
+            <CalendarFeedCard
+              initialUrl={calendarUrl}
+              onRegenerate={regenerateCalendarUrl}
+            />
+          </Section>
+        </div>
 
         <Section
           description="Bajate todo en un Excel. Sale con las mismas columnas que acepta el importador, así lo podés editar y volver a subir."
