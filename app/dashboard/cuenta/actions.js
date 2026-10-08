@@ -9,6 +9,7 @@ import {
   countAdmins,
   deleteAccountAndData,
   getCurrentUserProfile,
+  regenerateCalendarToken,
   updateOwnProfile,
 } from "@/lib/users/users";
 
@@ -72,4 +73,22 @@ export async function deleteMyAccount(formData) {
   });
 
   redirect("/");
+}
+
+/**
+ * Invalida la URL del calendario y devuelve una nueva. Se usa si la direccion
+ * anterior se compartio por error.
+ */
+export async function regenerateCalendarUrl() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const token = await regenerateCalendarToken(user.uid);
+
+  revalidatePath("/dashboard/cuenta");
+
+  return { token };
 }

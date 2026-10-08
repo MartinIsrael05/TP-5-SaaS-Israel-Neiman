@@ -253,6 +253,7 @@ export default function CalendarBoard({ categories = [], subscriptions = [] }) {
         <DayDetail
           categoryTitles={titulosDeCategoria}
           charges={cobrosPorDia.get(diaAbierto)}
+          isoDate={diaAbierto}
           onClose={() => setDiaAbierto(null)}
           title={`${Number(diaAbierto.slice(-2))} de ${MONTHS[vista.month]}`}
         />

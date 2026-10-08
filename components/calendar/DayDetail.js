@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ExternalLink, X } from "lucide-react";
+import { CalendarPlus, X } from "lucide-react";
 import { badgeClass, buttonClass } from "@/components/ui/styles";
 import Tooltip from "@/components/ui/Tooltip";
+import { generateGoogleCalendarLink } from "@/lib/calendarSync";
 import { formatMoneyShort } from "@/lib/format";
 
 const CYCLE_LABELS = { monthly: "Mensual", annual: "Anual" };
@@ -16,7 +17,7 @@ const CYCLE_LABELS = { monthly: "Mensual", annual: "Anual" };
   nombres largos, y porque un globo al pasar el mouse no existe en una pantalla
   tactil.
 */
-export default function DayDetail({ categoryTitles, charges, onClose, title }) {
+export default function DayDetail({ categoryTitles, charges, isoDate, onClose, title }) {
   const closeRef = useRef(null);
   const panelRef = useRef(null);
 
@@ -159,15 +160,19 @@ export default function DayDetail({ categoryTitles, charges, onClose, title }) {
                 </p>
               ) : null}
 
-              {subscription.cancelUrl ? (
+              {/*
+                La fecha del cobro es la del dia que se esta mirando, no la
+                proxima: si abris el 5 de noviembre, se agenda ese dia.
+              */}
+              {generateGoogleCalendarLink(subscription, isoDate) ? (
                 <a
                   className={buttonClass("secondary", "mt-3")}
-                  href={subscription.cancelUrl}
-                  rel="noreferrer noopener"
+                  href={generateGoogleCalendarLink(subscription, isoDate)}
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <ExternalLink size={15} />
-                  Dar de baja
+                  <CalendarPlus size={15} />
+                  Agendar este cobro
                 </a>
               ) : null}
             </li>
