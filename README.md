@@ -110,7 +110,8 @@ La app tiene **tres estados** bien diferenciados:
 | `/dashboard/subscriptions/import` | Importación desde Excel |
 | `/dashboard/calendar` | Calendario de vencimientos |
 | `/dashboard/items` | Categorías propias |
-| `/dashboard/cuenta` | Perfil, exportación y baja de cuenta |
+| `/dashboard/cuenta` | Perfil, calendario del teléfono, exportación y baja |
+| `/api/calendar/[token]` | Feed iCalendar. Público por token, de solo lectura |
 
 ### Administrador
 
@@ -353,6 +354,53 @@ cambio viejo sería peor que mostrar dos números exactos.
 
 ---
 
+### 7. Integración con el Calendario del teléfono
+
+Dos caminos que se complementan, y **ninguno necesita OAuth**.
+
+**a) Calendario suscribible (feed iCalendar).** Una ruta pública
+`/api/calendar/[token]` devuelve un archivo `.ics` con todas las suscripciones
+activas. El teléfono lo agrega como un calendario propio llamado **TECA** y lo
+vuelve a pedir cada tanto, así que si cambiás un monto o borrás algo, se
+actualiza solo.
+
+Tres decisiones que vale la pena explicar:
+
+- **Un evento recurrente por suscripción, no cientos sueltos.** Se usa `RRULE`
+  (`FREQ=MONTHLY` o `FREQ=YEARLY`). Un archivo con un evento por mes durante
+  años sería enorme y habría que regenerarlo para siempre.
+- **Los días 29, 30 y 31.** Una regla mensual simple los saltea en los meses
+  que no los tienen: un cobro el 31 desaparecería en febrero. Se resuelve con
+  `BYMONTHDAY=<día>,-1` más `BYSETPOS=1`, que agrega el último día del mes
+  como candidato y se queda con el primero de los dos. Es el mismo recorte que
+  hace la grilla del calendario dentro de la app.
+- **El aviso suena a las 9 de la mañana.** Los eventos de día completo
+  arrancan a la medianoche, así que un disparador de "un día antes" avisaría a
+  las 00:00. El `VALARM` se corre con `-PT{n*24-9}H`.
+
+El formato tiene detalles que parecen caprichos y no lo son: las líneas
+terminan en CRLF, ninguna puede superar los 75 **octetos** (se cuenta en bytes,
+no en caracteres: una "ñ" ocupa dos), y las comas, los punto y coma y los
+saltos de línea van escapados. Un `.ics` mal armado el teléfono lo rechaza sin
+decir por qué.
+
+**Sobre la seguridad:** es la única ruta de la app que no mira la cookie de
+sesión, y no puede hacerlo — la app de Calendario pide la URL por su cuenta,
+sin navegador y sin cookies. La credencial es un token de 32 bytes aleatorios
+en la propia URL, da acceso **de solo lectura**, y se puede regenerar desde Mi
+cuenta si se filtra. Así funcionan todos los calendarios suscritos.
+
+**La contra, dicha en la propia pantalla:** el refresco no es instantáneo. iOS
+consulta cada una hora aproximadamente y Google Calendar puede demorar hasta un
+día, sin forma de forzarlo.
+
+**b) Enlace por cobro.** Un botón "Agendar este cobro" que abre Google Calendar
+con el evento precargado, usando la API pública de plantillas. Es la versión
+"de a uno": no sincroniza, pero sirve para agendar algo puntual sin configurar
+nada.
+
+---
+
 ## Modelo de datos
 
 ### `subscriptions`
@@ -385,6 +433,7 @@ agrupa sus suscripciones. Son privadas.
 ```js
 { email, displayName, photoURL, provider,
   user_type,          // "user" | "admin"
+  calendarToken,      // secreto del feed .ics, regenerable
   createdAt, updatedAt, lastLoginAt }
 ```
 
