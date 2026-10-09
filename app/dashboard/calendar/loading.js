@@ -8,7 +8,7 @@ export default function CalendarLoading() {
     <div
       aria-busy="true"
       aria-label="Cargando el calendario"
-      className="space-y-8 md:p-8"
+      className="space-y-8"
       role="status"
     >
       <header className="space-y-3">

@@ -70,21 +70,21 @@ export default function Footer({ user }) {
             </p>
             <a
               className="text-sm text-[#9CA3AF] transition-colors hover:text-[#F3F4F6]"
-              href="mailto:neimanlucho@gmail.com"
+              href="mailto:hola@teca.app"
             >
-              neimanlucho@gmail.com
+              hola@teca.app
             </a>
             <a
               className="text-sm text-[#9CA3AF] transition-colors hover:text-[#F3F4F6]"
-              href="mailto:martinisrael2005@gmail.com"
+              href="mailto:soporte@teca.app"
             >
-              martinisrael2005@gmail.com
+              soporte@teca.app
             </a>
             <a
               className="text-sm text-[#9CA3AF] transition-colors hover:text-[#F3F4F6]"
-              href="tel:+5491160331228"
+              href="tel:+5491155550123"
             >
-              +54 9 11 6033-1228
+              +54 9 11 5555-0123
             </a>
             <p className="text-sm text-[#9CA3AF]">Hidalgo 775, Buenos Aires, Argentina</p>
           </nav>

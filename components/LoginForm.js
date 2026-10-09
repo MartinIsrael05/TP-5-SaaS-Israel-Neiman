@@ -290,7 +290,7 @@ export default function LoginForm() {
           </label>
 
           <button
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] py-3 font-medium text-white transition duration-150 hover:bg-[#4F46E5] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-[#4F46E5] py-3 font-medium text-white transition duration-150 hover:bg-primary active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
             disabled={loading || code.length !== 6}
             type="submit"
           >
@@ -366,7 +366,7 @@ export default function LoginForm() {
           />
         </label>
         <button
-          className="mt-2 w-full rounded-lg bg-[#6366F1] py-3 font-medium text-white transition duration-150 hover:bg-[#4F46E5] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
+          className="mt-2 w-full rounded-lg bg-[#4F46E5] py-3 font-medium text-white transition duration-150 hover:bg-primary active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
           disabled={loading}
           type="submit"
         >

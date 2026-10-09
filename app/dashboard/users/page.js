@@ -25,7 +25,7 @@ export default async function UsersPage() {
   const profile = await getCurrentUserProfile(user);
 
   if (profile?.user_type !== "admin") {
-    redirect("/dashboard");
+    redirect("/dashboard?error=forbidden");
   }
 
   const users = await listUserProfiles();

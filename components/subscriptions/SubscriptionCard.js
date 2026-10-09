@@ -112,9 +112,7 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
           </span>
           <span className={badgeClass("neutral")}>{categoryTitle}</span>
           {subscription.usageLevel === "Bajo" ? (
-            <span className="rounded-full border border-[#F87171] bg-red-500/10 px-2 py-0.5 text-xs font-semibold text-[#F87171]">
-              Poco Uso
-            </span>
+            <span className={badgeClass("alert")}>Poco uso</span>
           ) : null}
         </div>
 

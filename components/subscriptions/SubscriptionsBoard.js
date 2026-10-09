@@ -112,7 +112,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
             Importar Excel
           </Link>
           <button
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-5 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-[#4F46E5] sm:w-auto"
+            className={buttonClass("primary", "w-full sm:w-auto")}
             onClick={() => setModalOpen(true)}
             type="button"
           >
@@ -157,6 +157,7 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
           <option value="all">Todas</option>
           <option value="active">Activas</option>
           <option value="paused">Pausadas</option>
+          <option value="cancelled">Canceladas</option>
         </select>
 
         <select

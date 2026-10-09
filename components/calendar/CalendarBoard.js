@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { CalendarX2, ChevronLeft, ChevronRight } from "lucide-react";
 import DayDetail from "@/components/calendar/DayDetail";
 import Tooltip from "@/components/ui/Tooltip";
+import { buttonClass } from "@/components/ui/styles";
 import { resolveNextChargeDate } from "@/lib/subscriptions/dates";
 
 const WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -121,6 +123,29 @@ export default function CalendarBoard({ categories = [], subscriptions = [] }) {
 
   const totalDelMes = [...cobrosPorDia.values()].flat().length;
 
+  // Sin ninguna suscripcion activa no hay nada que el calendario pueda
+  // mostrar nunca: en vez de una grilla vacia, se ofrece el mismo camino de
+  // alta que el estado vacio de Suscripciones.
+  if (activas.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-5 rounded-2xl border border-white/5 bg-[#1A1D24] p-6 py-24 text-center sm:p-6">
+        <CalendarX2 className="text-white/5" size={112} strokeWidth={1.5} />
+        <div className="max-w-sm space-y-1.5">
+          <h3 className="font-sans text-lg font-semibold text-[#9CA3AF]">
+            Todavía no hay nada para mostrar
+          </h3>
+          <p className="text-sm leading-6 text-muted">
+            Agregá una suscripción activa para empezar a ver tus cobros en el
+            calendario.
+          </p>
+        </div>
+        <Link className={buttonClass("primary")} href="/dashboard/subscriptions">
+          Crear suscripción
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-2xl border border-white/5 bg-[#1A1D24] p-4 sm:p-6">
       <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
@@ -174,7 +199,7 @@ export default function CalendarBoard({ categories = [], subscriptions = [] }) {
       <div className="mb-2 grid grid-cols-7 gap-2">
         {WEEKDAYS.map((dia) => (
           <div
-            className="py-1 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-muted/60"
+            className="py-1 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-muted"
             key={dia}
           >
             {dia}

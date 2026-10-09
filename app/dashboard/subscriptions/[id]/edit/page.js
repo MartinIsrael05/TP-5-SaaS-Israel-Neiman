@@ -46,11 +46,11 @@ export default async function EditSubscriptionPage({ params }) {
 
       <section className={`${cardClass} border-alert/20`}>
         <h2 className="font-sans text-lg font-semibold text-ink">
-          Dar de baja
+          Eliminar suscripción
         </h2>
         <p className="mt-1 max-w-xl text-sm leading-6 text-muted">
           Si ya no la pagás más, eliminala de tu lista. Si sólo la pausaste por
-          un tiempo, mejor cambiale el estado arriba y no la borres: así
+          un tiempo, mejor cambiale el estado arriba y no la elimines: así
           conservás el historial.
         </p>
 

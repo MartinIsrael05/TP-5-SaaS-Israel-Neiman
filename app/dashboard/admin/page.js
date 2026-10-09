@@ -32,7 +32,7 @@ export default async function AdminPage() {
   const profile = await getCurrentUserProfile(user);
 
   if (profile?.user_type !== "admin") {
-    redirect("/dashboard");
+    redirect("/dashboard?error=forbidden");
   }
 
   const stats = await getPlatformStats();

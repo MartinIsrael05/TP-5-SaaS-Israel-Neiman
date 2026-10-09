@@ -12,7 +12,7 @@ export default function DashboardLoading() {
     <div
       aria-busy="true"
       aria-label="Cargando tu panel"
-      className="space-y-8 md:p-8"
+      className="space-y-8"
       role="status"
     >
       <header className="space-y-3">

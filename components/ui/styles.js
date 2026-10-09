@@ -35,8 +35,13 @@ export const eyebrowClass =
 /* --- Controles --- */
 
 const buttonVariants = {
-  // Una sola accion primaria por vista: es la regla de gobernanza.
-  primary: "bg-primary text-white hover:bg-indigo-400",
+  /*
+    Una sola accion primaria por vista: es la regla de gobernanza.
+    En reposo va un escalon mas oscuro que --color-primary (#4F46E5, indigo
+    600) porque texto blanco sobre #6366F1 da ~4.47:1, por debajo del 4.5:1
+    que pide WCAG AA. El hover sigue aclarando como el resto del manual.
+  */
+  primary: "bg-[#4F46E5] text-white hover:bg-primary",
   secondary: "bg-line text-ink hover:bg-[#2f3440]",
   ghost: "text-muted hover:text-ink",
   /*
@@ -82,8 +87,10 @@ export function badgeClass(tone = "neutral") {
 
 /* --- Formularios --- */
 
+// placeholder:text-muted/50 daba ~2.7:1 contra el fondo, por debajo del
+// minimo WCAG AA (4.5:1). /80 da ~5.1:1 sin perder el aspecto de placeholder.
 const fieldBase =
-  "w-full rounded-lg border border-white/10 bg-[#0F1115] text-[#F3F4F6] outline-none transition placeholder:text-muted/50 focus:ring-2 focus:ring-primary";
+  "w-full rounded-lg border border-white/10 bg-[#0F1115] text-[#F3F4F6] outline-none transition placeholder:text-muted/80 focus:ring-2 focus:ring-primary";
 
 export const inputClass = `h-11 px-3.5 ${fieldBase}`;
 

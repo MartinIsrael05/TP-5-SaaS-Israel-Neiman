@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import { buttonClass } from "@/components/ui/styles";
 import { getCurrentUser } from "@/lib/firebase/session";
 
 export const dynamic = "force-dynamic";
@@ -51,12 +53,10 @@ export default async function PrivacidadPage() {
 
   return (
     <>
+      <Navbar user={user} />
       <main className="flex min-h-screen justify-center bg-base px-4 py-20">
         <div className="w-full max-w-3xl font-sans">
-          <Link
-            className="inline-flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-ink"
-            href="/"
-          >
+          <Link className={buttonClass("ghost", "-ml-5 font-mono")} href="/">
             <ArrowLeft size={15} />
             Volver al inicio
           </Link>

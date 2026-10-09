@@ -120,8 +120,9 @@ function SectionCard({ accent = false, action, children, className = "", icon: I
   );
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }) {
   const user = await getCurrentUser();
+  const { error } = await searchParams;
   const [subscriptions, categories, profile] = await Promise.all([
     listUserSubscriptions(user.uid),
     listUserItems(user.uid),
@@ -149,7 +150,12 @@ export default async function DashboardPage() {
   const categoryTitles = new Map(categories.map((item) => [item.id, item.title]));
 
   return (
-    <div className="space-y-8 md:p-8">
+    <div className="space-y-8">
+      {error === "forbidden" ? (
+        <p className="rounded-lg bg-alert/10 p-3 text-sm leading-6 text-alert">
+          No tenés permiso para acceder a esa sección.
+        </p>
+      ) : null}
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Tu panel

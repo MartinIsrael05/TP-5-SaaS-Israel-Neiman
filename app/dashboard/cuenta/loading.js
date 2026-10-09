@@ -19,7 +19,7 @@ export default function CuentaLoading() {
     <div
       aria-busy="true"
       aria-label="Cargando tu cuenta"
-      className="space-y-8 md:p-8"
+      className="space-y-8"
       role="status"
     >
       <header className="space-y-3">

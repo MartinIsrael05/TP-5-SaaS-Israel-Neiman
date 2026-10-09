@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClass } from "@/components/ui/styles";
 
 export default function NotFound() {
   return (
@@ -9,10 +10,8 @@ export default function NotFound() {
       <h1 className="mt-4 max-w-xl font-sans text-3xl font-bold leading-tight tracking-tight text-[#F3F4F6] sm:text-4xl">
         Parece que esta página no existe... o ya la cancelaste.
       </h1>
-      <Link
-        className="mt-8 inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5]"
-        href="/"
-      >
+      <Link className={buttonClass("primary", "mt-8")} href="/">
+
         Volver al inicio
       </Link>
     </main>

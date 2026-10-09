@@ -106,7 +106,7 @@ export default async function CuentaPage() {
   ].join(", ");
 
   return (
-    <div className="space-y-8 md:p-8">
+    <div className="space-y-8">
       <header>
         <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
           Tu cuenta

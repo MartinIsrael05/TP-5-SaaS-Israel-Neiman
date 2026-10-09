@@ -13,7 +13,7 @@ export default async function EditUserPage({ params }) {
   const currentProfile = await getCurrentUserProfile(currentUser);
 
   if (currentProfile?.user_type !== "admin") {
-    redirect("/dashboard");
+    redirect("/dashboard?error=forbidden");
   }
 
   const { uid } = await params;

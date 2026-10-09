@@ -25,9 +25,9 @@ import { getCurrentUserProfile, resolveGreetingName } from "@/lib/users/users";
 export const dynamic = "force-dynamic";
 
 const MOCK_SUBSCRIPTIONS = [
-  { name: "Netflix", icon: Clapperboard, amount: "$34.999" },
-  { name: "Spotify", icon: Music, amount: "$15.900" },
-  { name: "iCloud+", icon: Cloud, amount: "$9.00 USD" },
+  { name: "Netflix", icon: Clapperboard, amount: 34999, currency: "ARS" },
+  { name: "Spotify", icon: Music, amount: 15900, currency: "ARS" },
+  { name: "iCloud+", icon: Cloud, amount: 9, currency: "USD" },
 ];
 
 const FEATURES = [
@@ -76,10 +76,7 @@ function LandingHome() {
             reales: cuánto pagás, cuándo se renueva y qué te conviene cortar.
           </p>
           <div className="mt-8 grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:justify-center">
-            <Link
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
-              href="/login?mode=signup"
-            >
+            <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/login?mode=signup">
               Empezá gratis
               <ArrowRight size={16} />
             </Link>
@@ -92,7 +89,10 @@ function LandingHome() {
           </div>
 
           {/* Mockup del dashboard hecho en Tailwind, sin imagenes de por medio. */}
-          <div className="mt-16 w-full max-w-md rounded-xl border border-white/10 bg-[#1A1D24] p-6 shadow-2xl shadow-[0_0_50px_-12px_rgba(99,102,241,0.3)] sm:mt-20">
+          <div
+            aria-hidden="true"
+            className="mt-16 w-full max-w-md rounded-xl border border-white/10 bg-[#1A1D24] p-6 shadow-2xl shadow-[0_0_50px_-12px_rgba(99,102,241,0.3)] sm:mt-20"
+          >
             <div className="flex items-center justify-between border-b border-white/5 pb-4">
               <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#9CA3AF]">
                 Tus suscripciones
@@ -113,7 +113,7 @@ function LandingHome() {
                     </span>
                   </div>
                   <span className="font-mono text-sm tabular-nums text-[#F3F4F6]">
-                    {row.amount}
+                    {formatMoneyByCurrency(row.amount, row.currency)}
                   </span>
                 </li>
               ))}
@@ -169,10 +169,7 @@ function LandingHome() {
               Crear la cuenta lleva menos de un minuto y no hace falta tarjeta.
             </p>
           </div>
-          <Link
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
-            href="/login"
-          >
+          <Link className={buttonClass("primary", "w-full sm:w-auto")} href="/login?mode=signup">
             Tomá el control hoy
             <ArrowRight size={16} />
           </Link>
