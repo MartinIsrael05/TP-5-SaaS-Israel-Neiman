@@ -112,7 +112,6 @@ export default function BottomNav() {
                         className="overflow-hidden whitespace-nowrap pr-0.5 font-sans text-xs font-semibold tracking-tight text-ink"
                         exit={{ opacity: 0 }}
                         initial={{ opacity: 0 }}
-                        layout
                         transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
                       >
                         {label}

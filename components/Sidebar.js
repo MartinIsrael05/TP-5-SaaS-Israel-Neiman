@@ -30,9 +30,9 @@ function NavItem({ href, label, icon: Icon, pathname }) {
 
   return (
     <Link
-      className={`flex items-center gap-3 rounded-lg border-l-2 px-3.5 py-2.5 font-sans text-sm font-medium transition-all duration-200 ease-in-out ${
+      className={`flex items-center gap-3 rounded-lg border-l-2 px-3.5 py-2.5 font-sans text-sm font-medium transition-colors duration-200 ease-in-out ${
         active
-          ? "border-[#6366F1] bg-indigo-500/10 pl-3 text-[#6366F1]"
+          ? "border-[#6366F1] bg-indigo-500/10 text-[#6366F1]"
           : "border-transparent text-[#9CA3AF] hover:bg-white/5 hover:text-[#F3F4F6]"
       }`}
       href={href}
