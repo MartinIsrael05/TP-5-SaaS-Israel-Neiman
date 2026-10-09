@@ -108,6 +108,7 @@ export default function UserForm({
         confirmLabel="Otorgar admin"
         description="Va a poder administrar la plataforma: crear, editar y eliminar usuarios y categorías de cualquier cuenta."
         loading={submitting}
+        loadingLabel="Otorgando..."
         onCancel={() => !submitting && setConfirmOpen(false)}
         onConfirm={confirmarYEnviar}
         open={confirmOpen}

@@ -3,7 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CalendarClock, CalendarPlus, CreditCard, Pencil, Tag, Trash2 } from "lucide-react";
+import {
+  CalendarClock,
+  CalendarPlus,
+  CreditCard,
+  ExternalLink,
+  Pencil,
+  Tag,
+  Trash2,
+} from "lucide-react";
 import { generateGoogleCalendarLink } from "@/lib/calendarSync";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import SwipeableCard from "@/components/ui/SwipeableCard";
@@ -136,6 +144,17 @@ export default function SubscriptionCard({ categoryTitle, subscription }) {
       </div>
 
       <div className="mt-auto flex flex-col gap-2">
+        {subscription.cancelUrl ? (
+          <a
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-4 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"
+            href={subscription.cancelUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <ExternalLink size={15} />
+            Cancelar en el proveedor
+          </a>
+        ) : null}
         {agendaHref ? (
           <a
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white/5 px-4 text-sm font-semibold text-[#9CA3AF] transition hover:bg-white/10 hover:text-[#F3F4F6]"

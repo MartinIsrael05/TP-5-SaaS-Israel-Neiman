@@ -15,6 +15,7 @@ export default function ConfirmDialog({
   confirmLabel = "Eliminar",
   description,
   loading = false,
+  loadingLabel = "Eliminando...",
   onCancel,
   onConfirm,
   open,
@@ -122,7 +123,7 @@ export default function ConfirmDialog({
             onClick={onConfirm}
             type="button"
           >
-            {loading ? "Eliminando..." : confirmLabel}
+            {loading ? loadingLabel : confirmLabel}
           </button>
         </div>
       </div>
