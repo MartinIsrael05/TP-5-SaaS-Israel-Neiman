@@ -39,6 +39,7 @@ export default async function EditUserPage({ params }) {
 
       <UserForm
         action={updateUser.bind(null, managedUser.uid)}
+        esPropio={currentUser.uid === managedUser.uid}
         submitLabel="Guardar cambios"
         user={managedUser}
       />

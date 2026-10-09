@@ -60,8 +60,14 @@ export async function createUser(formData) {
 }
 
 export async function updateUser(uid, formData) {
-  await requireAdmin();
-  await updateManagedUser(uid, parseUserForm(formData));
+  const admin = await requireAdmin();
+  const data = parseUserForm(formData);
+
+  if (admin.uid === uid && data.user_type !== "admin") {
+    throw new Error("No podés quitarte tu propio rol de administrador.");
+  }
+
+  await updateManagedUser(uid, data);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/users");
   redirect("/dashboard/users");

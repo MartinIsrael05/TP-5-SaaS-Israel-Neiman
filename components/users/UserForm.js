@@ -6,6 +6,7 @@ import { buttonClass, cardClass, inputClass, labelClass } from "@/components/ui/
 
 export default function UserForm({
   action,
+  esPropio = false,
   user,
   showCredentials = false,
   submitLabel = "Guardar",
@@ -21,7 +22,7 @@ export default function UserForm({
   function handleSubmit(event) {
     const formData = new FormData(event.currentTarget);
 
-    if (formData.get("user_type") === "admin") {
+    if (!esPropio && formData.get("user_type") === "admin") {
       event.preventDefault();
       setError("");
       setConfirmOpen(true);
@@ -87,11 +88,22 @@ export default function UserForm({
 
         <label className={labelClass}>
           <span>Tipo de usuario</span>
-          <select className={inputClass} name="user_type" defaultValue={user?.user_type || "user"}>
+          <select
+            className={inputClass}
+            defaultValue={user?.user_type || "user"}
+            disabled={esPropio}
+            name="user_type"
+          >
             <option value="user">user</option>
             <option value="admin">admin</option>
           </select>
+          {esPropio ? (
+            <span className="text-xs text-muted">
+              No podés quitarte tu propio rol de administrador.
+            </span>
+          ) : null}
         </label>
+        {esPropio ? <input name="user_type" type="hidden" value="admin" /> : null}
 
         {error ? (
           <p className="rounded-lg bg-alert/10 p-3 text-sm leading-6 text-alert">
