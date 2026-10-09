@@ -31,7 +31,7 @@ export default function Footer({ user }) {
 
   return (
     <footer className="mt-10 border-t border-line bg-base ">
-      <div className="mx-auto flex w-full max-w-7xl flex-row flex-nowrap items-start justify-between gap-12 overflow-x-auto px-4 py-10 text-sm text-muted sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-10 px-4 py-10 text-sm text-muted sm:flex-row sm:justify-between sm:gap-12 sm:px-6 lg:px-8">
         <div className="flex max-w-lg flex-1 shrink-0 flex-col gap-3">
           <div className="min-w-0">
             <Wordmark size="sm" />
@@ -42,7 +42,7 @@ export default function Footer({ user }) {
           </div>
         </div>
 
-        <div className="flex flex-1 flex-nowrap justify-center gap-12">
+        <div className="flex flex-1 flex-col flex-wrap gap-10 sm:flex-row sm:justify-center sm:gap-12">
           {columns.map((column) => (
             <nav
               aria-label={column.title}

@@ -78,7 +78,7 @@ function LandingHome() {
           <div className="mt-8 grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:justify-center">
             <Link
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#6366F1] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#4F46E5] sm:w-auto"
-              href="/login"
+              href="/login?mode=signup"
             >
               Empezá gratis
               <ArrowRight size={16} />

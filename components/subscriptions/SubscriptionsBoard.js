@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { FileSpreadsheet, Plus, Search, Tags, Wallet, X } from "lucide-react";
@@ -18,6 +18,48 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [cycleFilter, setCycleFilter] = useState("all");
+  const closeRef = useRef(null);
+  const panelRef = useRef(null);
+
+  // Misma trampa de foco y cierre con Escape que ConfirmDialog/DayDetail.
+  useEffect(() => {
+    if (!isModalOpen) {
+      return;
+    }
+
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        setModalOpen(false);
+        return;
+      }
+
+      if (event.key === "Tab" && panelRef.current) {
+        const focusables = panelRef.current.querySelectorAll(
+          "button:not(:disabled), a[href], input, select, textarea",
+        );
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isModalOpen]);
 
   const categoryTitles = useMemo(
     () => new Map(categories.map((category) => [category.id, category.title])),
@@ -186,19 +228,26 @@ export default function SubscriptionsBoard({ categories, subscriptions }) {
           >
             <motion.div
               animate={{ y: 0, opacity: 1 }}
+              aria-labelledby="new-subscription-title"
+              aria-modal="true"
               className="relative flex max-h-[90vh] w-full flex-col overflow-y-auto rounded-t-3xl border-t border-white/5 bg-[#1A1D24] shadow-xl md:max-w-2xl md:rounded-2xl md:border"
               exit={{ y: "100%", opacity: 0 }}
               initial={{ y: "100%", opacity: 0 }}
               onClick={(event) => event.stopPropagation()}
+              ref={panelRef}
+              role="dialog"
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
               <div className="mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-white/20 md:hidden" />
               <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/5 bg-[#1A1D24] px-6 py-4">
-                <h2 className="text-lg font-semibold text-[#F3F4F6]">Nueva suscripción</h2>
+                <h2 className="text-lg font-semibold text-[#F3F4F6]" id="new-subscription-title">
+                  Nueva suscripción
+                </h2>
                 <button
                   aria-label="Cerrar"
                   className="flex size-11 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] transition hover:bg-white/5 hover:text-[#F3F4F6]"
                   onClick={() => setModalOpen(false)}
+                  ref={closeRef}
                   type="button"
                 >
                   <X size={18} />

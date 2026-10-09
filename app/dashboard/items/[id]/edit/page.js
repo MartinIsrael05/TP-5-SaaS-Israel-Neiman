@@ -27,7 +27,7 @@ export default async function EditItemPage({ params }) {
           Editar categoría
         </h1>
         <p className="mt-2 text-sm leading-6 text-muted">
-          Esta pantalla valida que el documento pertenezca al usuario actual.
+          Cambiá el nombre o cualquier otro dato de esta categoría.
         </p>
       </div>
 

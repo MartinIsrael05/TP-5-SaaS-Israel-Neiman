@@ -51,7 +51,9 @@ export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams.get("next") || "/dashboard";
-  const [mode, setMode] = useState("signin");
+  const [mode, setMode] = useState(
+    searchParams.get("mode") === "signup" ? "signup" : "signin",
+  );
   const [step, setStep] = useState("datos");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

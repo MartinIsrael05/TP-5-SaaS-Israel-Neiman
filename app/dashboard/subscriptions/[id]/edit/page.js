@@ -33,7 +33,7 @@ export default async function EditSubscriptionPage({ params }) {
           Editar suscripción
         </h1>
         <p className="mt-2 text-sm leading-6 text-muted">
-          Esta pantalla valida que el documento pertenezca al usuario actual.
+          Cambiá el monto, la fecha de cobro, el estado o cualquier otro dato.
         </p>
       </div>
 

@@ -118,6 +118,21 @@ export default function Sidebar({ profile, user }) {
           Cerrar sesión
         </button>
       </form>
+
+      <nav aria-label="Información legal" className="flex gap-3 px-3.5 pt-1">
+        <Link
+          className="text-xs text-muted/70 transition-colors hover:text-[#F3F4F6]"
+          href="/terminos"
+        >
+          Términos
+        </Link>
+        <Link
+          className="text-xs text-muted/70 transition-colors hover:text-[#F3F4F6]"
+          href="/privacidad"
+        >
+          Privacidad
+        </Link>
+      </nav>
     </div>
   );
 
