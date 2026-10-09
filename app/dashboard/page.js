@@ -335,7 +335,7 @@ export default async function DashboardPage({ searchParams }) {
                           </span>
                           <Link
                             aria-label={`Editar ${charge.name}`}
-                            className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition duration-200 ease-in-out hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+                            className="flex size-11 items-center justify-center rounded-md text-muted opacity-100 transition duration-200 ease-in-out hover:bg-line hover:text-ink focus-visible:opacity-100 md:opacity-30 md:group-hover:opacity-100"
                             href={`/dashboard/subscriptions/${charge.id}/edit`}
                           >
                             <Pencil size={14} />

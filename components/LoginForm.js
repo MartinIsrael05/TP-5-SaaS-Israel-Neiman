@@ -353,7 +353,7 @@ export default function LoginForm() {
           />
         </label>
         <label className={labelClass}>
-          <span>Password</span>
+          <span>Contraseña</span>
           <input
             className={inputClass}
             type="password"

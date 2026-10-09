@@ -56,11 +56,11 @@ export default function Navbar({ actions, user }) {
           <button
             aria-controls="mobile-menu"
             aria-expanded={isOpen}
-            className="grid size-10 place-items-center rounded-lg bg-line text-ink md:hidden"
+            className="grid size-11 place-items-center rounded-lg bg-line text-ink md:hidden"
             onClick={() => setIsOpen((value) => !value)}
             type="button"
           >
-            <span className="sr-only">Abrir menú</span>
+            <span className="sr-only">{isOpen ? "Cerrar menú" : "Abrir menú"}</span>
             {isOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>

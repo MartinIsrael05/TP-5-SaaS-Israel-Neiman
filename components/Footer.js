@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { CircleDollarSign } from "lucide-react";
+import FooterNavLink from "@/components/ui/FooterNavLink";
 import Wordmark from "@/components/ui/Wordmark";
 
 export default function Footer({ user }) {
@@ -53,13 +53,7 @@ export default function Footer({ user }) {
                 {column.title}
               </p>
               {column.links.map((link) => (
-                <Link
-                  className="text-sm text-[#9CA3AF] transition-colors hover:text-[#F3F4F6]"
-                  href={link.href}
-                  key={link.href}
-                >
-                  {link.label}
-                </Link>
+                <FooterNavLink href={link.href} key={link.href} label={link.label} />
               ))}
             </nav>
           ))}
